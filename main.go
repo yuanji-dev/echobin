@@ -9,11 +9,12 @@ import (
 
 func main() {
 	e := echo.New()
+	e.JSONSerializer = &echobinJSONSerializer{}
 
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
-	e.GET("/", getMethod)
+	e.GET("/get", getHandler)
 
 	e.Logger.Fatal(e.Start("127.0.0.1:1323"))
 }
@@ -39,8 +40,7 @@ type getResponse struct {
 
 func getURL(c echo.Context) string {
 	r := c.Request()
-	// https://github.com/golang/go/issues/28453
-	return c.Scheme() + "://" + r.Host + r.RequestURI
+	return c.Scheme() + "://" + r.Host + r.URL.RequestURI()
 }
 
 func getOrigin(c echo.Context) string {
@@ -67,7 +67,7 @@ func getArgs(c echo.Context) map[string]interface{} {
 	return args
 }
 
-func getMethod(c echo.Context) error {
+func getHandler(c echo.Context) error {
 	return c.JSONPretty(http.StatusOK, &getResponse{
 		URL:     getURL(c),
 		Args:    getArgs(c),
