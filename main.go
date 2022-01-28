@@ -13,6 +13,7 @@ func main() {
 	e.Use(middleware.Recover())
 
 	e.GET("/get", getHandler)
+	e.POST("/post", postHandler)
 
 	e.Logger.Fatal(e.Start("127.0.0.1:1323"))
 }

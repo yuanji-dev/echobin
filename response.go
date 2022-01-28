@@ -18,3 +18,14 @@ type getResponse struct {
 	Origin  string                 `json:"origin"`
 	URL     string                 `json:"url"`
 }
+
+type postResponse struct {
+	Args    map[string]interface{} `json:"args"`
+	Data    string                 `json:"data"`
+	Files   map[string]interface{} `json:"files"`
+	Form    interface{}            `json:"form"`
+	Headers map[string]string      `json:"headers"`
+	JSON    map[string]interface{} `json:"json"`
+	Origin  string                 `json:"origin"`
+	URL     string                 `json:"url"`
+}
