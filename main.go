@@ -5,9 +5,14 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 )
 
-func main() {
-	e := echo.New()
+func newEcho() (e *echo.Echo) {
+	e = echo.New()
 	e.JSONSerializer = &echobinJSONSerializer{}
+	return
+}
+
+func main() {
+	e := newEcho()
 
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())

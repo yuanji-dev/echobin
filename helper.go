@@ -1,8 +1,6 @@
 package main
 
 import (
-	// "io/ioutil"
-
 	"bytes"
 	"encoding/json"
 	"io/ioutil"
@@ -51,6 +49,7 @@ func getData(c echo.Context) string {
 
 func getForm(c echo.Context) map[string]interface{} {
 	form := map[string]interface{}{}
+	c.Request().ParseForm()
 	for k, v := range c.Request().PostForm {
 		if len(v) == 1 {
 			form[k] = v[0]
@@ -65,4 +64,29 @@ func getJSON(c echo.Context) map[string]interface{} {
 	var i map[string]interface{}
 	json.Unmarshal([]byte(getData(c)), &i)
 	return i
+}
+
+func getFiles(c echo.Context) map[string]interface{} {
+	files := map[string]interface{}{}
+	multipartForm, _ := c.MultipartForm()
+	if multipartForm == nil {
+		return map[string]interface{}{}
+	}
+	for k, v := range multipartForm.File {
+		var contents []string
+		for _, fh := range v {
+			f, _ := fh.Open()
+			defer f.Close()
+			content, _ := ioutil.ReadAll(f)
+			contents = append(contents, string(content))
+		}
+		if len(contents) == 1 {
+			files[k] = contents[0]
+		} else {
+			// Seems original httpbin doesn't support upload multiple files
+			// sharing same field name, but implemented here.
+			files[k] = contents
+		}
+	}
+	return files
 }

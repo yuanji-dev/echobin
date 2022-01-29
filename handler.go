@@ -16,10 +16,17 @@ func getHandler(c echo.Context) error {
 }
 
 func postHandler(c echo.Context) error {
+	data := ""
+	files := getFiles(c)
+	form := getForm(c)
+	if len(files) == 0 && len(form) == 0 {
+		data = getData(c)
+	}
 	return c.JSONPretty(http.StatusOK, &postResponse{
 		Args:    getArgs(c),
-		Data:    getData(c),
-		Form:    getForm(c),
+		Data:    data,
+		Files:   files,
+		Form:    form,
 		Headers: getHeaders(c),
 		JSON:    getJSON(c),
 		Origin:  getOrigin(c),
