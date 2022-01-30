@@ -1,0 +1,377 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "A simple HTTP Request \u0026 Response Service.",
+        "title": "echobin API",
+        "contact": {
+            "name": "Yuanji",
+            "url": "https://gimo.me",
+            "email": "self@gimo.me"
+        },
+        "license": {
+            "name": "MIT License",
+            "url": "https://github.com/masakichi/echobin/blob/main/LICENSE"
+        },
+        "version": "0.1"
+    },
+    "paths": {
+        "/delete": {
+            "delete": {
+                "consumes": [
+                    "application/json",
+                    "multipart/form-data",
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "HTTP methods"
+                ],
+                "summary": "The request's query parameters.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/main.otherMethodResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/get": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "HTTP methods"
+                ],
+                "summary": "The request's query parameters.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/main.getMethodResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/patch": {
+            "patch": {
+                "consumes": [
+                    "application/json",
+                    "multipart/form-data",
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "HTTP methods"
+                ],
+                "summary": "The request's query parameters.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/main.otherMethodResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/post": {
+            "post": {
+                "consumes": [
+                    "application/json",
+                    "multipart/form-data",
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "HTTP methods"
+                ],
+                "summary": "The request's query parameters.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/main.otherMethodResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/put": {
+            "put": {
+                "consumes": [
+                    "application/json",
+                    "multipart/form-data",
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "HTTP methods"
+                ],
+                "summary": "The request's query parameters.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/main.otherMethodResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/status/{codes}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Status codes"
+                ],
+                "summary": "Return status code or random status code if more than one are given",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "codes",
+                        "name": "codes",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "100": {
+                        "description": "Informational responses"
+                    },
+                    "200": {
+                        "description": "Success"
+                    },
+                    "300": {
+                        "description": "Redirection"
+                    },
+                    "400": {
+                        "description": "Client Errors"
+                    },
+                    "500": {
+                        "description": "Server Errors"
+                    }
+                }
+            },
+            "put": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Status codes"
+                ],
+                "summary": "Return status code or random status code if more than one are given",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "codes",
+                        "name": "codes",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "100": {
+                        "description": "Informational responses"
+                    },
+                    "200": {
+                        "description": "Success"
+                    },
+                    "300": {
+                        "description": "Redirection"
+                    },
+                    "400": {
+                        "description": "Client Errors"
+                    },
+                    "500": {
+                        "description": "Server Errors"
+                    }
+                }
+            },
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Status codes"
+                ],
+                "summary": "Return status code or random status code if more than one are given",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "codes",
+                        "name": "codes",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "100": {
+                        "description": "Informational responses"
+                    },
+                    "200": {
+                        "description": "Success"
+                    },
+                    "300": {
+                        "description": "Redirection"
+                    },
+                    "400": {
+                        "description": "Client Errors"
+                    },
+                    "500": {
+                        "description": "Server Errors"
+                    }
+                }
+            },
+            "delete": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Status codes"
+                ],
+                "summary": "Return status code or random status code if more than one are given",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "codes",
+                        "name": "codes",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "100": {
+                        "description": "Informational responses"
+                    },
+                    "200": {
+                        "description": "Success"
+                    },
+                    "300": {
+                        "description": "Redirection"
+                    },
+                    "400": {
+                        "description": "Client Errors"
+                    },
+                    "500": {
+                        "description": "Server Errors"
+                    }
+                }
+            },
+            "patch": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Status codes"
+                ],
+                "summary": "Return status code or random status code if more than one are given",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "codes",
+                        "name": "codes",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "100": {
+                        "description": "Informational responses"
+                    },
+                    "200": {
+                        "description": "Success"
+                    },
+                    "300": {
+                        "description": "Redirection"
+                    },
+                    "400": {
+                        "description": "Client Errors"
+                    },
+                    "500": {
+                        "description": "Server Errors"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "main.getMethodResponse": {
+            "type": "object",
+            "properties": {
+                "args": {
+                    "type": "object",
+                    "additionalProperties": true
+                },
+                "headers": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "origin": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
+        "main.otherMethodResponse": {
+            "type": "object",
+            "properties": {
+                "args": {
+                    "type": "object",
+                    "additionalProperties": true
+                },
+                "data": {
+                    "type": "string"
+                },
+                "files": {
+                    "type": "object",
+                    "additionalProperties": true
+                },
+                "form": {},
+                "headers": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "json": {
+                    "type": "object",
+                    "additionalProperties": true
+                },
+                "origin": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "description": "Testing different HTTP verbs",
+            "name": "HTTP methods"
+        },
+        {
+            "description": "Generates responses with given status code",
+            "name": "Status codes"
+        }
+    ]
+}

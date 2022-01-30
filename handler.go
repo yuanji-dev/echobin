@@ -3,6 +3,7 @@ package main
 import (
 	"math/rand"
 	"net/http"
+	"net/url"
 	"strconv"
 	"strings"
 	"time"
@@ -10,6 +11,11 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// @Summary  The request's query parameters.
+// @Tags     HTTP methods
+// @Produce  json
+// @Success  200  {object}  getMethodResponse
+// @Router   /get [get]
 func getMethodHandler(c echo.Context) error {
 	return c.JSONPretty(http.StatusOK, &getMethodResponse{
 		Args:    getArgs(c),
@@ -19,6 +25,17 @@ func getMethodHandler(c echo.Context) error {
 	}, "  ")
 }
 
+// @Summary  The request's query parameters.
+// @Tags     HTTP methods
+// @Accept   json
+// @Accept   mpfd
+// @Accept   x-www-form-urlencoded
+// @Produce  json
+// @Success  200  {object}  otherMethodResponse
+// @Router   /post [post]
+// @Router   /put [put]
+// @Router   /patch [patch]
+// @Router   /delete [delete]
 func otherMethodHandler(c echo.Context) error {
 	data := ""
 	files := getFiles(c)
@@ -62,8 +79,22 @@ func chooseStatusCode(weightedCodes []weightedCode) int {
 	return code
 }
 
+// @Summary   Return status code or random status code if more than one are given
+// @Tags      Status codes
+// @Produce   json
+// @Param     codes  path  string  true  "codes"
+// @Response  100    "Informational responses"
+// @Response  200    "Success"
+// @Response  300    "Redirection"
+// @Response  400    "Client Errors"
+// @Response  500    "Server Errors"
+// @Router    /status/{codes} [delete]
+// @Router    /status/{codes} [get]
+// @Router    /status/{codes} [patch]
+// @Router    /status/{codes} [post]
+// @Router    /status/{codes} [put]
 func statusCodesHandler(c echo.Context) error {
-	codes := c.Param("codes")
+	codes, _ := url.PathUnescape(c.Param("codes"))
 	if !strings.Contains(codes, ",") {
 		code, err := strconv.Atoi(codes)
 		if err != nil {

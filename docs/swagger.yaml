@@ -1,0 +1,248 @@
+definitions:
+  main.getMethodResponse:
+    properties:
+      args:
+        additionalProperties: true
+        type: object
+      headers:
+        additionalProperties:
+          type: string
+        type: object
+      origin:
+        type: string
+      url:
+        type: string
+    type: object
+  main.otherMethodResponse:
+    properties:
+      args:
+        additionalProperties: true
+        type: object
+      data:
+        type: string
+      files:
+        additionalProperties: true
+        type: object
+      form: {}
+      headers:
+        additionalProperties:
+          type: string
+        type: object
+      json:
+        additionalProperties: true
+        type: object
+      origin:
+        type: string
+      url:
+        type: string
+    type: object
+info:
+  contact:
+    email: self@gimo.me
+    name: Yuanji
+    url: https://gimo.me
+  description: A simple HTTP Request & Response Service.
+  license:
+    name: MIT License
+    url: https://github.com/masakichi/echobin/blob/main/LICENSE
+  title: echobin API
+  version: "0.1"
+paths:
+  /delete:
+    delete:
+      consumes:
+      - application/json
+      - multipart/form-data
+      - application/x-www-form-urlencoded
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.otherMethodResponse'
+      summary: The request's query parameters.
+      tags:
+      - HTTP methods
+  /get:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.getMethodResponse'
+      summary: The request's query parameters.
+      tags:
+      - HTTP methods
+  /patch:
+    patch:
+      consumes:
+      - application/json
+      - multipart/form-data
+      - application/x-www-form-urlencoded
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.otherMethodResponse'
+      summary: The request's query parameters.
+      tags:
+      - HTTP methods
+  /post:
+    post:
+      consumes:
+      - application/json
+      - multipart/form-data
+      - application/x-www-form-urlencoded
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.otherMethodResponse'
+      summary: The request's query parameters.
+      tags:
+      - HTTP methods
+  /put:
+    put:
+      consumes:
+      - application/json
+      - multipart/form-data
+      - application/x-www-form-urlencoded
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.otherMethodResponse'
+      summary: The request's query parameters.
+      tags:
+      - HTTP methods
+  /status/{codes}:
+    delete:
+      parameters:
+      - description: codes
+        in: path
+        name: codes
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "100":
+          description: Informational responses
+        "200":
+          description: Success
+        "300":
+          description: Redirection
+        "400":
+          description: Client Errors
+        "500":
+          description: Server Errors
+      summary: Return status code or random status code if more than one are given
+      tags:
+      - Status codes
+    get:
+      parameters:
+      - description: codes
+        in: path
+        name: codes
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "100":
+          description: Informational responses
+        "200":
+          description: Success
+        "300":
+          description: Redirection
+        "400":
+          description: Client Errors
+        "500":
+          description: Server Errors
+      summary: Return status code or random status code if more than one are given
+      tags:
+      - Status codes
+    patch:
+      parameters:
+      - description: codes
+        in: path
+        name: codes
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "100":
+          description: Informational responses
+        "200":
+          description: Success
+        "300":
+          description: Redirection
+        "400":
+          description: Client Errors
+        "500":
+          description: Server Errors
+      summary: Return status code or random status code if more than one are given
+      tags:
+      - Status codes
+    post:
+      parameters:
+      - description: codes
+        in: path
+        name: codes
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "100":
+          description: Informational responses
+        "200":
+          description: Success
+        "300":
+          description: Redirection
+        "400":
+          description: Client Errors
+        "500":
+          description: Server Errors
+      summary: Return status code or random status code if more than one are given
+      tags:
+      - Status codes
+    put:
+      parameters:
+      - description: codes
+        in: path
+        name: codes
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "100":
+          description: Informational responses
+        "200":
+          description: Success
+        "300":
+          description: Redirection
+        "400":
+          description: Client Errors
+        "500":
+          description: Server Errors
+      summary: Return status code or random status code if more than one are given
+      tags:
+      - Status codes
+swagger: "2.0"
+tags:
+- description: Testing different HTTP verbs
+  name: HTTP methods
+- description: Generates responses with given status code
+  name: Status codes

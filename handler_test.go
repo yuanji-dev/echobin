@@ -168,8 +168,10 @@ func TestStatusCodesHandler(t *testing.T) {
 		expected []int
 	}{
 		{"200", []int{200}},
-		{"200,400", []int{200, 400}},
-		{"200:0.3,400:0.7", []int{200, 400}},
+		{"200,500", []int{200, 500}},
+		{"200%2C500", []int{200, 500}},
+		{"200:0.3,500:0.7", []int{200, 500}},
+		{"200:0.3,500:0.7,301", []int{200, 500, 301}},
 	}
 	for _, v := range validCases {
 		req := httptest.NewRequest(http.MethodGet, "/", nil)
