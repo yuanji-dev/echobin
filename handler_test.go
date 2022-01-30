@@ -49,14 +49,14 @@ func TestGetHandler(t *testing.T) {
 		req.Header.Set("user-agent", "fake-agent")
 		res := httptest.NewRecorder()
 		c := e.NewContext(req, res)
-		if assert.NoError(t, getHandler(c)) {
+		if assert.NoError(t, getMethodHandler(c)) {
 			assert.Equal(t, http.StatusOK, res.Code)
 			assert.Equal(t, tt.expectedJSON+"\n", res.Body.String())
 		}
 	}
 }
 
-func TestPostHandlerWithJSON(t *testing.T) {
+func TestOtherHandlerWithJSON(t *testing.T) {
 	e := newEcho()
 
 	reqJSON := `{"name":"Bob"}`
@@ -85,13 +85,13 @@ func TestPostHandlerWithJSON(t *testing.T) {
   "origin": "192.0.2.1",
   "url": "http://example.com/post?q=1&q=2"
 }`
-	if assert.NoError(t, postHandler(c)) {
+	if assert.NoError(t, otherMethodHandler(c)) {
 		assert.Equal(t, http.StatusOK, res.Code)
 		assert.Equal(t, expected+"\n", res.Body.String())
 	}
 }
 
-func TestPostHandlerWithForm(t *testing.T) {
+func TestOtherHandlerWithForm(t *testing.T) {
 	e := newEcho()
 
 	f := make(url.Values)
@@ -121,13 +121,13 @@ func TestPostHandlerWithForm(t *testing.T) {
   "origin": "192.0.2.1",
   "url": "http://example.com/post?q=1&q=2"
 }`
-	if assert.NoError(t, postHandler(c)) {
+	if assert.NoError(t, otherMethodHandler(c)) {
 		assert.Equal(t, http.StatusOK, res.Code)
 		assert.Equal(t, expected+"\n", res.Body.String())
 	}
 }
 
-func TestPostHandlerWithFiles(t *testing.T) {
+func TestOtherHandlerWithFiles(t *testing.T) {
 	e := newEcho()
 	pr, pw := io.Pipe()
 	w := multipart.NewWriter(pw)
@@ -152,7 +152,7 @@ func TestPostHandlerWithFiles(t *testing.T) {
 	req.Header.Set("user-agent", "fake-agent")
 	res := httptest.NewRecorder()
 	c := e.NewContext(req, res)
-	if assert.NoError(t, postHandler(c)) {
+	if assert.NoError(t, otherMethodHandler(c)) {
 		assert.Equal(t, http.StatusOK, res.Code)
 		// TODO: Better to check structure and format
 		assert.Contains(t, res.Body.String(), "multipart/form-data")
