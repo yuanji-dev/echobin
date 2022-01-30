@@ -159,3 +159,27 @@ func TestOtherHandlerWithFiles(t *testing.T) {
 		assert.Contains(t, res.Body.String(), "Bob")
 	}
 }
+
+func TestStatusCodesHandler(t *testing.T) {
+	e := newEcho()
+
+	validCases := []struct {
+		codes    string
+		expected []int
+	}{
+		{"200", []int{200}},
+		{"200,400", []int{200, 400}},
+		{"200:0.3,400:0.7", []int{200, 400}},
+	}
+	for _, v := range validCases {
+		req := httptest.NewRequest(http.MethodGet, "/", nil)
+		res := httptest.NewRecorder()
+		c := e.NewContext(req, res)
+		c.SetPath("/status/:codes")
+		c.SetParamNames("codes")
+		c.SetParamValues(v.codes)
+		if assert.NoError(t, statusCodesHandler(c)) {
+			assert.Contains(t, v.expected, res.Code)
+		}
+	}
+}
