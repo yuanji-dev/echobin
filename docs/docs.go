@@ -74,6 +74,25 @@ var doc = `{
                 }
             }
         },
+        "/headers": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Request inspection"
+                ],
+                "summary": "Return the incoming request's HTTP headers.",
+                "responses": {
+                    "200": {
+                        "description": "The request’s headers.",
+                        "schema": {
+                            "$ref": "#/definitions/main.requestHeadersResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/ip": {
             "get": {
                 "produces": [
@@ -395,6 +414,17 @@ var doc = `{
                 },
                 "url": {
                     "type": "string"
+                }
+            }
+        },
+        "main.requestHeadersResponse": {
+            "type": "object",
+            "properties": {
+                "headers": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
                 }
             }
         },

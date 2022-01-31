@@ -48,6 +48,7 @@ func main() {
 	e.DELETE("/delete", otherMethodHandler)
 
 	// Request inspection
+	e.GET("/headers", requestHeadersHandler)
 	e.GET("/ip", requestIPHandler)
 
 	// Status Codes

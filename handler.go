@@ -66,6 +66,17 @@ func requestIPHandler(c echo.Context) error {
 	}, "  ")
 }
 
+// @Summary  Return the incoming request's HTTP headers.
+// @Tags     Request inspection
+// @Produce  json
+// @Success  200  {object}  requestHeadersResponse  "The request’s headers."
+// @Router   /headers [get]
+func requestHeadersHandler(c echo.Context) error {
+	return c.JSONPretty(http.StatusOK, &requestHeadersResponse{
+		Headers: getHeaders(c),
+	}, "  ")
+}
+
 type weightedCode struct {
 	weight float64
 	code   int

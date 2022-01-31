@@ -30,6 +30,10 @@ type otherMethodResponse struct {
 	URL     string                 `json:"url"`
 }
 
+type requestHeadersResponse struct {
+	Headers map[string]string `json:"headers"`
+}
+
 type requestIPResponse struct {
 	Origin string `json:"origin"`
 }

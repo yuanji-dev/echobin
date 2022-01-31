@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io"
 	"mime/multipart"
 	"net/http"
@@ -196,6 +197,24 @@ func TestRequestIPHandler(t *testing.T) {
 	res := httptest.NewRecorder()
 	c := e.NewContext(req, res)
 	if assert.NoError(t, requestIPHandler(c)) {
+		assert.Equal(t, http.StatusOK, res.Code)
+		assert.Equal(t, expected+"\n", res.Body.String())
+	}
+}
+
+func TestRequestHeadersHandler(t *testing.T) {
+	e := newEcho()
+
+	expected := fmt.Sprintf(`{
+  "headers": {
+    "%s": "%s"
+  }
+}`, echo.HeaderContentType, echo.MIMEApplicationJSON)
+	req := httptest.NewRequest(http.MethodGet, "/", nil)
+	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+	res := httptest.NewRecorder()
+	c := e.NewContext(req, res)
+	if assert.NoError(t, requestHeadersHandler(c)) {
 		assert.Equal(t, http.StatusOK, res.Code)
 		assert.Equal(t, expected+"\n", res.Body.String())
 	}

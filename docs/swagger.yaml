@@ -36,6 +36,13 @@ definitions:
       url:
         type: string
     type: object
+  main.requestHeadersResponse:
+    properties:
+      headers:
+        additionalProperties:
+          type: string
+        type: object
+    type: object
   main.requestIPResponse:
     properties:
       origin:
@@ -81,6 +88,18 @@ paths:
       summary: The request's query parameters.
       tags:
       - HTTP methods
+  /headers:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: The request’s headers.
+          schema:
+            $ref: '#/definitions/main.requestHeadersResponse'
+      summary: Return the incoming request's HTTP headers.
+      tags:
+      - Request inspection
   /ip:
     get:
       produces:
