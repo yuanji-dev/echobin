@@ -55,6 +55,17 @@ func otherMethodHandler(c echo.Context) error {
 	return c.JSONPretty(http.StatusOK, &res, "  ")
 }
 
+// @Summary  Returns the requester's IP Address.
+// @Tags     Request inspection
+// @Produce  json
+// @Success  200  {object}  requestIPResponse  "The Requester’s IP Address."
+// @Router   /ip [get]
+func requestIPHandler(c echo.Context) error {
+	return c.JSONPretty(http.StatusOK, &requestIPResponse{
+		Origin: getOrigin(c),
+	}, "  ")
+}
+
 type weightedCode struct {
 	weight float64
 	code   int

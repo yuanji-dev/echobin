@@ -27,6 +27,8 @@ func newEcho() (e *echo.Echo) {
 
 // @tag.name         HTTP methods
 // @tag.description  Testing different HTTP verbs
+// @tag.name         Request inspection
+// @tag.description  Inspect the request data
 // @tag.name         Status codes
 // @tag.description  Generates responses with given status code
 func main() {
@@ -44,6 +46,9 @@ func main() {
 	e.PUT("/put", otherMethodHandler)
 	e.PATCH("/patch", otherMethodHandler)
 	e.DELETE("/delete", otherMethodHandler)
+
+	// Request inspection
+	e.GET("/ip", requestIPHandler)
 
 	// Status Codes
 	e.Any("/status/:codes", statusCodesHandler)

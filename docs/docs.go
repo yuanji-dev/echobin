@@ -74,6 +74,25 @@ var doc = `{
                 }
             }
         },
+        "/ip": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Request inspection"
+                ],
+                "summary": "Returns the requester's IP Address.",
+                "responses": {
+                    "200": {
+                        "description": "The Requester’s IP Address.",
+                        "schema": {
+                            "$ref": "#/definitions/main.requestIPResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/patch": {
             "patch": {
                 "consumes": [
@@ -378,12 +397,24 @@ var doc = `{
                     "type": "string"
                 }
             }
+        },
+        "main.requestIPResponse": {
+            "type": "object",
+            "properties": {
+                "origin": {
+                    "type": "string"
+                }
+            }
         }
     },
     "tags": [
         {
             "description": "Testing different HTTP verbs",
             "name": "HTTP methods"
+        },
+        {
+            "description": "Inspect the request data",
+            "name": "Request inspection"
         },
         {
             "description": "Generates responses with given status code",

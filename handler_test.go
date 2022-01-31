@@ -185,3 +185,18 @@ func TestStatusCodesHandler(t *testing.T) {
 		}
 	}
 }
+
+func TestRequestIPHandler(t *testing.T) {
+	e := newEcho()
+
+	expected := `{
+  "origin": "192.0.2.1"
+}`
+	req := httptest.NewRequest(http.MethodGet, "/", nil)
+	res := httptest.NewRecorder()
+	c := e.NewContext(req, res)
+	if assert.NoError(t, requestIPHandler(c)) {
+		assert.Equal(t, http.StatusOK, res.Code)
+		assert.Equal(t, expected+"\n", res.Body.String())
+	}
+}

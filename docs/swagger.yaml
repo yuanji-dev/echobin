@@ -36,6 +36,11 @@ definitions:
       url:
         type: string
     type: object
+  main.requestIPResponse:
+    properties:
+      origin:
+        type: string
+    type: object
 info:
   contact:
     email: self@gimo.me
@@ -76,6 +81,18 @@ paths:
       summary: The request's query parameters.
       tags:
       - HTTP methods
+  /ip:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: The Requester’s IP Address.
+          schema:
+            $ref: '#/definitions/main.requestIPResponse'
+      summary: Returns the requester's IP Address.
+      tags:
+      - Request inspection
   /patch:
     patch:
       consumes:
@@ -244,5 +261,7 @@ swagger: "2.0"
 tags:
 - description: Testing different HTTP verbs
   name: HTTP methods
+- description: Inspect the request data
+  name: Request inspection
 - description: Generates responses with given status code
   name: Status codes

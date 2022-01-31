@@ -29,3 +29,7 @@ type otherMethodResponse struct {
 	Origin  string                 `json:"origin"`
 	URL     string                 `json:"url"`
 }
+
+type requestIPResponse struct {
+	Origin string `json:"origin"`
+}
