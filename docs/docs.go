@@ -360,6 +360,25 @@ var doc = `{
                     }
                 }
             }
+        },
+        "/user-agent": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Request inspection"
+                ],
+                "summary": "Return the incoming requests's User-Agent header.",
+                "responses": {
+                    "200": {
+                        "description": "The request’s User-Agent header.",
+                        "schema": {
+                            "$ref": "#/definitions/main.requestUserAgentResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -432,6 +451,14 @@ var doc = `{
             "type": "object",
             "properties": {
                 "origin": {
+                    "type": "string"
+                }
+            }
+        },
+        "main.requestUserAgentResponse": {
+            "type": "object",
+            "properties": {
+                "user-agent": {
                     "type": "string"
                 }
             }

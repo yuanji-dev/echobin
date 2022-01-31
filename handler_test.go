@@ -219,3 +219,20 @@ func TestRequestHeadersHandler(t *testing.T) {
 		assert.Equal(t, expected+"\n", res.Body.String())
 	}
 }
+
+func TestRequestUserAgentHandler(t *testing.T) {
+	e := newEcho()
+
+	userAgent := "fake-agent"
+	expected := fmt.Sprintf(`{
+  "user-agent": "%s"
+}`, userAgent)
+	req := httptest.NewRequest(http.MethodGet, "/", nil)
+	req.Header.Set("user-agent", userAgent)
+	res := httptest.NewRecorder()
+	c := e.NewContext(req, res)
+	if assert.NoError(t, requestUserAgentHandler(c)) {
+		assert.Equal(t, http.StatusOK, res.Code)
+		assert.Equal(t, expected+"\n", res.Body.String())
+	}
+}

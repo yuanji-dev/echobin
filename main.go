@@ -50,6 +50,7 @@ func main() {
 	// Request inspection
 	e.GET("/headers", requestHeadersHandler)
 	e.GET("/ip", requestIPHandler)
+	e.GET("/user-agent", requestUserAgentHandler)
 
 	// Status Codes
 	e.Any("/status/:codes", statusCodesHandler)

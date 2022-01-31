@@ -48,6 +48,11 @@ definitions:
       origin:
         type: string
     type: object
+  main.requestUserAgentResponse:
+    properties:
+      user-agent:
+        type: string
+    type: object
 info:
   contact:
     email: self@gimo.me
@@ -276,6 +281,18 @@ paths:
       summary: Return status code or random status code if more than one are given
       tags:
       - Status codes
+  /user-agent:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: The request’s User-Agent header.
+          schema:
+            $ref: '#/definitions/main.requestUserAgentResponse'
+      summary: Return the incoming requests's User-Agent header.
+      tags:
+      - Request inspection
 swagger: "2.0"
 tags:
 - description: Testing different HTTP verbs

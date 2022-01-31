@@ -37,3 +37,7 @@ type requestHeadersResponse struct {
 type requestIPResponse struct {
 	Origin string `json:"origin"`
 }
+
+type requestUserAgentResponse struct {
+	UserAgent string `json:"user-agent"`
+}

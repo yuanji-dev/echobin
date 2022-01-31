@@ -17,6 +17,10 @@ func getOrigin(c echo.Context) string {
 	return c.RealIP()
 }
 
+func getUserAgent(c echo.Context) string {
+	return c.Request().UserAgent()
+}
+
 func getHeaders(c echo.Context) map[string]string {
 	headers := map[string]string{}
 	for k, v := range c.Request().Header {

@@ -77,6 +77,17 @@ func requestHeadersHandler(c echo.Context) error {
 	}, "  ")
 }
 
+// @Summary  Return the incoming requests's User-Agent header.
+// @Tags     Request inspection
+// @Produce  json
+// @Success  200  {object}  requestUserAgentResponse  "The request’s User-Agent header."
+// @Router   /user-agent [get]
+func requestUserAgentHandler(c echo.Context) error {
+	return c.JSONPretty(http.StatusOK, &requestUserAgentResponse{
+		UserAgent: getUserAgent(c),
+	}, "  ")
+}
+
 type weightedCode struct {
 	weight float64
 	code   int
