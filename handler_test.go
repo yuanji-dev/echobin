@@ -287,3 +287,18 @@ func TestServeRobotsTXTHandler(t *testing.T) {
 		assert.Equal(t, ROBOTS_TXT, res.Body.String())
 	}
 }
+
+func TestServeDenyHandler(t *testing.T) {
+	e := newEcho()
+
+	denyFile, _ := os.Open("static/deny.txt")
+	defer denyFile.Close()
+	expectedTXT, _ := io.ReadAll(denyFile)
+	req := httptest.NewRequest(http.MethodGet, "/", nil)
+	res := httptest.NewRecorder()
+	c := e.NewContext(req, res)
+	if assert.NoError(t, serveDenyHandler(c)) {
+		assert.Equal(t, http.StatusOK, res.Code)
+		assert.Equal(t, expectedTXT, res.Body.Bytes())
+	}
+}

@@ -55,6 +55,22 @@ var doc = `{
                 }
             }
         },
+        "/deny": {
+            "get": {
+                "produces": [
+                    "text/plain"
+                ],
+                "tags": [
+                    "Response formats"
+                ],
+                "summary": "Returns page denied by robots.txt rules.",
+                "responses": {
+                    "200": {
+                        "description": "Denied message"
+                    }
+                }
+            }
+        },
         "/get": {
             "get": {
                 "produces": [

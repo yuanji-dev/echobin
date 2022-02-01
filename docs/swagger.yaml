@@ -81,6 +81,16 @@ paths:
       summary: The request's query parameters.
       tags:
       - HTTP methods
+  /deny:
+    get:
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: Denied message
+      summary: Returns page denied by robots.txt rules.
+      tags:
+      - Response formats
   /get:
     get:
       produces:

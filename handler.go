@@ -208,3 +208,15 @@ Disallow: /deny
 func serveRobotsTXTHandler(c echo.Context) error {
 	return c.String(http.StatusOK, ROBOTS_TXT)
 }
+
+//go:embed static/deny.txt
+var denyTXT string
+
+// @Summary   Returns page denied by robots.txt rules.
+// @Tags      Response formats
+// @Produce   plain
+// @Response  200  "Denied message"
+// @Router    /deny [get]
+func serveDenyHandler(c echo.Context) error {
+	return c.String(http.StatusOK, denyTXT)
+}
