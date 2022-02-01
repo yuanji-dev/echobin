@@ -187,7 +187,7 @@ var doc = `{
         "/status/{codes}": {
             "get": {
                 "produces": [
-                    "application/json"
+                    "text/plain"
                 ],
                 "tags": [
                     "Status codes"
@@ -222,7 +222,7 @@ var doc = `{
             },
             "put": {
                 "produces": [
-                    "application/json"
+                    "text/plain"
                 ],
                 "tags": [
                     "Status codes"
@@ -257,7 +257,7 @@ var doc = `{
             },
             "post": {
                 "produces": [
-                    "application/json"
+                    "text/plain"
                 ],
                 "tags": [
                     "Status codes"
@@ -292,7 +292,7 @@ var doc = `{
             },
             "delete": {
                 "produces": [
-                    "application/json"
+                    "text/plain"
                 ],
                 "tags": [
                     "Status codes"
@@ -327,7 +327,7 @@ var doc = `{
             },
             "patch": {
                 "produces": [
-                    "application/json"
+                    "text/plain"
                 ],
                 "tags": [
                     "Status codes"

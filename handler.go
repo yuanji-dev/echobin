@@ -114,7 +114,7 @@ func chooseStatusCode(weightedCodes []weightedCode) int {
 
 // @Summary   Return status code or random status code if more than one are given
 // @Tags      Status codes
-// @Produce   json
+// @Produce   plain
 // @Param     codes  path  string  true  "codes"
 // @Response  100    "Informational responses"
 // @Response  200    "Success"
