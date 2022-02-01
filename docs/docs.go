@@ -128,6 +128,22 @@ var doc = `{
                 }
             }
         },
+        "/json": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Response formats"
+                ],
+                "summary": "Returns a simple JSON document.",
+                "responses": {
+                    "200": {
+                        "description": "An JSON document."
+                    }
+                }
+            }
+        },
         "/patch": {
             "patch": {
                 "consumes": [

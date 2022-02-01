@@ -127,6 +127,16 @@ paths:
       summary: Returns the requester's IP Address.
       tags:
       - Request inspection
+  /json:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: An JSON document.
+      summary: Returns a simple JSON document.
+      tags:
+      - Response formats
   /patch:
     patch:
       consumes:

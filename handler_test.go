@@ -260,3 +260,18 @@ func TestServeXMLHandler(t *testing.T) {
 		assert.Contains(t, res.Body.String(), "<?xml")
 	}
 }
+
+func TestServeJSONHandler(t *testing.T) {
+	e := newEcho()
+
+	jsonFile, _ := os.Open("static/sample.json")
+	defer jsonFile.Close()
+	expectedJSON, _ := io.ReadAll(jsonFile)
+	req := httptest.NewRequest(http.MethodGet, "/", nil)
+	res := httptest.NewRecorder()
+	c := e.NewContext(req, res)
+	if assert.NoError(t, serveJSONHandler(c)) {
+		assert.Equal(t, http.StatusOK, res.Code)
+		assert.Equal(t, expectedJSON, res.Body.Bytes())
+	}
+}

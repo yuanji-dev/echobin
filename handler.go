@@ -183,3 +183,15 @@ var sampleXML []byte
 func serveXMLHandler(c echo.Context) error {
 	return c.XMLBlob(http.StatusOK, sampleXML)
 }
+
+//go:embed static/sample.json
+var sampleJSON []byte
+
+// @Summary   Returns a simple JSON document.
+// @Tags      Response formats
+// @Produce   json
+// @Response  200  "An JSON document."
+// @Router    /json [get]
+func serveJSONHandler(c echo.Context) error {
+	return c.JSONBlob(http.StatusOK, sampleJSON)
+}
