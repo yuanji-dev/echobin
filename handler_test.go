@@ -275,3 +275,15 @@ func TestServeJSONHandler(t *testing.T) {
 		assert.Equal(t, expectedJSON, res.Body.Bytes())
 	}
 }
+
+func TestServeRobotsTXTHandler(t *testing.T) {
+	e := newEcho()
+
+	req := httptest.NewRequest(http.MethodGet, "/", nil)
+	res := httptest.NewRecorder()
+	c := e.NewContext(req, res)
+	if assert.NoError(t, serveRobotsTXTHandler(c)) {
+		assert.Equal(t, http.StatusOK, res.Code)
+		assert.Equal(t, ROBOTS_TXT, res.Body.String())
+	}
+}

@@ -216,6 +216,22 @@ var doc = `{
                 }
             }
         },
+        "/robots.txt": {
+            "get": {
+                "produces": [
+                    "text/plain"
+                ],
+                "tags": [
+                    "Response formats"
+                ],
+                "summary": "Returns some robots.txt rules.",
+                "responses": {
+                    "200": {
+                        "description": "Robots file"
+                    }
+                }
+            }
+        },
         "/status/{codes}": {
             "get": {
                 "produces": [

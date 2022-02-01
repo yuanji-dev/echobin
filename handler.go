@@ -195,3 +195,16 @@ var sampleJSON []byte
 func serveJSONHandler(c echo.Context) error {
 	return c.JSONBlob(http.StatusOK, sampleJSON)
 }
+
+const ROBOTS_TXT = `User-agent: *
+Disallow: /deny
+`
+
+// @Summary   Returns some robots.txt rules.
+// @Tags      Response formats
+// @Produce   plain
+// @Response  200  "Robots file"
+// @Router    /robots.txt [get]
+func serveRobotsTXTHandler(c echo.Context) error {
+	return c.String(http.StatusOK, ROBOTS_TXT)
+}
