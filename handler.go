@@ -1,6 +1,7 @@
 package main
 
 import (
+	_ "embed"
 	"math/rand"
 	"net/http"
 	"net/url"
@@ -157,4 +158,16 @@ func statusCodesHandler(c echo.Context) error {
 		weightedCodes = append(weightedCodes, weightedCode{weight, code})
 	}
 	return c.NoContent(chooseStatusCode(weightedCodes))
+}
+
+//go:embed static/moby.html
+var sampleHTML string
+
+// @Summary   Returns a simple HTML document.
+// @Tags      Response formats
+// @Produce   html
+// @Response  200  "An HTML page."
+// @Router    /html [get]
+func serveHTMLHandler(c echo.Context) error {
+	return c.HTML(http.StatusOK, sampleHTML)
 }

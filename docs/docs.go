@@ -93,6 +93,22 @@ var doc = `{
                 }
             }
         },
+        "/html": {
+            "get": {
+                "produces": [
+                    "text/html"
+                ],
+                "tags": [
+                    "Response formats"
+                ],
+                "summary": "Returns a simple HTML document.",
+                "responses": {
+                    "200": {
+                        "description": "An HTML page."
+                    }
+                }
+            }
+        },
         "/ip": {
             "get": {
                 "produces": [
@@ -470,12 +486,16 @@ var doc = `{
             "name": "HTTP methods"
         },
         {
+            "description": "Generates responses with given status code",
+            "name": "Status codes"
+        },
+        {
             "description": "Inspect the request data",
             "name": "Request inspection"
         },
         {
-            "description": "Generates responses with given status code",
-            "name": "Status codes"
+            "description": "Returns responses in different data formats",
+            "name": "Response formats"
         }
     ]
 }`

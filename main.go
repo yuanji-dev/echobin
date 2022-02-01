@@ -27,10 +27,12 @@ func newEcho() (e *echo.Echo) {
 
 // @tag.name         HTTP methods
 // @tag.description  Testing different HTTP verbs
-// @tag.name         Request inspection
-// @tag.description  Inspect the request data
 // @tag.name         Status codes
 // @tag.description  Generates responses with given status code
+// @tag.name         Request inspection
+// @tag.description  Inspect the request data
+// @tag.name         Response formats
+// @tag.description  Returns responses in different data formats
 func main() {
 	e := newEcho()
 
@@ -39,21 +41,33 @@ func main() {
 
 	// Swagger docs
 	e.GET("/*", echoSwagger.WrapHandler)
-
 	// HTTP methods
 	e.GET("/get", getMethodHandler)
 	e.POST("/post", otherMethodHandler)
 	e.PUT("/put", otherMethodHandler)
 	e.PATCH("/patch", otherMethodHandler)
 	e.DELETE("/delete", otherMethodHandler)
-
+	// Status Codes
+	e.Any("/status/:codes", statusCodesHandler)
 	// Request inspection
 	e.GET("/headers", requestHeadersHandler)
 	e.GET("/ip", requestIPHandler)
 	e.GET("/user-agent", requestUserAgentHandler)
-
-	// Status Codes
-	e.Any("/status/:codes", statusCodesHandler)
+	// Response formats
+	e.GET("/html", serveHTMLHandler)
+	e.GET("/gzip", requestHeadersHandler, func(next echo.HandlerFunc) echo.HandlerFunc {
+		return func(c echo.Context) error {
+			c.Request().Header.Add(echo.HeaderAcceptEncoding, "gzip")
+			return next(c)
+		}
+	}, middleware.Gzip())
+	// TODO: Auth
+	// TODO: Response inspection
+	// TODO: Dynamic data
+	// TODO: Cookies
+	// TODO: Images
+	// TODO: Redirects
+	// TODO: Anything
 
 	e.Logger.Fatal(e.Start("127.0.0.1:1323"))
 }

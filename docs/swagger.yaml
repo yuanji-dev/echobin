@@ -105,6 +105,16 @@ paths:
       summary: Return the incoming request's HTTP headers.
       tags:
       - Request inspection
+  /html:
+    get:
+      produces:
+      - text/html
+      responses:
+        "200":
+          description: An HTML page.
+      summary: Returns a simple HTML document.
+      tags:
+      - Response formats
   /ip:
     get:
       produces:
@@ -297,7 +307,9 @@ swagger: "2.0"
 tags:
 - description: Testing different HTTP verbs
   name: HTTP methods
-- description: Inspect the request data
-  name: Request inspection
 - description: Generates responses with given status code
   name: Status codes
+- description: Inspect the request data
+  name: Request inspection
+- description: Returns responses in different data formats
+  name: Response formats
