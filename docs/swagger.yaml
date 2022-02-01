@@ -91,6 +91,16 @@ paths:
       summary: Returns page denied by robots.txt rules.
       tags:
       - Response formats
+  /encoding/utf8:
+    get:
+      produces:
+      - text/html
+      responses:
+        "200":
+          description: Encoded UTF-8 content.
+      summary: Returns a UTF-8 encoded body.
+      tags:
+      - Response formats
   /get:
     get:
       produces:

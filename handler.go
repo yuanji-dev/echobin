@@ -220,3 +220,15 @@ var denyTXT string
 func serveDenyHandler(c echo.Context) error {
 	return c.String(http.StatusOK, denyTXT)
 }
+
+//go:embed static/sample.txt
+var sampleTXT []byte
+
+// @Summary   Returns a UTF-8 encoded body.
+// @Tags      Response formats
+// @Produce   html
+// @Response  200  "Encoded UTF-8 content."
+// @Router    /encoding/utf8 [get]
+func serveTXTHandler(c echo.Context) error {
+	return c.Blob(http.StatusOK, echo.MIMETextHTMLCharsetUTF8, sampleTXT)
+}

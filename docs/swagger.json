@@ -55,6 +55,22 @@
                 }
             }
         },
+        "/encoding/utf8": {
+            "get": {
+                "produces": [
+                    "text/html"
+                ],
+                "tags": [
+                    "Response formats"
+                ],
+                "summary": "Returns a UTF-8 encoded body.",
+                "responses": {
+                    "200": {
+                        "description": "Encoded UTF-8 content."
+                    }
+                }
+            }
+        },
         "/get": {
             "get": {
                 "produces": [
