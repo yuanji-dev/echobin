@@ -245,6 +245,18 @@ func TestServeHTMLHandler(t *testing.T) {
 	c := e.NewContext(req, res)
 	if assert.NoError(t, serveHTMLHandler(c)) {
 		assert.Equal(t, http.StatusOK, res.Code)
-		assert.Contains(t, res.Body.String(), "<html>")
+		assert.Contains(t, res.Body.String(), "<html")
+	}
+}
+
+func TestServeXMLHandler(t *testing.T) {
+	e := newEcho()
+
+	req := httptest.NewRequest(http.MethodGet, "/", nil)
+	res := httptest.NewRecorder()
+	c := e.NewContext(req, res)
+	if assert.NoError(t, serveXMLHandler(c)) {
+		assert.Equal(t, http.StatusOK, res.Code)
+		assert.Contains(t, res.Body.String(), "<?xml")
 	}
 }

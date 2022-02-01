@@ -161,7 +161,7 @@ func statusCodesHandler(c echo.Context) error {
 }
 
 //go:embed static/moby.html
-var sampleHTML string
+var sampleHTML []byte
 
 // @Summary   Returns a simple HTML document.
 // @Tags      Response formats
@@ -169,5 +169,17 @@ var sampleHTML string
 // @Response  200  "An HTML page."
 // @Router    /html [get]
 func serveHTMLHandler(c echo.Context) error {
-	return c.HTML(http.StatusOK, sampleHTML)
+	return c.HTMLBlob(http.StatusOK, sampleHTML)
+}
+
+//go:embed static/sample.xml
+var sampleXML []byte
+
+// @Summary   Returns a simple XML document.
+// @Tags      Response formats
+// @Produce   xml
+// @Response  200  "An XML document."
+// @Router    /xml [get]
+func serveXMLHandler(c echo.Context) error {
+	return c.XMLBlob(http.StatusOK, sampleXML)
 }

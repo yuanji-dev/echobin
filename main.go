@@ -55,6 +55,7 @@ func main() {
 	e.GET("/user-agent", requestUserAgentHandler)
 	// Response formats
 	e.GET("/html", serveHTMLHandler)
+	e.GET("/xml", serveXMLHandler)
 	e.GET("/gzip", requestHeadersHandler, func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			c.Request().Header.Add(echo.HeaderAcceptEncoding, "gzip")

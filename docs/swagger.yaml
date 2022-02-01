@@ -303,6 +303,16 @@ paths:
       summary: Return the incoming requests's User-Agent header.
       tags:
       - Request inspection
+  /xml:
+    get:
+      produces:
+      - text/xml
+      responses:
+        "200":
+          description: An XML document.
+      summary: Returns a simple XML document.
+      tags:
+      - Response formats
 swagger: "2.0"
 tags:
 - description: Testing different HTTP verbs

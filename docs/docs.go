@@ -395,6 +395,22 @@ var doc = `{
                     }
                 }
             }
+        },
+        "/xml": {
+            "get": {
+                "produces": [
+                    "text/xml"
+                ],
+                "tags": [
+                    "Response formats"
+                ],
+                "summary": "Returns a simple XML document.",
+                "responses": {
+                    "200": {
+                        "description": "An XML document."
+                    }
+                }
+            }
         }
     },
     "definitions": {
