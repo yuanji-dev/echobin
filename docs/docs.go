@@ -106,6 +106,22 @@ var doc = `{
                 }
             }
         },
+        "/gzip": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Response formats"
+                ],
+                "summary": "Returns GZip-encoded data.",
+                "responses": {
+                    "200": {
+                        "description": "GZip-encoded data."
+                    }
+                }
+            }
+        },
         "/headers": {
             "get": {
                 "produces": [

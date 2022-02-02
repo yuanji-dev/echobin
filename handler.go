@@ -232,3 +232,17 @@ var sampleUTF8HTML []byte
 func serveUTF8HTMLHandler(c echo.Context) error {
 	return c.Blob(http.StatusOK, echo.MIMETextHTMLCharsetUTF8, sampleUTF8HTML)
 }
+
+// @Summary   Returns GZip-encoded data.
+// @Tags      Response formats
+// @Produce   json
+// @Response  200  "GZip-encoded data."
+// @Router    /gzip [get]
+func serveGzipHandler(c echo.Context) error {
+	res := gzippedResponse{}
+	res.Origin = getOrigin(c)
+	res.Headers = getHeaders(c)
+	res.Method = c.Request().Method
+	res.Gzipped = true
+	return c.JSONPretty(http.StatusOK, &res, "  ")
+}

@@ -113,6 +113,16 @@ paths:
       summary: The request's query parameters.
       tags:
       - HTTP methods
+  /gzip:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: GZip-encoded data.
+      summary: Returns GZip-encoded data.
+      tags:
+      - Response formats
   /headers:
     get:
       produces:

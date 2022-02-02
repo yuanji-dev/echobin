@@ -60,12 +60,7 @@ func main() {
 	e.GET("/robots.txt", serveRobotsTXTHandler)
 	e.GET("/deny", serveDenyHandler)
 	e.GET("/encoding/utf8", serveUTF8HTMLHandler)
-	e.GET("/gzip", requestHeadersHandler, func(next echo.HandlerFunc) echo.HandlerFunc {
-		return func(c echo.Context) error {
-			c.Request().Header.Add(echo.HeaderAcceptEncoding, "gzip")
-			return next(c)
-		}
-	}, middleware.Gzip())
+	e.GET("/gzip", forceEncode(serveGzipHandler, "gzip"), middleware.Gzip())
 	// TODO: Auth
 	// TODO: Response inspection
 	// TODO: Dynamic data
@@ -75,4 +70,11 @@ func main() {
 	// TODO: Anything
 
 	e.Logger.Fatal(e.Start("127.0.0.1:1323"))
+}
+
+func forceEncode(h echo.HandlerFunc, encoding string) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		c.Request().Header.Add(echo.HeaderAcceptEncoding, encoding)
+		return h(c)
+	}
 }

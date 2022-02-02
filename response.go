@@ -41,3 +41,14 @@ type requestIPResponse struct {
 type requestUserAgentResponse struct {
 	UserAgent string `json:"user-agent"`
 }
+
+type encodedResponse struct {
+	Origin  string            `json:"origin"`
+	Headers map[string]string `json:"headers"`
+	Method  string            `json:"method"`
+}
+
+type gzippedResponse struct {
+	encodedResponse
+	Gzipped bool `json:"gzipped"`
+}
