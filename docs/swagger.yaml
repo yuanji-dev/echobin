@@ -65,6 +65,16 @@ info:
   title: echobin API
   version: "0.1"
 paths:
+  /deflate:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Defalte-encoded data.
+      summary: Returns Deflate-encoded data.
+      tags:
+      - Response formats
   /delete:
     delete:
       consumes:

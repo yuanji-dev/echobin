@@ -246,3 +246,17 @@ func serveGzipHandler(c echo.Context) error {
 	res.Gzipped = true
 	return c.JSONPretty(http.StatusOK, &res, "  ")
 }
+
+// @Summary   Returns Deflate-encoded data.
+// @Tags      Response formats
+// @Produce   json
+// @Response  200  "Defalte-encoded data."
+// @Router    /deflate [get]
+func serveDeflateHandler(c echo.Context) error {
+	res := deflatedResponse{}
+	res.Origin = getOrigin(c)
+	res.Headers = getHeaders(c)
+	res.Method = c.Request().Method
+	res.Deflated = true
+	return c.JSONPretty(http.StatusOK, &res, "  ")
+}

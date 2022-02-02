@@ -52,3 +52,8 @@ type gzippedResponse struct {
 	encodedResponse
 	Gzipped bool `json:"gzipped"`
 }
+
+type deflatedResponse struct {
+	encodedResponse
+	Deflated bool `json:"deflated"`
+}

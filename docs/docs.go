@@ -31,6 +31,22 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/deflate": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Response formats"
+                ],
+                "summary": "Returns Deflate-encoded data.",
+                "responses": {
+                    "200": {
+                        "description": "Defalte-encoded data."
+                    }
+                }
+            }
+        },
         "/delete": {
             "delete": {
                 "consumes": [

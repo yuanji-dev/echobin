@@ -61,6 +61,7 @@ func main() {
 	e.GET("/deny", serveDenyHandler)
 	e.GET("/encoding/utf8", serveUTF8HTMLHandler)
 	e.GET("/gzip", forceEncode(serveGzipHandler, "gzip"), middleware.Gzip())
+	e.GET("/deflate", forceEncode(serveDeflateHandler, "deflate"), Deflate())
 	// TODO: Auth
 	// TODO: Response inspection
 	// TODO: Dynamic data
