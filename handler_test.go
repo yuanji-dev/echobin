@@ -246,6 +246,7 @@ func TestServeHTMLHandler(t *testing.T) {
 	if assert.NoError(t, serveHTMLHandler(c)) {
 		assert.Equal(t, http.StatusOK, res.Code)
 		assert.Contains(t, res.Body.String(), "<html")
+		assert.Equal(t, echo.MIMETextHTMLCharsetUTF8, res.Header().Get(echo.HeaderContentType))
 	}
 }
 
@@ -258,6 +259,7 @@ func TestServeXMLHandler(t *testing.T) {
 	if assert.NoError(t, serveXMLHandler(c)) {
 		assert.Equal(t, http.StatusOK, res.Code)
 		assert.Contains(t, res.Body.String(), "<?xml")
+		assert.Equal(t, echo.MIMEApplicationXMLCharsetUTF8, res.Header().Get(echo.HeaderContentType))
 	}
 }
 
@@ -273,6 +275,7 @@ func TestServeJSONHandler(t *testing.T) {
 	if assert.NoError(t, serveJSONHandler(c)) {
 		assert.Equal(t, http.StatusOK, res.Code)
 		assert.Equal(t, expectedJSON, res.Body.Bytes())
+		assert.Equal(t, echo.MIMEApplicationJSONCharsetUTF8, res.Header().Get(echo.HeaderContentType))
 	}
 }
 
@@ -285,6 +288,7 @@ func TestServeRobotsTXTHandler(t *testing.T) {
 	if assert.NoError(t, serveRobotsTXTHandler(c)) {
 		assert.Equal(t, http.StatusOK, res.Code)
 		assert.Equal(t, ROBOTS_TXT, res.Body.String())
+		assert.Equal(t, echo.MIMETextPlainCharsetUTF8, res.Header().Get(echo.HeaderContentType))
 	}
 }
 
@@ -300,5 +304,22 @@ func TestServeDenyHandler(t *testing.T) {
 	if assert.NoError(t, serveDenyHandler(c)) {
 		assert.Equal(t, http.StatusOK, res.Code)
 		assert.Equal(t, expectedTXT, res.Body.Bytes())
+		assert.Equal(t, echo.MIMETextPlainCharsetUTF8, res.Header().Get(echo.HeaderContentType))
+	}
+}
+
+func TestServeUTF8HTMLHandler(t *testing.T) {
+	e := newEcho()
+
+	txtFile, _ := os.Open("static/sample-utf8.html")
+	defer txtFile.Close()
+	expectedTXT, _ := io.ReadAll(txtFile)
+	req := httptest.NewRequest(http.MethodGet, "/", nil)
+	res := httptest.NewRecorder()
+	c := e.NewContext(req, res)
+	if assert.NoError(t, serveUTF8HTMLHandler(c)) {
+		assert.Equal(t, http.StatusOK, res.Code)
+		assert.Equal(t, expectedTXT, res.Body.Bytes())
+		assert.Equal(t, echo.MIMETextHTMLCharsetUTF8, res.Header().Get(echo.HeaderContentType))
 	}
 }
