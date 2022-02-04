@@ -57,3 +57,13 @@ type deflatedResponse struct {
 	encodedResponse
 	Deflated bool `json:"deflated"`
 }
+
+type delayResponse struct {
+	Args    map[string]interface{} `json:"args"`
+	Data    string                 `json:"data"`
+	Files   map[string]interface{} `json:"files"`
+	Form    interface{}            `json:"form"`
+	Headers map[string]string      `json:"headers"`
+	Origin  string                 `json:"origin"`
+	URL     string                 `json:"url"`
+}

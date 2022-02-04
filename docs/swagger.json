@@ -73,6 +73,123 @@
                 }
             }
         },
+        "/delay/{delay}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Dynamic data"
+                ],
+                "summary": "Returns a delayed response (max of 10 seconds).",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "delay",
+                        "name": "delay",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A delayed response."
+                    }
+                }
+            },
+            "put": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Dynamic data"
+                ],
+                "summary": "Returns a delayed response (max of 10 seconds).",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "delay",
+                        "name": "delay",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A delayed response."
+                    }
+                }
+            },
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Dynamic data"
+                ],
+                "summary": "Returns a delayed response (max of 10 seconds).",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "delay",
+                        "name": "delay",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A delayed response."
+                    }
+                }
+            },
+            "delete": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Dynamic data"
+                ],
+                "summary": "Returns a delayed response (max of 10 seconds).",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "delay",
+                        "name": "delay",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A delayed response."
+                    }
+                }
+            },
+            "patch": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Dynamic data"
+                ],
+                "summary": "Returns a delayed response (max of 10 seconds).",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "delay",
+                        "name": "delay",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A delayed response."
+                    }
+                }
+            }
+        },
         "/delete": {
             "delete": {
                 "consumes": [

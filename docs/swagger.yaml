@@ -102,6 +102,82 @@ paths:
       summary: Returns Deflate-encoded data.
       tags:
       - Response formats
+  /delay/{delay}:
+    delete:
+      parameters:
+      - description: delay
+        in: path
+        name: delay
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: A delayed response.
+      summary: Returns a delayed response (max of 10 seconds).
+      tags:
+      - Dynamic data
+    get:
+      parameters:
+      - description: delay
+        in: path
+        name: delay
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: A delayed response.
+      summary: Returns a delayed response (max of 10 seconds).
+      tags:
+      - Dynamic data
+    patch:
+      parameters:
+      - description: delay
+        in: path
+        name: delay
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: A delayed response.
+      summary: Returns a delayed response (max of 10 seconds).
+      tags:
+      - Dynamic data
+    post:
+      parameters:
+      - description: delay
+        in: path
+        name: delay
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: A delayed response.
+      summary: Returns a delayed response (max of 10 seconds).
+      tags:
+      - Dynamic data
+    put:
+      parameters:
+      - description: delay
+        in: path
+        name: delay
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: A delayed response.
+      summary: Returns a delayed response (max of 10 seconds).
+      tags:
+      - Dynamic data
   /delete:
     delete:
       consumes:

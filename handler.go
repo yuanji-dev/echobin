@@ -13,6 +13,7 @@ import (
 )
 
 const maxByteCount = 100 << 10
+const maxDelay = 10 // seconds
 
 // @Summary  The request's query parameters.
 // @Tags     HTTP methods
@@ -295,4 +296,41 @@ func generateBytesHandler(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusInternalServerError, "generate random bytes failed")
 	}
 	return c.Blob(http.StatusOK, echo.MIMEOctetStream, bytes)
+}
+
+// @Summary   Returns a delayed response (max of 10 seconds).
+// @Tags      Dynamic data
+// @Produce   json
+// @Param     delay  path  int  true  "delay"
+// @Response  200    "A delayed response."
+// @Router    /delay/{delay} [delete]
+// @Router    /delay/{delay} [get]
+// @Router    /delay/{delay} [patch]
+// @Router    /delay/{delay} [post]
+// @Router    /delay/{delay} [put]
+func delayHandler(c echo.Context) error {
+	delay := c.Param("delay")
+	intDelay, err := strconv.Atoi(delay)
+	if err != nil || intDelay < 0 {
+		return echo.NewHTTPError(http.StatusBadRequest, "invalid number of delay")
+	}
+	if intDelay > maxDelay {
+		intDelay = maxDelay
+	}
+	time.Sleep(time.Duration(intDelay) * time.Second)
+	data := ""
+	files := getFiles(c)
+	form := getForm(c)
+	if len(files) == 0 && len(form) == 0 {
+		data = getData(c)
+	}
+	return c.JSONPretty(http.StatusOK, &delayResponse{
+		Args:    getArgs(c),
+		Data:    data,
+		Files:   files,
+		Form:    form,
+		Headers: getHeaders(c),
+		Origin:  getOrigin(c),
+		URL:     getURL(c),
+	}, "  ")
 }

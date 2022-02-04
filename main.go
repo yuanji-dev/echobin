@@ -66,6 +66,7 @@ func main() {
 	e.GET("/deflate", forceEncode(serveDeflateHandler, "deflate"), middleware.Deflate())
 	// Dynamic data
 	e.GET("/bytes/:n", generateBytesHandler)
+	e.Any("/delay/:delay", delayHandler)
 	// TODO: Auth
 	// TODO: Response inspection
 	// TODO: Cookies
