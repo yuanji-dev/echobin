@@ -2,6 +2,8 @@ module github.com/masakichi/echobin
 
 go 1.17
 
+replace github.com/labstack/echo/v4 => github.com/masakichi/echo/v4 v4.6.3-0.20220204020426-6e6ae1eefd15
+
 require (
 	github.com/labstack/echo/v4 v4.6.3
 	github.com/stretchr/testify v1.7.0

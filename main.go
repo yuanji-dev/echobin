@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	"github.com/swaggo/echo-swagger"
+	echoSwagger "github.com/swaggo/echo-swagger"
 
 	_ "github.com/masakichi/echobin/docs"
 )
@@ -61,7 +61,7 @@ func main() {
 	e.GET("/deny", serveDenyHandler)
 	e.GET("/encoding/utf8", serveUTF8HTMLHandler)
 	e.GET("/gzip", forceEncode(serveGzipHandler, "gzip"), middleware.Gzip())
-	e.GET("/deflate", forceEncode(serveDeflateHandler, "deflate"), Deflate())
+	e.GET("/deflate", forceEncode(serveDeflateHandler, "deflate"), middleware.Deflate())
 	// TODO: Auth
 	// TODO: Response inspection
 	// TODO: Dynamic data

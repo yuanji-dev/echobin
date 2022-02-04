@@ -12,6 +12,7 @@ import (
 	"testing"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -321,5 +322,33 @@ func TestServeUTF8HTMLHandler(t *testing.T) {
 		assert.Equal(t, http.StatusOK, res.Code)
 		assert.Equal(t, expectedTXT, res.Body.Bytes())
 		assert.Equal(t, echo.MIMETextHTMLCharsetUTF8, res.Header().Get(echo.HeaderContentType))
+	}
+}
+
+func TestServeGzipHandler(t *testing.T) {
+	e := newEcho()
+
+	req := httptest.NewRequest(http.MethodGet, "/", nil)
+	res := httptest.NewRecorder()
+	c := e.NewContext(req, res)
+	h := middleware.Gzip()(serveGzipHandler)
+	h = forceEncode(h, "gzip")
+	if assert.NoError(t, h(c)) {
+		assert.Equal(t, http.StatusOK, res.Code)
+		assert.Equal(t, "gzip", res.Header().Get(echo.HeaderContentEncoding))
+	}
+}
+
+func TestServeDeflateHandler(t *testing.T) {
+	e := newEcho()
+
+	req := httptest.NewRequest(http.MethodGet, "/", nil)
+	res := httptest.NewRecorder()
+	c := e.NewContext(req, res)
+	h := middleware.Deflate()(serveGzipHandler)
+	h = forceEncode(h, "deflate")
+	if assert.NoError(t, h(c)) {
+		assert.Equal(t, http.StatusOK, res.Code)
+		assert.Equal(t, "deflate", res.Header().Get(echo.HeaderContentEncoding))
 	}
 }
