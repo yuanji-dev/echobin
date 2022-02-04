@@ -260,3 +260,13 @@ func serveDeflateHandler(c echo.Context) error {
 	res.Deflated = true
 	return c.JSONPretty(http.StatusOK, &res, "  ")
 }
+
+// @Summary   Returns Brotli-encoded data.
+// @Tags      Response formats
+// @Produce   json
+// @Response  200  "Brotli-encoded data."
+// @Router    /brotli [get]
+// @Deprecated
+func serveBrotliHandler(c echo.Context) error {
+	return nil
+}

@@ -31,6 +31,23 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/brotli": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Response formats"
+                ],
+                "summary": "Returns Brotli-encoded data.",
+                "deprecated": true,
+                "responses": {
+                    "200": {
+                        "description": "Brotli-encoded data."
+                    }
+                }
+            }
+        },
         "/deflate": {
             "get": {
                 "produces": [

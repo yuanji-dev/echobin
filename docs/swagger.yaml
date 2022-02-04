@@ -65,6 +65,17 @@ info:
   title: echobin API
   version: "0.1"
 paths:
+  /brotli:
+    get:
+      deprecated: true
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Brotli-encoded data.
+      summary: Returns Brotli-encoded data.
+      tags:
+      - Response formats
   /deflate:
     get:
       produces:
