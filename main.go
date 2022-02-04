@@ -33,6 +33,8 @@ func newEcho() (e *echo.Echo) {
 // @tag.description  Inspect the request data
 // @tag.name         Response formats
 // @tag.description  Returns responses in different data formats
+// @tag.name         Dynamic data
+// @tag.description  Generates random and dynamic data
 func main() {
 	e := newEcho()
 
@@ -62,9 +64,10 @@ func main() {
 	e.GET("/encoding/utf8", serveUTF8HTMLHandler)
 	e.GET("/gzip", forceEncode(serveGzipHandler, "gzip"), middleware.Gzip())
 	e.GET("/deflate", forceEncode(serveDeflateHandler, "deflate"), middleware.Deflate())
+	// Dynamic data
+	e.GET("/bytes/:n", generateBytesHandler)
 	// TODO: Auth
 	// TODO: Response inspection
-	// TODO: Dynamic data
 	// TODO: Cookies
 	// TODO: Images
 	// TODO: Redirects

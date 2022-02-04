@@ -48,6 +48,31 @@ var doc = `{
                 }
             }
         },
+        "/bytes/{n}": {
+            "get": {
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "Dynamic data"
+                ],
+                "summary": "Returns n random bytes generated with given seed",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "number of bytes",
+                        "name": "n",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Bytes."
+                    }
+                }
+            }
+        },
         "/deflate": {
             "get": {
                 "produces": [
@@ -625,6 +650,10 @@ var doc = `{
         {
             "description": "Returns responses in different data formats",
             "name": "Response formats"
+        },
+        {
+            "description": "Generates random and dynamic data",
+            "name": "Dynamic data"
         }
     ]
 }`

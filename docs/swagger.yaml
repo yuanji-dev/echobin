@@ -76,6 +76,22 @@ paths:
       summary: Returns Brotli-encoded data.
       tags:
       - Response formats
+  /bytes/{n}:
+    get:
+      parameters:
+      - description: number of bytes
+        in: path
+        name: "n"
+        required: true
+        type: integer
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: Bytes.
+      summary: Returns n random bytes generated with given seed
+      tags:
+      - Dynamic data
   /deflate:
     get:
       produces:
@@ -394,3 +410,5 @@ tags:
   name: Request inspection
 - description: Returns responses in different data formats
   name: Response formats
+- description: Generates random and dynamic data
+  name: Dynamic data

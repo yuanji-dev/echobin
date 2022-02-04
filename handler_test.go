@@ -352,3 +352,39 @@ func TestServeDeflateHandler(t *testing.T) {
 		assert.Equal(t, "deflate", res.Header().Get(echo.HeaderContentEncoding))
 	}
 }
+
+func TestGenerateBytesHandler(t *testing.T) {
+	e := newEcho()
+
+	cases := []struct {
+		n          string
+		statusCode int
+	}{
+		{"0", http.StatusOK},
+		{"10", http.StatusOK},
+		{"102401", http.StatusOK},
+		{"-1", http.StatusBadRequest},
+		{"e", http.StatusBadRequest},
+	}
+	for _, v := range cases {
+		req := httptest.NewRequest(http.MethodGet, "/", nil)
+		res := httptest.NewRecorder()
+		c := e.NewContext(req, res)
+		c.SetPath("/bytes/:n")
+		c.SetParamNames("n")
+		c.SetParamValues(v.n)
+
+		// if handler return an error, it won't write to res automatically
+		// see also: https://github.com/labstack/echo/issues/593#issuecomment-230926351
+		err := generateBytesHandler(c)
+		if err != nil {
+			he, _ := err.(*echo.HTTPError)
+			assert.Equal(t, v.statusCode, he.Code)
+		} else {
+			assert.Equal(t, v.statusCode, res.Code)
+			assert.Equal(t, echo.MIMEOctetStream, res.Header().Get(echo.HeaderContentType))
+			// TODO: seems Content-Length header is not set in testing
+			//assert.Equal(t, "100", res.Header().Get(echo.HeaderContentLength))
+		}
+	}
+}

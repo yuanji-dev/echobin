@@ -12,6 +12,8 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+const maxByteCount = 100 << 10
+
 // @Summary  The request's query parameters.
 // @Tags     HTTP methods
 // @Produce  json
@@ -269,4 +271,28 @@ func serveDeflateHandler(c echo.Context) error {
 // @Deprecated
 func serveBrotliHandler(c echo.Context) error {
 	return nil
+}
+
+// @Summary   Returns n random bytes generated with given seed
+// @Tags      Dynamic data
+// @Produce   octet-stream
+// @Param     n    path  int  true  "number of bytes"
+// @Response  200  "Bytes."
+// @Router    /bytes/{n} [get]
+func generateBytesHandler(c echo.Context) error {
+	// TODO: support seed querystring
+	// https://github.com/postmanlabs/httpbin/blob/f8ec666b4d1b654e4ff6aedd356f510dcac09f83/httpbin/core.py#L1442
+	n := c.Param("n")
+	intN, err := strconv.Atoi(n)
+	if err != nil || intN < 0 {
+		return echo.NewHTTPError(http.StatusBadRequest, "invalid number of bytes")
+	}
+	if intN > maxByteCount {
+		intN = maxByteCount
+	}
+	bytes := make([]byte, intN)
+	if _, err := rand.Read(bytes); err != nil {
+		return echo.NewHTTPError(http.StatusInternalServerError, "generate random bytes failed")
+	}
+	return c.Blob(http.StatusOK, echo.MIMEOctetStream, bytes)
 }
