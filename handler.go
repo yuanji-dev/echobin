@@ -8,6 +8,7 @@ import (
 	"net/url"
 	"strconv"
 	"strings"
+	"text/template"
 	"time"
 
 	"github.com/labstack/echo/v4"
@@ -421,4 +422,54 @@ func dripHandler(c echo.Context) error {
 		}
 	}
 	return nil
+}
+
+// TODO: swaggo doesn't support struct when type is path...
+type linksParams struct {
+	// The amount of links
+	N int `param:"n" default:"1"`
+	// Offset starts from 0
+	Offset int `param:"offset" default:"0"`
+}
+
+//go:embed templates/links.html
+var linksTemplate string
+
+// @Summary   Generate a page containing n links to other pages which do the same.
+// @Tags      Dynamic data
+// @Produce   html
+// @Param     n       path  int  true  "The amount of links"   default(1)
+// @Param     offset  path  int  true  "Offset starts from 0"  default(0)
+// @Response  200     "HTML links."
+// @Router    /links/{n}/{offset} [get]
+func linksHandler(c echo.Context) error {
+	lp := &linksParams{
+		N:      1,
+		Offset: 0,
+	}
+
+	if err := c.Bind(lp); err != nil {
+		return err
+	}
+
+	if lp.N < 1 {
+		lp.N = 1 // Minimum 1
+	} else if lp.N > 200 {
+		lp.N = 200 // Maximum 200
+	}
+
+	t := template.Must(template.New("links").Parse(linksTemplate))
+	seq := make([]int, lp.N, lp.N)
+
+	buf := new(bytes.Buffer)
+	if err := t.Execute(buf, map[string]interface{}{
+		"seq":     seq,
+		"offset":  lp.Offset,
+		"reverse": c.Echo().Reverse,
+	}); err != nil {
+		return err
+	}
+	// Seems echo will not set content-length if lenght is over 2048
+	// see also: https://github.com/labstack/echo/pull/366
+	return c.Blob(http.StatusOK, echo.MIMETextHTMLCharsetUTF8, buf.Bytes())
 }

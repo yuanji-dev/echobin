@@ -1,0 +1,17 @@
+<html>
+  <head>
+    <title>Links</title>
+  </head>
+  <body>
+  {{- $seq := index . "seq" -}}
+  {{- $offset := index . "offset" -}}
+  {{- $reverse := index . "reverse" -}}
+  {{ range $i, $_ := $seq }}
+    {{- if eq $offset $i }}
+    {{$i}}{{ " " }}
+    {{- else }}
+    <a href="{{ call $reverse "links" (len $seq) $i }}">{{ $i }}</a>{{ " " }}
+    {{- end }}
+  {{- end }}
+  </body>
+</html>

@@ -397,6 +397,40 @@
                 }
             }
         },
+        "/links/{n}/{offset}": {
+            "get": {
+                "produces": [
+                    "text/html"
+                ],
+                "tags": [
+                    "Dynamic data"
+                ],
+                "summary": "Generate a page containing n links to other pages which do the same.",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "The amount of links",
+                        "name": "n",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "default": 0,
+                        "description": "Offset starts from 0",
+                        "name": "offset",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "HTML links."
+                    }
+                }
+            }
+        },
         "/patch": {
             "patch": {
                 "consumes": [

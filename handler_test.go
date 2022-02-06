@@ -394,3 +394,19 @@ func TestGenerateBytesHandler(t *testing.T) {
 
 // TODO: add test for /drip endpoint
 // func TestDripHandler(t *testing.T)
+
+func TestLinksHandler(t *testing.T) {
+	e := newEcho()
+
+	req := httptest.NewRequest(http.MethodGet, "/", nil)
+	res := httptest.NewRecorder()
+	c := e.NewContext(req, res)
+	c.SetPath("/links/:n/:offset")
+	c.SetParamNames("n", "offset")
+	c.SetParamValues("100", "50")
+
+	if assert.NoError(t, linksHandler(c)) {
+		assert.Equal(t, http.StatusOK, res.Code)
+		assert.Contains(t, res.Body.String(), "/links/100/99")
+	}
+}

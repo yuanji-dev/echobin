@@ -311,6 +311,29 @@ paths:
       summary: Returns a simple JSON document.
       tags:
       - Response formats
+  /links/{n}/{offset}:
+    get:
+      parameters:
+      - default: 1
+        description: The amount of links
+        in: path
+        name: "n"
+        required: true
+        type: integer
+      - default: 0
+        description: Offset starts from 0
+        in: path
+        name: offset
+        required: true
+        type: integer
+      produces:
+      - text/html
+      responses:
+        "200":
+          description: HTML links.
+      summary: Generate a page containing n links to other pages which do the same.
+      tags:
+      - Dynamic data
   /patch:
     patch:
       consumes:
