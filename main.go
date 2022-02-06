@@ -43,6 +43,7 @@ func newEcho() (e *echo.Echo) {
 	e.Any("/delay/:delay", delayHandler)
 	e.GET("/drip", dripHandler)
 	e.GET("/links/:n/:offset", linksHandler).Name = "links"
+	e.GET("/stream/:n", streamHandler)
 	// TODO: Auth
 	// TODO: Response inspection
 	// TODO: Cookies

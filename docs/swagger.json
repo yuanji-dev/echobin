@@ -696,6 +696,32 @@
                 }
             }
         },
+        "/stream/{n}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Dynamic data"
+                ],
+                "summary": "Stream n JSON responses",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 10,
+                        "description": "The amount of JSON objects",
+                        "name": "n",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Streamed JSON responses."
+                    }
+                }
+            }
+        },
         "/user-agent": {
             "get": {
                 "produces": [

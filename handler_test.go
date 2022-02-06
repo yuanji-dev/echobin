@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 	"mime/multipart"
@@ -408,5 +409,33 @@ func TestLinksHandler(t *testing.T) {
 	if assert.NoError(t, linksHandler(c)) {
 		assert.Equal(t, http.StatusOK, res.Code)
 		assert.Contains(t, res.Body.String(), "/links/100/99")
+	}
+}
+
+func TestStreamHandler(t *testing.T) {
+	e := newEcho()
+
+	req := httptest.NewRequest(http.MethodGet, "/", nil)
+	res := httptest.NewRecorder()
+	c := e.NewContext(req, res)
+	c.SetPath("/stream/:n")
+	n := 20
+	c.SetParamNames("n")
+	c.SetParamValues(fmt.Sprintf("%d", n))
+
+	if assert.NoError(t, streamHandler(c)) {
+		assert.Equal(t, http.StatusOK, res.Code)
+		actual := 0
+		// https://pkg.go.dev/encoding/json#Decoder
+		dec := json.NewDecoder(res.Body)
+		for ; ; actual++ {
+			var sr streamResponse
+			if err := dec.Decode(&sr); err == io.EOF {
+				break
+			} else if err != nil {
+				assert.Error(t, err)
+			}
+		}
+		assert.Equal(t, n, actual)
 	}
 }

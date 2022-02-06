@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	_ "embed"
+	"encoding/json"
 	"math/rand"
 	"net/http"
 	"net/url"
@@ -472,4 +473,40 @@ func linksHandler(c echo.Context) error {
 	// Seems echo will not set content-length if lenght is over 2048
 	// see also: https://github.com/labstack/echo/pull/366
 	return c.Blob(http.StatusOK, echo.MIMETextHTMLCharsetUTF8, buf.Bytes())
+}
+
+// @Summary   Stream n JSON responses
+// @Tags      Dynamic data
+// @Produce   json
+// @Param     n    path  int  true  "The amount of JSON objects"  default(10)
+// @Response  200  "Streamed JSON responses."
+// @Router    /stream/{n} [get]
+func streamHandler(c echo.Context) error {
+	n := c.Param("n")
+	intN, err := strconv.Atoi(n)
+	if err != nil || intN < 0 {
+		return echo.NewHTTPError(http.StatusBadRequest, "invalid number of JSON objects")
+	}
+	if intN > 100 {
+		intN = 100
+	}
+
+	c.Response().Header().Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+	c.Response().WriteHeader(http.StatusOK)
+
+	res := streamResponse{
+		Args:    getArgs(c),
+		Headers: getHeaders(c),
+		Origin:  getOrigin(c),
+		URL:     getURL(c),
+	}
+	enc := json.NewEncoder(c.Response())
+	for i := 0; i < intN; i++ {
+		res.ID = i
+		if err := enc.Encode(res); err != nil {
+			return err
+		}
+		c.Response().Flush()
+	}
+	return nil
 }

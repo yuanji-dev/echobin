@@ -67,3 +67,11 @@ type delayResponse struct {
 	Origin  string                 `json:"origin"`
 	URL     string                 `json:"url"`
 }
+
+type streamResponse struct {
+	Args    map[string]interface{} `json:"args"`
+	Headers map[string]string      `json:"headers"`
+	Origin  string                 `json:"origin"`
+	URL     string                 `json:"url"`
+	ID      int                    `json:"id"`
+}

@@ -508,6 +508,23 @@ paths:
       summary: Return status code or random status code if more than one are given
       tags:
       - Status codes
+  /stream/{n}:
+    get:
+      parameters:
+      - default: 10
+        description: The amount of JSON objects
+        in: path
+        name: "n"
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Streamed JSON responses.
+      summary: Stream n JSON responses
+      tags:
+      - Dynamic data
   /user-agent:
     get:
       produces:
