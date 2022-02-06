@@ -204,6 +204,37 @@ paths:
       summary: Returns page denied by robots.txt rules.
       tags:
       - Response formats
+  /drip:
+    get:
+      parameters:
+      - default: 200
+        description: The response code that will be returned
+        in: query
+        name: code
+        type: integer
+      - default: 2
+        description: The amount of time (in seconds) to delay before responding
+        in: query
+        name: delay
+        type: number
+      - default: 2
+        description: The amount of time (in seconds) over which to drip each byte
+        in: query
+        name: duration
+        type: number
+      - default: 10
+        description: The number of bytes to respond with
+        in: query
+        name: numbytes
+        type: integer
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: A dripped response.
+      summary: Drips data over a duration after an optional initial delay.
+      tags:
+      - Dynamic data
   /encoding/utf8:
     get:
       produces:

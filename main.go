@@ -67,6 +67,7 @@ func main() {
 	// Dynamic data
 	e.GET("/bytes/:n", generateBytesHandler)
 	e.Any("/delay/:delay", delayHandler)
+	e.GET("/drip", dripHandler)
 	// TODO: Auth
 	// TODO: Response inspection
 	// TODO: Cookies

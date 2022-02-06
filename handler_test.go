@@ -391,3 +391,6 @@ func TestGenerateBytesHandler(t *testing.T) {
 
 // TODO: add test for /delay/:delay endpoint
 // func TestDelayHandler(t *testing.T)
+
+// TODO: add test for /drip endpoint
+// func TestDripHandler(t *testing.T)

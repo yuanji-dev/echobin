@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	_ "embed"
 	"math/rand"
 	"net/http"
@@ -310,7 +311,7 @@ func generateBytesHandler(c echo.Context) error {
 // @Router    /delay/{delay} [put]
 func delayHandler(c echo.Context) error {
 	delay := c.Param("delay")
-	intDelay, err := strconv.Atoi(delay)
+	intDelay, err := strconv.Atoi(delay) // TODO: support float type delay
 	if err != nil || intDelay < 0 {
 		return echo.NewHTTPError(http.StatusBadRequest, "invalid number of delay")
 	}
@@ -333,4 +334,91 @@ func delayHandler(c echo.Context) error {
 		Origin:  getOrigin(c),
 		URL:     getURL(c),
 	}, "  ")
+}
+
+type dripParams struct {
+	// The amount of time (in seconds) over which to drip each byte
+	Duration float64 `query:"duration" default:"2"`
+	// The number of bytes to respond with
+	Numbytes int `query:"numbytes" default:"10"`
+	// The response code that will be returned
+	Code int `query:"code" default:"200"`
+	// The amount of time (in seconds) to delay before responding
+	Delay float64 `query:"delay" default:"2"`
+}
+
+// @Summary   Drips data over a duration after an optional initial delay.
+// @Tags      Dynamic data
+// @Produce   octet-stream
+// @Param     dripParams  query  dripParams  true  "dripParams"
+// @Response  200         "A dripped response."
+// @Router    /drip [get]
+func dripHandler(c echo.Context) error {
+	dp := &dripParams{
+		Duration: 2,
+		Numbytes: 10,
+		Code:     200,
+		Delay:    2,
+	}
+	if err := c.Bind(dp); err != nil {
+		return err
+	}
+
+	if dp.Delay < 0 {
+		dp.Delay = 0
+	} else if dp.Delay > 10 {
+		dp.Delay = 10
+	}
+
+	if dp.Duration < 0.1 {
+		dp.Duration = 0.1 // Minimum duration = 100 Millisecond
+	} else if dp.Duration > 60 {
+		dp.Duration = 60
+	}
+
+	if dp.Numbytes < 0 {
+		dp.Numbytes = 0
+	} else if dp.Numbytes > 10<<20 {
+		dp.Numbytes = 10 << 20 // Millisecond
+	}
+
+	time.Sleep(time.Duration(dp.Delay*1000) * time.Millisecond)
+
+	c.Response().Header().Set(echo.HeaderContentType, echo.MIMEOctetStream)
+	c.Response().Header().Set(echo.HeaderContentLength, strconv.Itoa(dp.Numbytes))
+	c.Response().WriteHeader(dp.Code) // TODO: validate status code?
+
+	remainBytes := dp.Numbytes
+	times := int(dp.Duration / 0.1)
+	chunkLength := dp.Numbytes
+	if times > 1 {
+		chunkLength = dp.Numbytes/times + 1
+	}
+	if chunkLength == 1 {
+		pause := int(dp.Duration*1000) / remainBytes
+		for remainBytes > 0 {
+			if _, err := c.Response().Write([]byte{'*'}); err != nil {
+				return err
+			}
+			c.Response().Flush()
+			time.Sleep(time.Duration(pause) * time.Millisecond)
+			remainBytes--
+		}
+	} else {
+		for remainBytes > 0 {
+			var length int
+			if remainBytes > chunkLength {
+				length = chunkLength
+			} else {
+				length = remainBytes
+			}
+			if _, err := c.Response().Write(bytes.Repeat([]byte{'*'}, length)); err != nil {
+				return err
+			}
+			c.Response().Flush()
+			time.Sleep(100 * time.Millisecond)
+			remainBytes -= length
+		}
+	}
+	return nil
 }

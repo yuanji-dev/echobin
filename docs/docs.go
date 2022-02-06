@@ -246,6 +246,52 @@ var doc = `{
                 }
             }
         },
+        "/drip": {
+            "get": {
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "Dynamic data"
+                ],
+                "summary": "Drips data over a duration after an optional initial delay.",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 200,
+                        "description": "The response code that will be returned",
+                        "name": "code",
+                        "in": "query"
+                    },
+                    {
+                        "type": "number",
+                        "default": 2,
+                        "description": "The amount of time (in seconds) to delay before responding",
+                        "name": "delay",
+                        "in": "query"
+                    },
+                    {
+                        "type": "number",
+                        "default": 2,
+                        "description": "The amount of time (in seconds) over which to drip each byte",
+                        "name": "duration",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 10,
+                        "description": "The number of bytes to respond with",
+                        "name": "numbytes",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A dripped response."
+                    }
+                }
+            }
+        },
         "/encoding/utf8": {
             "get": {
                 "produces": [
