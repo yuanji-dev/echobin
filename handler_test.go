@@ -439,3 +439,21 @@ func TestStreamHandler(t *testing.T) {
 		assert.Equal(t, n, actual)
 	}
 }
+
+func TestUUIDHandler(t *testing.T) {
+	e := newEcho()
+
+	req := httptest.NewRequest(http.MethodGet, "/", nil)
+	res := httptest.NewRecorder()
+	c := e.NewContext(req, res)
+
+	if assert.NoError(t, UUIDHandler(c)) {
+		assert.Equal(t, http.StatusOK, res.Code)
+		var ur UUIDResponse
+		assert.Empty(t, ur)
+		if err := json.Unmarshal(res.Body.Bytes(), &ur); err != nil {
+			assert.Error(t, err)
+		}
+		assert.NotEmpty(t, ur)
+	}
+}

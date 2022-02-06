@@ -537,6 +537,16 @@ paths:
       summary: Return the incoming requests's User-Agent header.
       tags:
       - Request inspection
+  /uuid:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: A UUID4.
+      summary: Return a UUID4.
+      tags:
+      - Dynamic data
   /xml:
     get:
       produces:

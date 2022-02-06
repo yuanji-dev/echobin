@@ -12,6 +12,7 @@ import (
 	"text/template"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 )
 
@@ -509,4 +510,19 @@ func streamHandler(c echo.Context) error {
 		c.Response().Flush()
 	}
 	return nil
+}
+
+// @Summary   Return a UUID4.
+// @Tags      Dynamic data
+// @Produce   json
+// @Response  200  "A UUID4."
+// @Router    /uuid [get]
+func UUIDHandler(c echo.Context) error {
+	uuid, err := uuid.NewRandom()
+	if err != nil {
+		return err
+	}
+	return c.JSONPretty(http.StatusOK, &UUIDResponse{
+		UUID: uuid,
+	}, "  ")
 }

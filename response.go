@@ -1,5 +1,7 @@
 package main
 
+import "github.com/google/uuid"
+
 type responseRef struct {
 	Args    map[string]interface{} `json:"args"`
 	Data    string                 `json:"data"`
@@ -74,4 +76,12 @@ type streamResponse struct {
 	Origin  string                 `json:"origin"`
 	URL     string                 `json:"url"`
 	ID      int                    `json:"id"`
+}
+
+type UUIDResponse struct {
+	// uuid.UUID implements encoding.TextMarshaler
+	// see also:
+	// https://pkg.go.dev/encoding/json#Marshal
+	// https://github.com/google/uuid/blob/44b5fee7c49cf3bcdf723f106b36d56ef13ccc88/marshal.go#L10
+	UUID uuid.UUID `json:"uuid"`
 }

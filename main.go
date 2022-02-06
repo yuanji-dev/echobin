@@ -44,6 +44,7 @@ func newEcho() (e *echo.Echo) {
 	e.GET("/drip", dripHandler)
 	e.GET("/links/:n/:offset", linksHandler).Name = "links"
 	e.GET("/stream/:n", streamHandler)
+	e.GET("/uuid", UUIDHandler)
 	// TODO: Auth
 	// TODO: Response inspection
 	// TODO: Cookies

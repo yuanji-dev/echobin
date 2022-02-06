@@ -757,6 +757,22 @@ var doc = `{
                 }
             }
         },
+        "/uuid": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Dynamic data"
+                ],
+                "summary": "Return a UUID4.",
+                "responses": {
+                    "200": {
+                        "description": "A UUID4."
+                    }
+                }
+            }
+        },
         "/xml": {
             "get": {
                 "produces": [
