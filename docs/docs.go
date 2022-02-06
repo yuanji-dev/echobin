@@ -31,6 +31,32 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/base64/{value}": {
+            "get": {
+                "produces": [
+                    "text/plain"
+                ],
+                "tags": [
+                    "Dynamic data"
+                ],
+                "summary": "Decodes base64url-encoded string.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "RUNIT0JJTiBpcyBhd2Vzb21l",
+                        "description": "Encoded base64 content",
+                        "name": "value",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Decoded base64 content."
+                    }
+                }
+            }
+        },
         "/brotli": {
             "get": {
                 "produces": [

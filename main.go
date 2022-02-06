@@ -39,6 +39,7 @@ func newEcho() (e *echo.Echo) {
 	e.GET("/gzip", forceEncode(serveGzipHandler, "gzip"), middleware.Gzip())
 	e.GET("/deflate", forceEncode(serveDeflateHandler, "deflate"), middleware.Deflate())
 	// Dynamic data
+	e.GET("/base64/:value", base64Handler)
 	e.GET("/bytes/:n", generateBytesHandler)
 	e.Any("/delay/:delay", delayHandler)
 	e.GET("/drip", dripHandler)

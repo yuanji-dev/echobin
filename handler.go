@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	_ "embed"
+	"encoding/base64"
 	"encoding/json"
 	"math/rand"
 	"net/http"
@@ -276,6 +277,25 @@ func serveDeflateHandler(c echo.Context) error {
 // @Deprecated
 func serveBrotliHandler(c echo.Context) error {
 	return nil
+}
+
+// @Summary   Decodes base64url-encoded string.
+// @Tags      Dynamic data
+// @Produce   plain
+// @Param     value  path  string  true  "Encoded base64 content"  default(RUNIT0JJTiBpcyBhd2Vzb21l)
+// @Response  200    "Decoded base64 content."
+// @Router    /base64/{value} [get]
+func base64Handler(c echo.Context) error {
+	value, _ := url.PathUnescape(c.Param("value"))
+	value = strings.TrimSpace(value)
+	bytes, err := base64.StdEncoding.DecodeString(value)
+	if err != nil {
+		bytes, err = base64.URLEncoding.DecodeString(value)
+		if err != nil {
+			return echo.NewHTTPError(http.StatusBadRequest, "Incorrect Base64 data try: RUNIT0JJTiBpcyBhd2Vzb21l")
+		}
+	}
+	return c.String(http.StatusOK, string(bytes))
 }
 
 // @Summary   Returns n random bytes generated with given seed

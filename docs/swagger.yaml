@@ -65,6 +65,23 @@ info:
   title: echobin API
   version: "0.1"
 paths:
+  /base64/{value}:
+    get:
+      parameters:
+      - default: RUNIT0JJTiBpcyBhd2Vzb21l
+        description: Encoded base64 content
+        in: path
+        name: value
+        required: true
+        type: string
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: Decoded base64 content.
+      summary: Decodes base64url-encoded string.
+      tags:
+      - Dynamic data
   /brotli:
     get:
       deprecated: true

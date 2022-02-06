@@ -354,6 +354,37 @@ func TestServeDeflateHandler(t *testing.T) {
 	}
 }
 
+func TestBase64Handler(t *testing.T) {
+	e := newEcho()
+
+	cases := []struct {
+		input  string
+		output string
+	}{
+		{"RUNIT0JJTiBpcyBhd2Vzb21l", "ECHOBIN is awesome"},
+		// Support both encodings: StdEncoding & URLEncoding
+		// See also: https://gobyexample.com/base64-encoding
+		{"YWJjMTIzIT8kKiYoKSctPUB+", "abc123!?$*&()'-=@~"},
+		{"YWJjMTIzIT8kKiYoKSctPUB-", "abc123!?$*&()'-=@~"},
+		// Test urlencoded string and whitespace
+		{"YWJjMTIzIT8kKiYoKSctPUB%2B%20%20", "abc123!?$*&()'-=@~"},
+		{"  RUNIT0JJTiBpcyBhd2Vzb21l  ", "ECHOBIN is awesome"},
+	}
+	for _, v := range cases {
+		req := httptest.NewRequest(http.MethodGet, "/", nil)
+		res := httptest.NewRecorder()
+		c := e.NewContext(req, res)
+		c.SetPath("/base64/:value")
+		c.SetParamNames("value")
+		c.SetParamValues(v.input)
+		if assert.NoError(t, base64Handler(c)) {
+			assert.Equal(t, http.StatusOK, res.Code)
+			assert.Equal(t, v.output, res.Body.String())
+		}
+
+	}
+}
+
 func TestGenerateBytesHandler(t *testing.T) {
 	e := newEcho()
 
