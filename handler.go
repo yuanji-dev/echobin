@@ -476,6 +476,28 @@ func linksHandler(c echo.Context) error {
 	return c.Blob(http.StatusOK, echo.MIMETextHTMLCharsetUTF8, buf.Bytes())
 }
 
+// @Summary   Streams n random bytes generated with given seed, at given chunk size per packet.
+// @Tags      Dynamic data
+// @Produce   octet-stream
+// @Param     numbytes  path  int  true  "The amount of bytes"  default(10)
+// @Response  200       "Bytes"
+// @Router    /range/{numbytes} [get]
+// @Deprecated
+func rangeHandler(c echo.Context) error {
+	return nil
+}
+
+// @Summary   Streams n random bytes generated with given seed, at given chunk size per packet.
+// @Tags      Dynamic data
+// @Produce   octet-stream
+// @Param     n    path  int  true  "The amount of bytes"  default(10)
+// @Response  200  "Bytes"
+// @Router    /stream-bytes/{n} [get]
+// @Deprecated
+func streamBytesHandler(c echo.Context) error {
+	return nil
+}
+
 // @Summary   Stream n JSON responses
 // @Tags      Dynamic data
 // @Produce   json

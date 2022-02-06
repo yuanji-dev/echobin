@@ -382,6 +382,25 @@ paths:
       summary: The request's query parameters.
       tags:
       - HTTP methods
+  /range/{numbytes}:
+    get:
+      deprecated: true
+      parameters:
+      - default: 10
+        description: The amount of bytes
+        in: path
+        name: numbytes
+        required: true
+        type: integer
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: Bytes
+      summary: Streams n random bytes generated with given seed, at given chunk size
+        per packet.
+      tags:
+      - Dynamic data
   /robots.txt:
     get:
       produces:
@@ -508,6 +527,25 @@ paths:
       summary: Return status code or random status code if more than one are given
       tags:
       - Status codes
+  /stream-bytes/{n}:
+    get:
+      deprecated: true
+      parameters:
+      - default: 10
+        description: The amount of bytes
+        in: path
+        name: "n"
+        required: true
+        type: integer
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: Bytes
+      summary: Streams n random bytes generated with given seed, at given chunk size
+        per packet.
+      tags:
+      - Dynamic data
   /stream/{n}:
     get:
       parameters:

@@ -519,6 +519,33 @@ var doc = `{
                 }
             }
         },
+        "/range/{numbytes}": {
+            "get": {
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "Dynamic data"
+                ],
+                "summary": "Streams n random bytes generated with given seed, at given chunk size per packet.",
+                "deprecated": true,
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 10,
+                        "description": "The amount of bytes",
+                        "name": "numbytes",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Bytes"
+                    }
+                }
+            }
+        },
         "/robots.txt": {
             "get": {
                 "produces": [
@@ -708,6 +735,33 @@ var doc = `{
                     },
                     "500": {
                         "description": "Server Errors"
+                    }
+                }
+            }
+        },
+        "/stream-bytes/{n}": {
+            "get": {
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "Dynamic data"
+                ],
+                "summary": "Streams n random bytes generated with given seed, at given chunk size per packet.",
+                "deprecated": true,
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 10,
+                        "description": "The amount of bytes",
+                        "name": "n",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Bytes"
                     }
                 }
             }
