@@ -523,3 +523,81 @@ func TestImageHandler(t *testing.T) {
 	he, _ := err.(*echo.HTTPError)
 	assert.Equal(t, http.StatusNotAcceptable, he.Code)
 }
+
+func TestGetCookiesHandler(t *testing.T) {
+	e := newEcho()
+
+	req := httptest.NewRequest(http.MethodGet, "/", nil)
+	cookie := &http.Cookie{
+		Name:  "hello",
+		Value: "world",
+		Path:  "/",
+	}
+	expectedJSON := `{
+  "cookies": {
+    "hello": "world"
+  }
+}`
+	req.AddCookie(cookie)
+	res := httptest.NewRecorder()
+	c := e.NewContext(req, res)
+	if assert.NoError(t, getCookiesHandler(c)) {
+		assert.Equal(t, http.StatusOK, res.Code)
+		assert.JSONEq(t, expectedJSON, res.Body.String())
+	}
+}
+
+func TestSetCookiesInQueryHandler(t *testing.T) {
+	e := newEcho()
+
+	q := make(url.Values)
+	q.Set("hello", "world")
+	q.Set("konnichiwa", "sekai")
+	req := httptest.NewRequest(http.MethodGet, "/?"+q.Encode(), nil)
+	res := httptest.NewRecorder()
+	c := e.NewContext(req, res)
+	if assert.NoError(t, setCookiesInQueryHandler(c)) {
+		assert.Equal(t, http.StatusFound, res.Code)
+		assert.Len(t, res.Result().Cookies(), 2)
+	}
+}
+
+func TestSetCookiesInPathHandler(t *testing.T) {
+	e := newEcho()
+
+	req := httptest.NewRequest(http.MethodGet, "/", nil)
+	res := httptest.NewRecorder()
+	c := e.NewContext(req, res)
+	c.SetPath("/cookies/set/:name/:value")
+	c.SetParamNames("name", "value")
+	c.SetParamValues("hello", "world")
+	if assert.NoError(t, setCookiesInPathHandler(c)) {
+		assert.Equal(t, http.StatusFound, res.Code)
+		assert.Equal(t, "hello", res.Result().Cookies()[0].Name)
+		assert.Equal(t, "world", res.Result().Cookies()[0].Value)
+	}
+}
+
+func TestDeleteCookiesHandler(t *testing.T) {
+	e := newEcho()
+
+	q := make(url.Values)
+	q.Set("hello", "")
+	q.Set("konnichiwa", "")
+	req := httptest.NewRequest(http.MethodGet, "/?"+q.Encode(), nil)
+	req.AddCookie(&http.Cookie{
+		Name:  "hello",
+		Value: "world",
+	})
+	req.AddCookie(&http.Cookie{
+		Name:  "konnichiwa",
+		Value: "sekai",
+	})
+	res := httptest.NewRecorder()
+	c := e.NewContext(req, res)
+	if assert.NoError(t, deleteCookiesHandler(c)) {
+		assert.Equal(t, http.StatusFound, res.Code)
+		assert.Contains(t, res.Header().Values(echo.HeaderSetCookie), "hello=world; Path=/; Max-Age=0")
+		assert.Contains(t, res.Header().Values(echo.HeaderSetCookie), "konnichiwa=sekai; Path=/; Max-Age=0")
+	}
+}
