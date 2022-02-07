@@ -404,6 +404,26 @@ var doc = `{
                 }
             }
         },
+        "/image": {
+            "get": {
+                "produces": [
+                    "image/webp",
+                    "image/svg+xml",
+                    "image/jpeg",
+                    "image/png",
+                    "image/*"
+                ],
+                "tags": [
+                    "Images"
+                ],
+                "summary": "Returns a simple image of the type suggest by the Accept header.",
+                "responses": {
+                    "200": {
+                        "description": "An image."
+                    }
+                }
+            }
+        },
         "/ip": {
             "get": {
                 "produces": [
@@ -973,6 +993,10 @@ var doc = `{
         {
             "description": "Generates random and dynamic data",
             "name": "Dynamic data"
+        },
+        {
+            "description": "Returns different image formats",
+            "name": "Images"
         }
     ]
 }`

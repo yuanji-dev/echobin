@@ -46,10 +46,11 @@ func newEcho() (e *echo.Echo) {
 	e.GET("/links/:n/:offset", linksHandler).Name = "links"
 	e.GET("/stream/:n", streamHandler)
 	e.GET("/uuid", UUIDHandler)
+	// Images
+	e.GET("/image", imageHandler)
 	// TODO: Auth
 	// TODO: Response inspection
 	// TODO: Cookies
-	// TODO: Images
 	// TODO: Redirects
 	// TODO: Anything
 
@@ -78,6 +79,8 @@ func newEcho() (e *echo.Echo) {
 // @tag.description  Returns responses in different data formats
 // @tag.name         Dynamic data
 // @tag.description  Generates random and dynamic data
+// @tag.name         Images
+// @tag.description  Returns different image formats
 func main() {
 	e := newEcho()
 	e.Logger.Fatal(e.Start("127.0.0.1:1323"))

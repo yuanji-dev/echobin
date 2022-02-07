@@ -568,3 +568,39 @@ func UUIDHandler(c echo.Context) error {
 		UUID: uuid,
 	}, "  ")
 }
+
+//go:embed static/images/sample.webp
+var sampleWebP []byte
+
+//go:embed static/images/sample.svg
+var sampleSVG []byte
+
+//go:embed static/images/sample.jpeg
+var sampleJPEG []byte
+
+//go:embed static/images/sample.png
+var samplePNG []byte
+
+// @Summary   Returns a simple image of the type suggest by the Accept header.
+// @Tags      Images
+// @Produce   image/webp
+// @Produce   image/svg+xml
+// @Produce   image/jpeg
+// @Produce   image/png
+// @Produce   image/*
+// @Response  200  "An image."
+// @Router    /image [get]
+func imageHandler(c echo.Context) error {
+	switch accept := strings.ToLower(c.Request().Header.Get(echo.HeaderAccept)); {
+	case strings.Contains(accept, "image/webp"):
+		return c.Blob(http.StatusOK, "image/webp", sampleWebP)
+	case strings.Contains(accept, "image/svg+xml"):
+		return c.Blob(http.StatusOK, "image/svg+xml", sampleSVG)
+	case strings.Contains(accept, "image/jpeg"):
+		return c.Blob(http.StatusOK, "image/jpeg", sampleJPEG)
+	case strings.Contains(accept, "image/png"), strings.Contains(accept, "image/*"):
+		return c.Blob(http.StatusOK, "image/png", samplePNG)
+	default:
+		return echo.NewHTTPError(http.StatusNotAcceptable, "Client did not request a supported media type.")
+	}
+}

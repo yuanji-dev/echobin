@@ -488,3 +488,38 @@ func TestUUIDHandler(t *testing.T) {
 		assert.NotEmpty(t, ur)
 	}
 }
+
+func TestImageHandler(t *testing.T) {
+	e := newEcho()
+
+	cases := []string{
+		"image/webp",
+		"image/svg+xml",
+		"image/jpeg",
+		"image/png",
+		"image/*",
+	}
+	for _, v := range cases {
+		req := httptest.NewRequest(http.MethodGet, "/", nil)
+		req.Header.Set(echo.HeaderAccept, v)
+		res := httptest.NewRecorder()
+		c := e.NewContext(req, res)
+		if assert.NoError(t, imageHandler(c)) {
+			assert.Equal(t, http.StatusOK, res.Code)
+			if v == "image/*" {
+				assert.Equal(t, "image/png", res.Header().Get(echo.HeaderContentType))
+			} else {
+				assert.Equal(t, v, res.Header().Get(echo.HeaderContentType))
+			}
+		}
+	}
+
+	// case for 406 status code
+	req := httptest.NewRequest(http.MethodGet, "/", nil)
+	res := httptest.NewRecorder()
+	c := e.NewContext(req, res)
+	err := imageHandler(c)
+	assert.Error(t, err)
+	he, _ := err.(*echo.HTTPError)
+	assert.Equal(t, http.StatusNotAcceptable, he.Code)
+}
