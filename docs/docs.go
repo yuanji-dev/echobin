@@ -752,6 +752,150 @@ var doc = `{
                 }
             }
         },
+        "/redirect-to": {
+            "get": {
+                "tags": [
+                    "Redirects"
+                ],
+                "summary": "302/3XX Redirects to the given URL.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "url",
+                        "name": "url",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "status_code",
+                        "name": "status_code",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "302": {
+                        "description": "A redirection."
+                    }
+                }
+            },
+            "put": {
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "tags": [
+                    "Redirects"
+                ],
+                "summary": "302/3XX Redirects to the given URL.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "url",
+                        "name": "url",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "status_code",
+                        "name": "status_code",
+                        "in": "formData"
+                    }
+                ],
+                "responses": {
+                    "302": {
+                        "description": "A redirection."
+                    }
+                }
+            },
+            "post": {
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "tags": [
+                    "Redirects"
+                ],
+                "summary": "302/3XX Redirects to the given URL.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "url",
+                        "name": "url",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "status_code",
+                        "name": "status_code",
+                        "in": "formData"
+                    }
+                ],
+                "responses": {
+                    "302": {
+                        "description": "A redirection."
+                    }
+                }
+            },
+            "delete": {
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "tags": [
+                    "Redirects"
+                ],
+                "summary": "302/3XX Redirects to the given URL.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "url",
+                        "name": "url",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "status_code",
+                        "name": "status_code",
+                        "in": "formData"
+                    }
+                ],
+                "responses": {
+                    "302": {
+                        "description": "A redirection."
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "tags": [
+                    "Redirects"
+                ],
+                "summary": "302/3XX Redirects to the given URL.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "url",
+                        "name": "url",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "status_code",
+                        "name": "status_code",
+                        "in": "formData"
+                    }
+                ],
+                "responses": {
+                    "302": {
+                        "description": "A redirection."
+                    }
+                }
+            }
+        },
         "/robots.txt": {
             "get": {
                 "produces": [
@@ -1161,6 +1305,10 @@ var doc = `{
         {
             "description": "Returns different image formats",
             "name": "Images"
+        },
+        {
+            "description": "Returns different redirect responses",
+            "name": "Redirects"
         }
     ]
 }`

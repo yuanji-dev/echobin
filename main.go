@@ -1,6 +1,8 @@
 package main
 
 import (
+	"net/http"
+
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	echoSwagger "github.com/swaggo/echo-swagger"
@@ -57,12 +59,18 @@ func newEcho() (e *echo.Echo) {
 	e.GET("/image/svg", imageSVGHandler)
 	e.GET("/image/jpeg", imageJPEGHandler)
 	e.GET("/image/png", imagePNGHandler)
+	// Redirects
+	e.GET("/redirect-to", getRedirectToHandler)
+	e.Match([]string{
+		http.MethodDelete,
+		http.MethodPatch,
+		http.MethodPost,
+		http.MethodPut,
+	}, "/redirect-to", otherRedirectToHandler)
 	// TODO: Auth
 	// TODO: Response inspection
-	// TODO: Redirects
 	// TODO: Anything
 
-	//e.Logger.Fatal(e.Start("127.0.0.1:1323"))
 	return
 }
 
@@ -91,6 +99,8 @@ func newEcho() (e *echo.Echo) {
 // @tag.description  Creates, reads and deletes Cookies
 // @tag.name         Images
 // @tag.description  Returns different image formats
+// @tag.name         Redirects
+// @tag.description  Returns different redirect responses
 func main() {
 	e := newEcho()
 	e.Logger.Fatal(e.Start("127.0.0.1:1323"))

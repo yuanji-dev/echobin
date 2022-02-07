@@ -535,6 +535,100 @@ paths:
         per packet.
       tags:
       - Dynamic data
+  /redirect-to:
+    delete:
+      consumes:
+      - application/x-www-form-urlencoded
+      parameters:
+      - description: url
+        in: formData
+        name: url
+        required: true
+        type: string
+      - description: status_code
+        in: formData
+        name: status_code
+        type: integer
+      responses:
+        "302":
+          description: A redirection.
+      summary: 302/3XX Redirects to the given URL.
+      tags:
+      - Redirects
+    get:
+      parameters:
+      - description: url
+        in: query
+        name: url
+        required: true
+        type: string
+      - description: status_code
+        in: query
+        name: status_code
+        type: integer
+      responses:
+        "302":
+          description: A redirection.
+      summary: 302/3XX Redirects to the given URL.
+      tags:
+      - Redirects
+    patch:
+      consumes:
+      - application/x-www-form-urlencoded
+      parameters:
+      - description: url
+        in: formData
+        name: url
+        required: true
+        type: string
+      - description: status_code
+        in: formData
+        name: status_code
+        type: integer
+      responses:
+        "302":
+          description: A redirection.
+      summary: 302/3XX Redirects to the given URL.
+      tags:
+      - Redirects
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      parameters:
+      - description: url
+        in: formData
+        name: url
+        required: true
+        type: string
+      - description: status_code
+        in: formData
+        name: status_code
+        type: integer
+      responses:
+        "302":
+          description: A redirection.
+      summary: 302/3XX Redirects to the given URL.
+      tags:
+      - Redirects
+    put:
+      consumes:
+      - application/x-www-form-urlencoded
+      parameters:
+      - description: url
+        in: formData
+        name: url
+        required: true
+        type: string
+      - description: status_code
+        in: formData
+        name: status_code
+        type: integer
+      responses:
+        "302":
+          description: A redirection.
+      summary: 302/3XX Redirects to the given URL.
+      tags:
+      - Redirects
   /robots.txt:
     get:
       produces:
@@ -745,3 +839,5 @@ tags:
   name: Cookies
 - description: Returns different image formats
   name: Images
+- description: Returns different redirect responses
+  name: Redirects

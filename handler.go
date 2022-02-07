@@ -706,3 +706,27 @@ func setCookiesInPathHandler(c echo.Context) error {
 	c.SetCookie(cookie)
 	return c.Redirect(http.StatusFound, c.Echo().URI(getCookiesHandler))
 }
+
+// @Summary   302/3XX Redirects to the given URL.
+// @Tags      Redirects
+// @Param     url          query  string  true   "url"
+// @Param     status_code  query  int     false  "status_code"
+// @Response  302          "A redirection."
+// @Router    /redirect-to [get]
+func getRedirectToHandler(c echo.Context) error {
+	return nil
+}
+
+// @Summary   302/3XX Redirects to the given URL.
+// @Tags      Redirects
+// @Accept    x-www-form-urlencoded
+// @Param     url          formData  string  true   "url"
+// @Param     status_code  formData  int     false  "status_code"
+// @Response  302          "A redirection."
+// @Router    /redirect-to [delete]
+// @Router    /redirect-to [patch]
+// @Router    /redirect-to [post]
+// @Router    /redirect-to [put]
+func otherRedirectToHandler(c echo.Context) error {
+	return nil
+}
