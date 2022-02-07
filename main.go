@@ -46,6 +46,11 @@ func newEcho() (e *echo.Echo) {
 	e.GET("/links/:n/:offset", linksHandler).Name = "links"
 	e.GET("/stream/:n", streamHandler)
 	e.GET("/uuid", UUIDHandler)
+	// Cookies
+	e.GET("/cookies", getCookiesHandler)
+	e.GET("/cookies/delete", deleteCookiesHandler)
+	e.GET("/cookies/set", setCookiesInQueryHandler)
+	e.GET("/cookies/set/:name/:value", setCookiesInPathHandler)
 	// Images
 	e.GET("/image", imageHandler)
 	e.GET("/image/webp", imageWebPHandler)
@@ -54,7 +59,6 @@ func newEcho() (e *echo.Echo) {
 	e.GET("/image/png", imagePNGHandler)
 	// TODO: Auth
 	// TODO: Response inspection
-	// TODO: Cookies
 	// TODO: Redirects
 	// TODO: Anything
 
@@ -83,6 +87,8 @@ func newEcho() (e *echo.Echo) {
 // @tag.description  Returns responses in different data formats
 // @tag.name         Dynamic data
 // @tag.description  Generates random and dynamic data
+// @tag.name         Cookies
+// @tag.description  Creates, reads and deletes Cookies
 // @tag.name         Images
 // @tag.description  Returns different image formats
 func main() {

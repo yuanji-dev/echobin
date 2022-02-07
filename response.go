@@ -85,3 +85,7 @@ type UUIDResponse struct {
 	// https://github.com/google/uuid/blob/44b5fee7c49cf3bcdf723f106b36d56ef13ccc88/marshal.go#L10
 	UUID uuid.UUID `json:"uuid"`
 }
+
+type cookiesResponse struct {
+	Cookies map[string]string `json:"cookies"`
+}

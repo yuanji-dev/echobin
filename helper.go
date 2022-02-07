@@ -94,3 +94,11 @@ func getFiles(c echo.Context) map[string]interface{} {
 	}
 	return files
 }
+
+func getCookies(c echo.Context) map[string]string {
+	cookies := map[string]string{}
+	for _, c := range c.Cookies() {
+		cookies[c.Name] = c.Value
+	}
+	return cookies
+}

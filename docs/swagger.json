@@ -83,6 +83,102 @@
                 }
             }
         },
+        "/cookies": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Cookies"
+                ],
+                "summary": "Returns cookie data.",
+                "responses": {
+                    "200": {
+                        "description": "Cookies"
+                    }
+                }
+            }
+        },
+        "/cookies/delete": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Cookies"
+                ],
+                "summary": "Deletes cookie(s) as provided by the query string and redirects to cookie list.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "freeform",
+                        "name": "freeform",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Redirect to cookie list"
+                    }
+                }
+            }
+        },
+        "/cookies/set": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Cookies"
+                ],
+                "summary": "Sets cookie(s) as provided by the query string and redirects to cookie list.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "freeform",
+                        "name": "freeform",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Redirect to cookie list"
+                    }
+                }
+            }
+        },
+        "/cookies/set/{name}/{value}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Cookies"
+                ],
+                "summary": "Sets a cookie and redirects to cookie list.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "name",
+                        "name": "name",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "value",
+                        "name": "value",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Set cookies and redirects to cookie list."
+                    }
+                }
+            }
+        },
         "/deflate": {
             "get": {
                 "produces": [
@@ -1041,6 +1137,10 @@
         {
             "description": "Generates random and dynamic data",
             "name": "Dynamic data"
+        },
+        {
+            "description": "Creates, reads and deletes Cookies",
+            "name": "Cookies"
         },
         {
             "description": "Returns different image formats",

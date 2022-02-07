@@ -640,3 +640,69 @@ func imageJPEGHandler(c echo.Context) error {
 func imagePNGHandler(c echo.Context) error {
 	return c.Blob(http.StatusOK, "image/png", samplePNG)
 }
+
+// @Summary   Returns cookie data.
+// @Tags      Cookies
+// @Produce   json
+// @Response  200  "Cookies"
+// @Router    /cookies [get]
+func getCookiesHandler(c echo.Context) error {
+	return c.JSONPretty(http.StatusOK, &cookiesResponse{
+		Cookies: getCookies(c),
+	}, "  ")
+}
+
+// @Summary   Deletes cookie(s) as provided by the query string and redirects to cookie list.
+// @Tags      Cookies
+// @Produce   json
+// @Param     freeform  query  string  false  "freeform"
+// @Response  200       "Redirect to cookie list"
+// @Router    /cookies/delete [get]
+func deleteCookiesHandler(c echo.Context) error {
+	for k := range c.QueryParams() {
+		cookie, _ := c.Cookie(k)
+		if cookie != nil {
+			cookie.MaxAge = -1
+			cookie.Path = "/"
+			c.SetCookie(cookie)
+		}
+	}
+	return c.Redirect(http.StatusFound, c.Echo().URI(getCookiesHandler))
+}
+
+// @Summary   Sets cookie(s) as provided by the query string and redirects to cookie list.
+// @Tags      Cookies
+// @Produce   json
+// @Param     freeform  query  string  false  "freeform"
+// @Response  200       "Redirect to cookie list"
+// @Router    /cookies/set [get]
+func setCookiesInQueryHandler(c echo.Context) error {
+	for k, v := range c.QueryParams() {
+		cookie := &http.Cookie{
+			Name:  k,
+			Value: v[0],
+			Path:  "/",
+		}
+		c.SetCookie(cookie)
+	}
+	return c.Redirect(http.StatusFound, c.Echo().URI(getCookiesHandler))
+}
+
+// @Summary   Sets a cookie and redirects to cookie list.
+// @Tags      Cookies
+// @Produce   json
+// @Param     name   path  string  true  "name"
+// @Param     value  path  string  true  "value"
+// @Response  200    "Set cookies and redirects to cookie list."
+// @Router    /cookies/set/{name}/{value} [get]
+func setCookiesInPathHandler(c echo.Context) error {
+	name := c.Param("name")
+	value := c.Param("value")
+	cookie := &http.Cookie{
+		Name:  name,
+		Value: value,
+		Path:  "/",
+	}
+	c.SetCookie(cookie)
+	return c.Redirect(http.StatusFound, c.Echo().URI(getCookiesHandler))
+}
