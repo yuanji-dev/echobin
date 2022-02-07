@@ -48,6 +48,10 @@ func newEcho() (e *echo.Echo) {
 	e.GET("/uuid", UUIDHandler)
 	// Images
 	e.GET("/image", imageHandler)
+	e.GET("/image/webp", imageWebPHandler)
+	e.GET("/image/svg", imageSVGHandler)
+	e.GET("/image/jpeg", imageJPEGHandler)
+	e.GET("/image/png", imagePNGHandler)
 	// TODO: Auth
 	// TODO: Response inspection
 	// TODO: Cookies

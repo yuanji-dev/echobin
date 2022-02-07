@@ -593,14 +593,50 @@ var samplePNG []byte
 func imageHandler(c echo.Context) error {
 	switch accept := strings.ToLower(c.Request().Header.Get(echo.HeaderAccept)); {
 	case strings.Contains(accept, "image/webp"):
-		return c.Blob(http.StatusOK, "image/webp", sampleWebP)
+		return imageWebPHandler(c)
 	case strings.Contains(accept, "image/svg+xml"):
-		return c.Blob(http.StatusOK, "image/svg+xml", sampleSVG)
+		return imageSVGHandler(c)
 	case strings.Contains(accept, "image/jpeg"):
-		return c.Blob(http.StatusOK, "image/jpeg", sampleJPEG)
+		return imageJPEGHandler(c)
 	case strings.Contains(accept, "image/png"), strings.Contains(accept, "image/*"):
-		return c.Blob(http.StatusOK, "image/png", samplePNG)
+		return imagePNGHandler(c)
 	default:
 		return echo.NewHTTPError(http.StatusNotAcceptable, "Client did not request a supported media type.")
 	}
+}
+
+// @Summary   Returns a simple WEBP image.
+// @Tags      Images
+// @Produce   image/webp
+// @Response  200  "A WEBP image."
+// @Router    /image/webp [get]
+func imageWebPHandler(c echo.Context) error {
+	return c.Blob(http.StatusOK, "image/webp", sampleWebP)
+}
+
+// @Summary   Returns a simple SVG image.
+// @Tags      Images
+// @Produce   image/svg+xml
+// @Response  200  "An SVG image."
+// @Router    /image/svg [get]
+func imageSVGHandler(c echo.Context) error {
+	return c.Blob(http.StatusOK, "image/svg+xml", sampleSVG)
+}
+
+// @Summary   Returns a simple JPEG image.
+// @Tags      Images
+// @Produce   image/jpeg
+// @Response  200  "A JPEG image."
+// @Router    /image/jpeg [get]
+func imageJPEGHandler(c echo.Context) error {
+	return c.Blob(http.StatusOK, "image/jpeg", sampleJPEG)
+}
+
+// @Summary   Returns a simple PNG image.
+// @Tags      Images
+// @Produce   image/png
+// @Response  200  "A PNG image."
+// @Router    /image/png [get]
+func imagePNGHandler(c echo.Context) error {
+	return c.Blob(http.StatusOK, "image/png", samplePNG)
 }

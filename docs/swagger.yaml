@@ -320,6 +320,46 @@ paths:
       summary: Returns a simple image of the type suggest by the Accept header.
       tags:
       - Images
+  /image/jpeg:
+    get:
+      produces:
+      - image/jpeg
+      responses:
+        "200":
+          description: A JPEG image.
+      summary: Returns a simple JPEG image.
+      tags:
+      - Images
+  /image/png:
+    get:
+      produces:
+      - image/png
+      responses:
+        "200":
+          description: A PNG image.
+      summary: Returns a simple PNG image.
+      tags:
+      - Images
+  /image/svg:
+    get:
+      produces:
+      - image/svg+xml
+      responses:
+        "200":
+          description: An SVG image.
+      summary: Returns a simple SVG image.
+      tags:
+      - Images
+  /image/webp:
+    get:
+      produces:
+      - image/webp
+      responses:
+        "200":
+          description: A WEBP image.
+      summary: Returns a simple WEBP image.
+      tags:
+      - Images
   /ip:
     get:
       produces:

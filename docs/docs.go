@@ -424,6 +424,70 @@ var doc = `{
                 }
             }
         },
+        "/image/jpeg": {
+            "get": {
+                "produces": [
+                    "image/jpeg"
+                ],
+                "tags": [
+                    "Images"
+                ],
+                "summary": "Returns a simple JPEG image.",
+                "responses": {
+                    "200": {
+                        "description": "A JPEG image."
+                    }
+                }
+            }
+        },
+        "/image/png": {
+            "get": {
+                "produces": [
+                    "image/png"
+                ],
+                "tags": [
+                    "Images"
+                ],
+                "summary": "Returns a simple PNG image.",
+                "responses": {
+                    "200": {
+                        "description": "A PNG image."
+                    }
+                }
+            }
+        },
+        "/image/svg": {
+            "get": {
+                "produces": [
+                    "image/svg+xml"
+                ],
+                "tags": [
+                    "Images"
+                ],
+                "summary": "Returns a simple SVG image.",
+                "responses": {
+                    "200": {
+                        "description": "An SVG image."
+                    }
+                }
+            }
+        },
+        "/image/webp": {
+            "get": {
+                "produces": [
+                    "image/webp"
+                ],
+                "tags": [
+                    "Images"
+                ],
+                "summary": "Returns a simple WEBP image.",
+                "responses": {
+                    "200": {
+                        "description": "A WEBP image."
+                    }
+                }
+            }
+        },
         "/ip": {
             "get": {
                 "produces": [
