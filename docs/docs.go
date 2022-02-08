@@ -56,6 +56,200 @@ var doc = `{
                 }
             }
         },
+        "/anything": {
+            "get": {
+                "consumes": [
+                    "application/json",
+                    "multipart/form-data",
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Anything"
+                ],
+                "summary": "Returns anything passed in request data.",
+                "responses": {
+                    "200": {
+                        "description": "Anything passed in request"
+                    }
+                }
+            },
+            "put": {
+                "consumes": [
+                    "application/json",
+                    "multipart/form-data",
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Anything"
+                ],
+                "summary": "Returns anything passed in request data.",
+                "responses": {
+                    "200": {
+                        "description": "Anything passed in request"
+                    }
+                }
+            },
+            "post": {
+                "consumes": [
+                    "application/json",
+                    "multipart/form-data",
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Anything"
+                ],
+                "summary": "Returns anything passed in request data.",
+                "responses": {
+                    "200": {
+                        "description": "Anything passed in request"
+                    }
+                }
+            },
+            "delete": {
+                "consumes": [
+                    "application/json",
+                    "multipart/form-data",
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Anything"
+                ],
+                "summary": "Returns anything passed in request data.",
+                "responses": {
+                    "200": {
+                        "description": "Anything passed in request"
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "application/json",
+                    "multipart/form-data",
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Anything"
+                ],
+                "summary": "Returns anything passed in request data.",
+                "responses": {
+                    "200": {
+                        "description": "Anything passed in request"
+                    }
+                }
+            }
+        },
+        "/anything/{anything}": {
+            "get": {
+                "consumes": [
+                    "application/json",
+                    "multipart/form-data",
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Anything"
+                ],
+                "summary": "Returns anything passed in request data.",
+                "responses": {
+                    "200": {
+                        "description": "Anything passed in request"
+                    }
+                }
+            },
+            "put": {
+                "consumes": [
+                    "application/json",
+                    "multipart/form-data",
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Anything"
+                ],
+                "summary": "Returns anything passed in request data.",
+                "responses": {
+                    "200": {
+                        "description": "Anything passed in request"
+                    }
+                }
+            },
+            "post": {
+                "consumes": [
+                    "application/json",
+                    "multipart/form-data",
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Anything"
+                ],
+                "summary": "Returns anything passed in request data.",
+                "responses": {
+                    "200": {
+                        "description": "Anything passed in request"
+                    }
+                }
+            },
+            "delete": {
+                "consumes": [
+                    "application/json",
+                    "multipart/form-data",
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Anything"
+                ],
+                "summary": "Returns anything passed in request data.",
+                "responses": {
+                    "200": {
+                        "description": "Anything passed in request"
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "application/json",
+                    "multipart/form-data",
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Anything"
+                ],
+                "summary": "Returns anything passed in request data.",
+                "responses": {
+                    "200": {
+                        "description": "Anything passed in request"
+                    }
+                }
+            }
+        },
         "/base64/{value}": {
             "get": {
                 "produces": [
@@ -1406,6 +1600,10 @@ var doc = `{
         {
             "description": "Returns different redirect responses",
             "name": "Redirects"
+        },
+        {
+            "description": "Returns anything that is passed to request",
+            "name": "Anything"
         }
     ]
 }`

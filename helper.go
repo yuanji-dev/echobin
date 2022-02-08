@@ -4,13 +4,19 @@ import (
 	"bytes"
 	"encoding/json"
 	"io/ioutil"
+	"net/url"
 
 	"github.com/labstack/echo/v4"
 )
 
 func getURL(c echo.Context) string {
 	r := c.Request()
-	return c.Scheme() + "://" + r.Host + r.URL.RequestURI()
+	fullURL := c.Scheme() + "://" + r.Host + r.URL.Path
+	query, err := url.QueryUnescape(r.URL.RawQuery)
+	if err == nil && query != "" {
+		fullURL += "?" + query
+	}
+	return fullURL
 }
 
 func getOrigin(c echo.Context) string {

@@ -81,6 +81,138 @@ paths:
       summary: Absolutely 302 Redirects n times.
       tags:
       - Redirects
+  /anything:
+    delete:
+      consumes:
+      - application/json
+      - multipart/form-data
+      - application/x-www-form-urlencoded
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Anything passed in request
+      summary: Returns anything passed in request data.
+      tags:
+      - Anything
+    get:
+      consumes:
+      - application/json
+      - multipart/form-data
+      - application/x-www-form-urlencoded
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Anything passed in request
+      summary: Returns anything passed in request data.
+      tags:
+      - Anything
+    patch:
+      consumes:
+      - application/json
+      - multipart/form-data
+      - application/x-www-form-urlencoded
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Anything passed in request
+      summary: Returns anything passed in request data.
+      tags:
+      - Anything
+    post:
+      consumes:
+      - application/json
+      - multipart/form-data
+      - application/x-www-form-urlencoded
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Anything passed in request
+      summary: Returns anything passed in request data.
+      tags:
+      - Anything
+    put:
+      consumes:
+      - application/json
+      - multipart/form-data
+      - application/x-www-form-urlencoded
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Anything passed in request
+      summary: Returns anything passed in request data.
+      tags:
+      - Anything
+  /anything/{anything}:
+    delete:
+      consumes:
+      - application/json
+      - multipart/form-data
+      - application/x-www-form-urlencoded
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Anything passed in request
+      summary: Returns anything passed in request data.
+      tags:
+      - Anything
+    get:
+      consumes:
+      - application/json
+      - multipart/form-data
+      - application/x-www-form-urlencoded
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Anything passed in request
+      summary: Returns anything passed in request data.
+      tags:
+      - Anything
+    patch:
+      consumes:
+      - application/json
+      - multipart/form-data
+      - application/x-www-form-urlencoded
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Anything passed in request
+      summary: Returns anything passed in request data.
+      tags:
+      - Anything
+    post:
+      consumes:
+      - application/json
+      - multipart/form-data
+      - application/x-www-form-urlencoded
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Anything passed in request
+      summary: Returns anything passed in request data.
+      tags:
+      - Anything
+    put:
+      consumes:
+      - application/json
+      - multipart/form-data
+      - application/x-www-form-urlencoded
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Anything passed in request
+      summary: Returns anything passed in request data.
+      tags:
+      - Anything
   /base64/{value}:
     get:
       parameters:
@@ -904,3 +1036,5 @@ tags:
   name: Images
 - description: Returns different redirect responses
   name: Redirects
+- description: Returns anything that is passed to request
+  name: Anything

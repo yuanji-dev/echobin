@@ -70,9 +70,10 @@ func newEcho() (e *echo.Echo) {
 	e.GET("/redirect/:n", redirectHandler)
 	e.GET("/absolute-redirect/:n", absoluteRedirectHandler)
 	e.GET("/relative-redirect/:n", relativeRedirectHandler)
+	// Anything
+	e.Any("/anything*", anythingHandler)
 	// TODO: Auth
 	// TODO: Response inspection
-	// TODO: Anything
 
 	return
 }
@@ -104,6 +105,8 @@ func newEcho() (e *echo.Echo) {
 // @tag.description  Returns different image formats
 // @tag.name         Redirects
 // @tag.description  Returns different redirect responses
+// @tag.name         Anything
+// @tag.description  Returns anything that is passed to request
 func main() {
 	e := newEcho()
 	e.Logger.Fatal(e.Start("127.0.0.1:1323"))

@@ -809,3 +809,40 @@ func relativeRedirectHandler(c echo.Context) error {
 func absoluteRedirectHandler(c echo.Context) error {
 	return redirect(true)(c)
 }
+
+// @Summary   Returns anything passed in request data.
+// @Tags      Anything
+// @Accept    json
+// @Accept    mpfd
+// @Accept    x-www-form-urlencoded
+// @Produce   json
+// @Response  200  "Anything passed in request"
+// @Router    /anything [delete]
+// @Router    /anything [get]
+// @Router    /anything [patch]
+// @Router    /anything [post]
+// @Router    /anything [put]
+// @Router    /anything/{anything} [delete]
+// @Router    /anything/{anything} [get]
+// @Router    /anything/{anything} [patch]
+// @Router    /anything/{anything} [post]
+// @Router    /anything/{anything} [put]
+func anythingHandler(c echo.Context) error {
+	data := ""
+	files := getFiles(c)
+	form := getForm(c)
+	if len(files) == 0 && len(form) == 0 {
+		data = getData(c)
+	}
+	res := anythingResponse{}
+	res.Args = getArgs(c)
+	res.Data = data
+	res.Files = files
+	res.Form = form
+	res.Headers = getHeaders(c)
+	res.JSON = getJSON(c)
+	res.Origin = getOrigin(c)
+	res.URL = getURL(c)
+	res.Method = c.Request().Method
+	return c.JSONPretty(http.StatusOK, &res, "  ")
+}

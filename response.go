@@ -2,7 +2,7 @@ package main
 
 import "github.com/google/uuid"
 
-type responseRef struct {
+type anythingResponse struct {
 	Args    map[string]interface{} `json:"args"`
 	Data    string                 `json:"data"`
 	Files   map[string]interface{} `json:"files"`
