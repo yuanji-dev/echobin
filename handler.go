@@ -707,19 +707,42 @@ func setCookiesInPathHandler(c echo.Context) error {
 	return c.Redirect(http.StatusFound, c.Echo().URI(getCookiesHandler))
 }
 
+type redirectToParams struct {
+	URL        string `query:"url" form:"url"`
+	StatusCode int    `query:"status_code" form:"status_code"`
+}
+
+func redirectToHandler(c echo.Context) error {
+	rp := &redirectToParams{
+		StatusCode: http.StatusFound,
+	}
+	if err := c.Bind(rp); err != nil {
+		return err
+	}
+	if rp.URL == "" {
+		return echo.NewHTTPError(http.StatusBadRequest, "url is required")
+	}
+	if rp.StatusCode < 300 || rp.StatusCode > 308 {
+		rp.StatusCode = http.StatusFound
+	}
+	return c.Redirect(rp.StatusCode, rp.URL)
+}
+
 // @Summary   302/3XX Redirects to the given URL.
 // @Tags      Redirects
+// @Produce   plain
 // @Param     url          query  string  true   "url"
 // @Param     status_code  query  int     false  "status_code"
 // @Response  302          "A redirection."
 // @Router    /redirect-to [get]
 func getRedirectToHandler(c echo.Context) error {
-	return nil
+	return redirectToHandler(c)
 }
 
 // @Summary   302/3XX Redirects to the given URL.
 // @Tags      Redirects
 // @Accept    x-www-form-urlencoded
+// @Produce   plain
 // @Param     url          formData  string  true   "url"
 // @Param     status_code  formData  int     false  "status_code"
 // @Response  302          "A redirection."
@@ -728,5 +751,5 @@ func getRedirectToHandler(c echo.Context) error {
 // @Router    /redirect-to [post]
 // @Router    /redirect-to [put]
 func otherRedirectToHandler(c echo.Context) error {
-	return nil
+	return redirectToHandler(c)
 }

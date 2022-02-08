@@ -754,6 +754,9 @@ var doc = `{
         },
         "/redirect-to": {
             "get": {
+                "produces": [
+                    "text/plain"
+                ],
                 "tags": [
                     "Redirects"
                 ],
@@ -782,6 +785,9 @@ var doc = `{
             "put": {
                 "consumes": [
                     "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "text/plain"
                 ],
                 "tags": [
                     "Redirects"
@@ -812,6 +818,9 @@ var doc = `{
                 "consumes": [
                     "application/x-www-form-urlencoded"
                 ],
+                "produces": [
+                    "text/plain"
+                ],
                 "tags": [
                     "Redirects"
                 ],
@@ -841,6 +850,9 @@ var doc = `{
                 "consumes": [
                     "application/x-www-form-urlencoded"
                 ],
+                "produces": [
+                    "text/plain"
+                ],
                 "tags": [
                     "Redirects"
                 ],
@@ -869,6 +881,9 @@ var doc = `{
             "patch": {
                 "consumes": [
                     "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "text/plain"
                 ],
                 "tags": [
                     "Redirects"

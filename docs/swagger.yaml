@@ -549,6 +549,8 @@ paths:
         in: formData
         name: status_code
         type: integer
+      produces:
+      - text/plain
       responses:
         "302":
           description: A redirection.
@@ -566,6 +568,8 @@ paths:
         in: query
         name: status_code
         type: integer
+      produces:
+      - text/plain
       responses:
         "302":
           description: A redirection.
@@ -585,6 +589,8 @@ paths:
         in: formData
         name: status_code
         type: integer
+      produces:
+      - text/plain
       responses:
         "302":
           description: A redirection.
@@ -604,6 +610,8 @@ paths:
         in: formData
         name: status_code
         type: integer
+      produces:
+      - text/plain
       responses:
         "302":
           description: A redirection.
@@ -623,6 +631,8 @@ paths:
         in: formData
         name: status_code
         type: integer
+      produces:
+      - text/plain
       responses:
         "302":
           description: A redirection.

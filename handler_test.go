@@ -601,3 +601,60 @@ func TestDeleteCookiesHandler(t *testing.T) {
 		assert.Contains(t, res.Header().Values(echo.HeaderSetCookie), "konnichiwa=sekai; Path=/; Max-Age=0")
 	}
 }
+
+func TestGetRedirectToHandler(t *testing.T) {
+	e := newEcho()
+
+	cases := []struct {
+		url          string
+		statusCode   string
+		expectedCode int
+	}{
+		{"http://example.com", "303", 303},
+		{"http://example.com", "400", 302},
+		{"http://example.com", "", 302},
+		{"/", "301", 301},
+	}
+	for _, v := range cases {
+		q := make(url.Values)
+		q.Set("url", v.url)
+		q.Set("status_code", v.statusCode)
+
+		req := httptest.NewRequest(http.MethodGet, "/?"+q.Encode(), nil)
+		res := httptest.NewRecorder()
+		c := e.NewContext(req, res)
+		if assert.NoError(t, getRedirectToHandler(c)) {
+			assert.Equal(t, v.expectedCode, res.Code)
+			assert.Equal(t, v.url, res.Header().Get(echo.HeaderLocation))
+		}
+	}
+}
+
+func TestOtherRedirectToHandler(t *testing.T) {
+	e := newEcho()
+
+	cases := []struct {
+		url          string
+		statusCode   string
+		expectedCode int
+	}{
+		{"http://example.com", "303", 303},
+		{"http://example.com", "400", 302},
+		{"http://example.com", "", 302},
+		{"/", "301", 301},
+	}
+	for _, v := range cases {
+		f := make(url.Values)
+		f.Set("url", v.url)
+		f.Set("status_code", v.statusCode)
+
+		req := httptest.NewRequest(http.MethodPost, "/", strings.NewReader(f.Encode()))
+		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationForm)
+		res := httptest.NewRecorder()
+		c := e.NewContext(req, res)
+		if assert.NoError(t, otherRedirectToHandler(c)) {
+			assert.Equal(t, v.expectedCode, res.Code)
+			assert.Equal(t, v.url, res.Header().Get(echo.HeaderLocation))
+		}
+	}
+}
