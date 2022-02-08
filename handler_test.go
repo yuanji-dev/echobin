@@ -658,3 +658,61 @@ func TestOtherRedirectToHandler(t *testing.T) {
 		}
 	}
 }
+
+func TestStaticRedirectHandler(t *testing.T) {
+	e := newEcho()
+
+	cases := []struct {
+		n        string
+		handler  echo.HandlerFunc
+		location string
+	}{
+		{"100", absoluteRedirectHandler, "http://example.com/absolute-redirect/99"},
+		{"1", absoluteRedirectHandler, "http://example.com/get"},
+		{"100", relativeRedirectHandler, "/relative-redirect/99"},
+		{"1", relativeRedirectHandler, "/get"},
+	}
+	for _, v := range cases {
+		req := httptest.NewRequest(http.MethodGet, "/", nil)
+		res := httptest.NewRecorder()
+		c := e.NewContext(req, res)
+		c.SetParamNames("n")
+		c.SetParamValues(v.n)
+		if assert.NoError(t, v.handler(c)) {
+			assert.Equal(t, http.StatusFound, res.Code)
+			assert.Equal(t, v.location, res.Header().Get(echo.HeaderLocation))
+		}
+	}
+}
+
+func TestDynamicRedirectHandler(t *testing.T) {
+	e := newEcho()
+
+	cases := []struct {
+		n        string
+		absolute bool
+		location string
+	}{
+		{"100", true, "http://example.com/absolute-redirect/99"},
+		{"1", true, "http://example.com/get"},
+		{"100", false, "/relative-redirect/99"},
+		{"1", false, "/get"},
+	}
+	for _, v := range cases {
+		target := "/"
+		if v.absolute {
+			q := make(url.Values)
+			q.Set("absolute", "true")
+			target = "/?" + q.Encode()
+		}
+		req := httptest.NewRequest(http.MethodGet, target, nil)
+		res := httptest.NewRecorder()
+		c := e.NewContext(req, res)
+		c.SetParamNames("n")
+		c.SetParamValues(v.n)
+		if assert.NoError(t, redirectHandler(c)) {
+			assert.Equal(t, http.StatusFound, res.Code)
+			assert.Equal(t, v.location, res.Header().Get(echo.HeaderLocation))
+		}
+	}
+}
