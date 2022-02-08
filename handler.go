@@ -753,3 +753,59 @@ func getRedirectToHandler(c echo.Context) error {
 func otherRedirectToHandler(c echo.Context) error {
 	return redirectToHandler(c)
 }
+
+// @Summary   302 Redirects n times.
+// @Tags      Redirects
+// @Produce   plain
+// @Param     n         path   int     true   "n"
+// @Param     absolute  query  string  false  "absolute"  default(false)
+// @Response  302       "A redirection."
+// @Router    /redirect/{n} [get]
+func redirectHandler(c echo.Context) error {
+	absolute := c.QueryParam("absolute") == "true"
+	return redirect(absolute)(c)
+}
+
+// @Summary   Relatively 302 Redirects n times.
+// @Tags      Redirects
+// @Produce   plain
+// @Param     n    path  int  true  "n"
+// @Response  302  "A redirection."
+// @Router    /relative-redirect/{n} [get]
+func relativeRedirectHandler(c echo.Context) error {
+	return redirect(false)(c)
+}
+
+// @Summary   Absolutely 302 Redirects n times.
+// @Tags      Redirects
+// @Produce   plain
+// @Param     n    path  int  true  "n"
+// @Response  302  "A redirection."
+// @Router    /absolute-redirect/{n} [get]
+func absoluteRedirectHandler(c echo.Context) error {
+	return redirect(true)(c)
+}
+
+func redirect(absolute bool) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		n := c.Param("n")
+		intN, err := strconv.Atoi(n)
+		if err != nil || intN < 0 {
+			return echo.NewHTTPError(http.StatusBadRequest, "invalid number of redirection times")
+		}
+		var redirectURI string
+		if intN == 1 {
+			redirectURI = c.Echo().URI(getMethodHandler)
+		} else {
+			h := relativeRedirectHandler
+			if absolute {
+				h = absoluteRedirectHandler
+			}
+			redirectURI = c.Echo().URI(h, strconv.Itoa(intN-1))
+		}
+		if absolute {
+			redirectURI = c.Scheme() + "://" + c.Request().Host + redirectURI
+		}
+		return c.Redirect(http.StatusFound, redirectURI)
+	}
+}

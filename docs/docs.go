@@ -31,6 +31,31 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/absolute-redirect/{n}": {
+            "get": {
+                "produces": [
+                    "text/plain"
+                ],
+                "tags": [
+                    "Redirects"
+                ],
+                "summary": "Absolutely 302 Redirects n times.",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "n",
+                        "name": "n",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "302": {
+                        "description": "A redirection."
+                    }
+                }
+            }
+        },
         "/base64/{value}": {
             "get": {
                 "produces": [
@@ -902,6 +927,63 @@ var doc = `{
                         "description": "status_code",
                         "name": "status_code",
                         "in": "formData"
+                    }
+                ],
+                "responses": {
+                    "302": {
+                        "description": "A redirection."
+                    }
+                }
+            }
+        },
+        "/redirect/{n}": {
+            "get": {
+                "produces": [
+                    "text/plain"
+                ],
+                "tags": [
+                    "Redirects"
+                ],
+                "summary": "302 Redirects n times.",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "n",
+                        "name": "n",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "false",
+                        "description": "absolute",
+                        "name": "absolute",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "302": {
+                        "description": "A redirection."
+                    }
+                }
+            }
+        },
+        "/relative-redirect/{n}": {
+            "get": {
+                "produces": [
+                    "text/plain"
+                ],
+                "tags": [
+                    "Redirects"
+                ],
+                "summary": "Relatively 302 Redirects n times.",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "n",
+                        "name": "n",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {

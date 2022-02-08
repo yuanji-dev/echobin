@@ -65,6 +65,22 @@ info:
   title: echobin API
   version: "0.1"
 paths:
+  /absolute-redirect/{n}:
+    get:
+      parameters:
+      - description: "n"
+        in: path
+        name: "n"
+        required: true
+        type: integer
+      produces:
+      - text/plain
+      responses:
+        "302":
+          description: A redirection.
+      summary: Absolutely 302 Redirects n times.
+      tags:
+      - Redirects
   /base64/{value}:
     get:
       parameters:
@@ -637,6 +653,43 @@ paths:
         "302":
           description: A redirection.
       summary: 302/3XX Redirects to the given URL.
+      tags:
+      - Redirects
+  /redirect/{n}:
+    get:
+      parameters:
+      - description: "n"
+        in: path
+        name: "n"
+        required: true
+        type: integer
+      - default: "false"
+        description: absolute
+        in: query
+        name: absolute
+        type: string
+      produces:
+      - text/plain
+      responses:
+        "302":
+          description: A redirection.
+      summary: 302 Redirects n times.
+      tags:
+      - Redirects
+  /relative-redirect/{n}:
+    get:
+      parameters:
+      - description: "n"
+        in: path
+        name: "n"
+        required: true
+        type: integer
+      produces:
+      - text/plain
+      responses:
+        "302":
+          description: A redirection.
+      summary: Relatively 302 Redirects n times.
       tags:
       - Redirects
   /robots.txt:

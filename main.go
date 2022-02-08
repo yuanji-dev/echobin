@@ -67,6 +67,9 @@ func newEcho() (e *echo.Echo) {
 		http.MethodPost,
 		http.MethodPut,
 	}, "/redirect-to", otherRedirectToHandler)
+	e.GET("/redirect/:n", redirectHandler)
+	e.GET("/absolute-redirect/:n", absoluteRedirectHandler)
+	e.GET("/relative-redirect/:n", relativeRedirectHandler)
 	// TODO: Auth
 	// TODO: Response inspection
 	// TODO: Anything
