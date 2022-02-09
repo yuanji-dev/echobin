@@ -5,6 +5,7 @@ import (
 	_ "embed"
 	"encoding/base64"
 	"encoding/json"
+	"fmt"
 	"math/rand"
 	"net/http"
 	"net/url"
@@ -845,4 +846,23 @@ func anythingHandler(c echo.Context) error {
 	res.URL = getURL(c)
 	res.Method = c.Request().Method
 	return c.JSONPretty(http.StatusOK, &res, "  ")
+}
+
+// @Summary   Returns a 304 if an If-Modified-Since header or If-None-Match is present. Returns the same as a GET otherwise.
+// @Tags      Response inspection
+// @Produce   json
+// @Response  200                "Normal response"
+// @Response  304                "Not modified"
+// @Param     If-Modified-Since  header  string  false  "If-Modified-Since"
+// @Param     If-None-Match      header  string  false  "If-None-Match"
+// @Router    /cache [get]
+func cacheHandler(c echo.Context) error {
+	header := c.Request().Header
+	if header.Get(echo.HeaderIfModifiedSince) == "" && header.Get("If-None-Match") == "" {
+		etag := uuid.New()
+		c.Response().Header().Set(echo.HeaderLastModified, time.Now().UTC().Format(http.TimeFormat))
+		c.Response().Header().Set("ETag", fmt.Sprintf("%x", etag[:]))
+		return getMethodHandler(c)
+	}
+	return c.NoContent(http.StatusNotModified)
 }

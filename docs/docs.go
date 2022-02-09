@@ -318,6 +318,39 @@ var doc = `{
                 }
             }
         },
+        "/cache": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Response inspection"
+                ],
+                "summary": "Returns a 304 if an If-Modified-Since header or If-None-Match is present. Returns the same as a GET otherwise.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "If-Modified-Since",
+                        "name": "If-Modified-Since",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "If-None-Match",
+                        "name": "If-None-Match",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Normal response"
+                    },
+                    "304": {
+                        "description": "Not modified"
+                    }
+                }
+            }
+        },
         "/cookies": {
             "get": {
                 "produces": [
@@ -1580,6 +1613,10 @@ var doc = `{
         {
             "description": "Inspect the request data",
             "name": "Request inspection"
+        },
+        {
+            "description": "Inspect the response data like caching and headers",
+            "name": "Response inspection"
         },
         {
             "description": "Returns responses in different data formats",

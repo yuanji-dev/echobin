@@ -31,6 +31,8 @@ func newEcho() (e *echo.Echo) {
 	e.GET("/headers", requestHeadersHandler)
 	e.GET("/ip", requestIPHandler)
 	e.GET("/user-agent", requestUserAgentHandler)
+	// Response inspection
+	e.GET("/cache", cacheHandler)
 	// Response formats
 	e.GET("/html", serveHTMLHandler)
 	e.GET("/xml", serveXMLHandler)
@@ -95,6 +97,8 @@ func newEcho() (e *echo.Echo) {
 // @tag.description  Generates responses with given status code
 // @tag.name         Request inspection
 // @tag.description  Inspect the request data
+// @tag.name         Response inspection
+// @tag.description  Inspect the response data like caching and headers
 // @tag.name         Response formats
 // @tag.description  Returns responses in different data formats
 // @tag.name         Dynamic data

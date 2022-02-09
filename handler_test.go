@@ -11,6 +11,7 @@ import (
 	"os"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -725,5 +726,36 @@ func TestAnythingHandler(t *testing.T) {
 	c := e.NewContext(req, res)
 	if assert.NoError(t, anythingHandler(c)) {
 		assert.Equal(t, http.StatusOK, res.Code)
+	}
+}
+
+func TestCacheHandler(t *testing.T) {
+	e := newEcho()
+
+	req := httptest.NewRequest(http.MethodGet, "/", nil)
+	res := httptest.NewRecorder()
+	c := e.NewContext(req, res)
+	if assert.NoError(t, cacheHandler(c)) {
+		assert.Equal(t, http.StatusOK, res.Code)
+		assert.Equal(t, echo.MIMEApplicationJSONCharsetUTF8, res.Header().Get(echo.HeaderContentType))
+		assert.Contains(t, res.Header(), echo.HeaderLastModified)
+		assert.Contains(t, res.Header(), "Etag")
+	}
+
+	cachedCases := []struct {
+		header string
+		value  string
+	}{
+		{echo.HeaderIfModifiedSince, time.Now().UTC().Format(http.TimeFormat)},
+		{"If-None-Match", "772867218dd444f6b15f1d9eb67f74bd"},
+	}
+	for _, v := range cachedCases {
+		req := httptest.NewRequest(http.MethodGet, "/", nil)
+		req.Header.Set(v.header, v.value)
+		res := httptest.NewRecorder()
+		c := e.NewContext(req, res)
+		if assert.NoError(t, cacheHandler(c)) {
+			assert.Equal(t, http.StatusNotModified, res.Code)
+		}
 	}
 }
