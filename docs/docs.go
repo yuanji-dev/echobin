@@ -351,6 +351,31 @@ var doc = `{
                 }
             }
         },
+        "/cache/{value}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Response inspection"
+                ],
+                "summary": "Sets a Cache-Control header for n seconds.",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Seconds",
+                        "name": "value",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cache control set"
+                    }
+                }
+            }
+        },
         "/cookies": {
             "get": {
                 "produces": [

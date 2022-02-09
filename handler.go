@@ -866,3 +866,19 @@ func cacheHandler(c echo.Context) error {
 	}
 	return c.NoContent(http.StatusNotModified)
 }
+
+// @Summary   Sets a Cache-Control header for n seconds.
+// @Tags      Response inspection
+// @Produce   json
+// @Response  200    "Cache control set"
+// @Param     value  path  int  true  "Seconds"
+// @Router    /cache/{value} [get]
+func cacheDurationHandler(c echo.Context) error {
+	value := c.Param("value")
+	maxAge, err := strconv.Atoi(value)
+	if err != nil || maxAge < 0 {
+		return echo.NewHTTPError(http.StatusBadRequest, "invalid number of seconds")
+	}
+	c.Response().Header().Set("Cache-Control", fmt.Sprintf("public, max-age=%d", maxAge))
+	return getMethodHandler(c)
+}

@@ -33,6 +33,7 @@ func newEcho() (e *echo.Echo) {
 	e.GET("/user-agent", requestUserAgentHandler)
 	// Response inspection
 	e.GET("/cache", cacheHandler)
+	e.GET("/cache/:value", cacheDurationHandler)
 	// Response formats
 	e.GET("/html", serveHTMLHandler)
 	e.GET("/xml", serveXMLHandler)

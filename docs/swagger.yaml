@@ -279,6 +279,22 @@ paths:
         Returns the same as a GET otherwise.
       tags:
       - Response inspection
+  /cache/{value}:
+    get:
+      parameters:
+      - description: Seconds
+        in: path
+        name: value
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Cache control set
+      summary: Sets a Cache-Control header for n seconds.
+      tags:
+      - Response inspection
   /cookies:
     get:
       produces:

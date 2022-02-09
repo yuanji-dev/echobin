@@ -759,3 +759,18 @@ func TestCacheHandler(t *testing.T) {
 		}
 	}
 }
+
+func TestCacheDurationHandler(t *testing.T) {
+	e := newEcho()
+
+	req := httptest.NewRequest(http.MethodGet, "/", nil)
+	res := httptest.NewRecorder()
+	c := e.NewContext(req, res)
+	c.SetParamNames("value")
+	c.SetParamValues("100")
+	if assert.NoError(t, cacheDurationHandler(c)) {
+		assert.Equal(t, http.StatusOK, res.Code)
+		assert.Equal(t, echo.MIMEApplicationJSONCharsetUTF8, res.Header().Get(echo.HeaderContentType))
+		assert.Equal(t, "public, max-age=100", res.Header().Get("Cache-Control"))
+	}
+}
