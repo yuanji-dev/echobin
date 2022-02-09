@@ -716,3 +716,14 @@ func TestDynamicRedirectHandler(t *testing.T) {
 		}
 	}
 }
+
+func TestAnythingHandler(t *testing.T) {
+	e := newEcho()
+
+	req := httptest.NewRequest(http.MethodGet, "/", nil)
+	res := httptest.NewRecorder()
+	c := e.NewContext(req, res)
+	if assert.NoError(t, anythingHandler(c)) {
+		assert.Equal(t, http.StatusOK, res.Code)
+	}
+}
