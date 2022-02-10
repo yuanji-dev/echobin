@@ -864,6 +864,8 @@ func cacheHandler(c echo.Context) error {
 		c.Response().Header().Set("ETag", fmt.Sprintf("%x", etag[:]))
 		return getMethodHandler(c)
 	}
+	// TODO: seems we need to return etag in header as well.
+	// see also: https://www.ietf.org/rfc/rfc2616.txt
 	return c.NoContent(http.StatusNotModified)
 }
 
@@ -880,5 +882,33 @@ func cacheDurationHandler(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, "invalid number of seconds")
 	}
 	c.Response().Header().Set("Cache-Control", fmt.Sprintf("public, max-age=%d", maxAge))
+	return getMethodHandler(c)
+}
+
+// @Summary   Assumes the resource has the given etag and responds to If-None-Match and If-Match headers appropriately.
+// @Tags      Response inspection
+// @Produce   json
+// @Response  200            "Normal response"
+// @Response  304            "Not modified"
+// @Response  412            "Precondition failed"
+// @Param     etag           path    string  true   "etag"
+// @Param     If-Match       header  string  false  "If-Match"
+// @Param     If-None-Match  header  string  false  "If-None-Match"
+// @Router    /etag/{etag} [get]
+func etagHandler(c echo.Context) error {
+	etag := c.Param("etag")
+	ifNoneMatch := c.Request().Header.Get("If-None-Match")
+	ifMatch := c.Request().Header.Get("If-Match")
+	if ifNoneMatch != "" {
+		if strings.Contains(ifNoneMatch, etag) || strings.Contains(ifNoneMatch, "*") {
+			c.Response().Header().Set("ETag", etag)
+			return c.NoContent(http.StatusNotModified)
+		}
+	} else if ifMatch != "" {
+		if !strings.Contains(ifMatch, etag) && !strings.Contains(ifMatch, "*") {
+			return c.NoContent(http.StatusPreconditionFailed)
+		}
+	}
+	c.Response().Header().Set("ETag", etag)
 	return getMethodHandler(c)
 }

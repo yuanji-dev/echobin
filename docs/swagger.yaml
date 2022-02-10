@@ -511,6 +511,35 @@ paths:
       summary: Returns a UTF-8 encoded body.
       tags:
       - Response formats
+  /etag/{etag}:
+    get:
+      parameters:
+      - description: etag
+        in: path
+        name: etag
+        required: true
+        type: string
+      - description: If-Match
+        in: header
+        name: If-Match
+        type: string
+      - description: If-None-Match
+        in: header
+        name: If-None-Match
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Normal response
+        "304":
+          description: Not modified
+        "412":
+          description: Precondition failed
+      summary: Assumes the resource has the given etag and responds to If-None-Match
+        and If-Match headers appropriately.
+      tags:
+      - Response inspection
   /get:
     get:
       produces:

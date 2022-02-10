@@ -774,3 +774,61 @@ func TestCacheDurationHandler(t *testing.T) {
 		assert.Equal(t, "public, max-age=100", res.Header().Get("Cache-Control"))
 	}
 }
+
+func TestEtagHandler(t *testing.T) {
+	e := newEcho()
+
+	// No headers
+	req := httptest.NewRequest(http.MethodGet, "/", nil)
+	res := httptest.NewRecorder()
+	c := e.NewContext(req, res)
+	c.SetParamNames("etag")
+	c.SetParamValues("abcdef")
+	if assert.NoError(t, etagHandler(c)) {
+		assert.Equal(t, http.StatusOK, res.Code)
+		assert.Equal(t, "abcdef", res.Header().Get("ETag"))
+	}
+
+	// Test If-None-Match header
+	req = httptest.NewRequest(http.MethodGet, "/", nil)
+	req.Header.Set("If-None-Match", "abcdef") // Match, return 304
+	res = httptest.NewRecorder()
+	c = e.NewContext(req, res)
+	c.SetParamNames("etag")
+	c.SetParamValues("abcdef")
+	if assert.NoError(t, etagHandler(c)) {
+		assert.Equal(t, http.StatusNotModified, res.Code)
+		assert.Equal(t, "abcdef", res.Header().Get("ETag"))
+	}
+	req = httptest.NewRequest(http.MethodGet, "/", nil)
+	req.Header.Set("If-None-Match", "fedcba") // Not match, return normal response
+	res = httptest.NewRecorder()
+	c = e.NewContext(req, res)
+	c.SetParamNames("etag")
+	c.SetParamValues("abcdef")
+	if assert.NoError(t, etagHandler(c)) {
+		assert.Equal(t, http.StatusOK, res.Code)
+		assert.Equal(t, "abcdef", res.Header().Get("ETag"))
+	}
+
+	// Test If-Match header
+	req = httptest.NewRequest(http.MethodGet, "/", nil)
+	req.Header.Set("If-Match", "abcdef") // Match, return normal response
+	res = httptest.NewRecorder()
+	c = e.NewContext(req, res)
+	c.SetParamNames("etag")
+	c.SetParamValues("abcdef")
+	if assert.NoError(t, etagHandler(c)) {
+		assert.Equal(t, http.StatusOK, res.Code)
+		assert.Equal(t, "abcdef", res.Header().Get("ETag"))
+	}
+	req = httptest.NewRequest(http.MethodGet, "/", nil)
+	req.Header.Set("If-Match", "fedcba") // Not match, return 412
+	res = httptest.NewRecorder()
+	c = e.NewContext(req, res)
+	c.SetParamNames("etag")
+	c.SetParamValues("abcdef")
+	if assert.NoError(t, etagHandler(c)) {
+		assert.Equal(t, http.StatusPreconditionFailed, res.Code)
+	}
+}

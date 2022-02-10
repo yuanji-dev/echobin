@@ -34,6 +34,7 @@ func newEcho() (e *echo.Echo) {
 	// Response inspection
 	e.GET("/cache", cacheHandler)
 	e.GET("/cache/:value", cacheDurationHandler)
+	e.GET("/etag/:etag", etagHandler)
 	// Response formats
 	e.GET("/html", serveHTMLHandler)
 	e.GET("/xml", serveXMLHandler)

@@ -691,6 +691,49 @@
                 }
             }
         },
+        "/etag/{etag}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Response inspection"
+                ],
+                "summary": "Assumes the resource has the given etag and responds to If-None-Match and If-Match headers appropriately.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "etag",
+                        "name": "etag",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "If-Match",
+                        "name": "If-Match",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "If-None-Match",
+                        "name": "If-None-Match",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Normal response"
+                    },
+                    "304": {
+                        "description": "Not modified"
+                    },
+                    "412": {
+                        "description": "Precondition failed"
+                    }
+                }
+            }
+        },
         "/get": {
             "get": {
                 "produces": [
