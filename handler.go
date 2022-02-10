@@ -912,3 +912,35 @@ func etagHandler(c echo.Context) error {
 	c.Response().Header().Set("ETag", etag)
 	return getMethodHandler(c)
 }
+
+// @Summary   Returns a set of response headers from the query string.
+// @Tags      Response inspection
+// @Produce   json
+// @Response  200       "Normal response"
+// @Param     freeform  query  string  false  "freeform"
+// @Router    /response-headers [get]
+// @Router    /response-headers [post]
+func responseHeadersHandler(c echo.Context) error {
+	contentLength := 0
+	body := map[string]interface{}{}
+	body[echo.HeaderContentType] = echo.MIMEApplicationJSONCharsetUTF8
+	for k, v := range c.QueryParams() {
+		if len(v) == 1 {
+			body[k] = v[0]
+		} else {
+			body[k] = v
+		}
+		c.Response().Header()[k] = v
+	}
+	var bs []byte
+	// this for loop is going to write content-length into body
+	for {
+		body[echo.HeaderContentLength] = fmt.Sprintf("%d", contentLength)
+		bs, _ = json.MarshalIndent(body, "", "  ")
+		if len(bs) == contentLength {
+			break
+		}
+		contentLength = len(bs)
+	}
+	return c.JSONBlob(http.StatusOK, bs)
+}

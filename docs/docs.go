@@ -1288,6 +1288,52 @@ var doc = `{
                 }
             }
         },
+        "/response-headers": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Response inspection"
+                ],
+                "summary": "Returns a set of response headers from the query string.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "freeform",
+                        "name": "freeform",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Normal response"
+                    }
+                }
+            },
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Response inspection"
+                ],
+                "summary": "Returns a set of response headers from the query string.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "freeform",
+                        "name": "freeform",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Normal response"
+                    }
+                }
+            }
+        },
         "/robots.txt": {
             "get": {
                 "produces": [

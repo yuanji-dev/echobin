@@ -832,3 +832,23 @@ func TestEtagHandler(t *testing.T) {
 		assert.Equal(t, http.StatusPreconditionFailed, res.Code)
 	}
 }
+
+func TestResponseHeadersHandler(t *testing.T) {
+	e := newEcho()
+
+	req := httptest.NewRequest(http.MethodGet, "/?a=1&a=2&b=3", nil)
+	res := httptest.NewRecorder()
+	c := e.NewContext(req, res)
+	if assert.NoError(t, responseHeadersHandler(c)) {
+		assert.Equal(t, http.StatusOK, res.Code)
+		assert.Equal(t, echo.MIMEApplicationJSONCharsetUTF8, res.Header().Get(echo.HeaderContentType))
+		assert.Equal(t, []string{"1", "2"}, res.Header()["a"])
+		assert.Equal(t, []string{"3"}, res.Header()["b"])
+		// TODO: Content-Length in body and header should be equal,
+		// but atm idk why Content-Length wasn't set in header.
+		// var i interface{}
+		// json.Unmarshal(res.Body.Bytes(), &i)
+		// data := i.(map[string]interface{})
+		// assert.Equal(t, data["Content-Length"], res.Result().ContentLength)
+	}
+}

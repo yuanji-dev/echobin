@@ -891,6 +891,35 @@ paths:
       summary: Relatively 302 Redirects n times.
       tags:
       - Redirects
+  /response-headers:
+    get:
+      parameters:
+      - description: freeform
+        in: query
+        name: freeform
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Normal response
+      summary: Returns a set of response headers from the query string.
+      tags:
+      - Response inspection
+    post:
+      parameters:
+      - description: freeform
+        in: query
+        name: freeform
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Normal response
+      summary: Returns a set of response headers from the query string.
+      tags:
+      - Response inspection
   /robots.txt:
     get:
       produces:
