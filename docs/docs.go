@@ -276,6 +276,41 @@ var doc = `{
                 }
             }
         },
+        "/basic-auth/{user}/{passwd}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Prompts the user for authorization using HTTP Basic Auth.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "user",
+                        "name": "user",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "passwd",
+                        "name": "passwd",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sucessful authentication."
+                    },
+                    "401": {
+                        "description": "Unsuccessful authentication."
+                    }
+                }
+            }
+        },
         "/brotli": {
             "get": {
                 "produces": [
@@ -1719,6 +1754,10 @@ var doc = `{
         {
             "description": "Testing different HTTP verbs",
             "name": "HTTP methods"
+        },
+        {
+            "description": "Auth methods",
+            "name": "Auth"
         },
         {
             "description": "Generates responses with given status code",

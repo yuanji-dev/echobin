@@ -230,6 +230,29 @@ paths:
       summary: Decodes base64url-encoded string.
       tags:
       - Dynamic data
+  /basic-auth/{user}/{passwd}:
+    get:
+      parameters:
+      - description: user
+        in: path
+        name: user
+        required: true
+        type: string
+      - description: passwd
+        in: path
+        name: passwd
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Sucessful authentication.
+        "401":
+          description: Unsuccessful authentication.
+      summary: Prompts the user for authorization using HTTP Basic Auth.
+      tags:
+      - Auth
   /brotli:
     get:
       deprecated: true
@@ -1118,6 +1141,8 @@ swagger: "2.0"
 tags:
 - description: Testing different HTTP verbs
   name: HTTP methods
+- description: Auth methods
+  name: Auth
 - description: Generates responses with given status code
   name: Status codes
 - description: Inspect the request data

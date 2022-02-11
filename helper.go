@@ -108,3 +108,17 @@ func getCookies(c echo.Context) map[string]string {
 	}
 	return cookies
 }
+
+func forceEncode(h echo.HandlerFunc, encoding string) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		c.Request().Header.Add(echo.HeaderAcceptEncoding, encoding)
+		return h(c)
+	}
+}
+
+func basicAuthValidator(user, passwd string, c echo.Context) (bool, error) {
+	if user == c.Param("user") && passwd == c.Param("passwd") {
+		return true, nil
+	}
+	return false, nil
+}

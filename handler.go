@@ -944,3 +944,19 @@ func responseHeadersHandler(c echo.Context) error {
 	}
 	return c.JSONBlob(http.StatusOK, bs)
 }
+
+// @Summary   Prompts the user for authorization using HTTP Basic Auth.
+// @Tags      Auth
+// @Produce   json
+// @Response  200     "Sucessful authentication."
+// @Response  401     "Unsuccessful authentication."
+// @Param     user    path  string  true  "user"
+// @Param     passwd  path  string  true  "passwd"
+// @Router    /basic-auth/{user}/{passwd} [get]
+func basicAuthHandler(c echo.Context) error {
+	res := map[string]interface{}{
+		"authenticated": true,
+		"user":          c.Param("user"),
+	}
+	return c.JSONPretty(http.StatusOK, &res, "  ")
+}

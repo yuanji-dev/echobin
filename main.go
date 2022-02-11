@@ -14,7 +14,6 @@ func newEcho() (e *echo.Echo) {
 	e = echo.New()
 	e.JSONSerializer = &echobinJSONSerializer{}
 
-	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
 	// Swagger docs
@@ -25,6 +24,8 @@ func newEcho() (e *echo.Echo) {
 	e.PUT("/put", otherMethodHandler)
 	e.PATCH("/patch", otherMethodHandler)
 	e.DELETE("/delete", otherMethodHandler)
+	// Auth
+	e.GET("/basic-auth/:user/:passwd", basicAuthHandler, middleware.BasicAuth(basicAuthValidator))
 	// Status Codes
 	e.Any("/status/:codes", statusCodesHandler)
 	// Request inspection
@@ -78,8 +79,6 @@ func newEcho() (e *echo.Echo) {
 	e.GET("/relative-redirect/:n", relativeRedirectHandler)
 	// Anything
 	e.Any("/anything*", anythingHandler)
-	// TODO: Auth
-	// TODO: Response inspection
 
 	return
 }
@@ -97,6 +96,8 @@ func newEcho() (e *echo.Echo) {
 
 // @tag.name         HTTP methods
 // @tag.description  Testing different HTTP verbs
+// @tag.name         Auth
+// @tag.description  Auth methods
 // @tag.name         Status codes
 // @tag.description  Generates responses with given status code
 // @tag.name         Request inspection
@@ -118,11 +119,4 @@ func newEcho() (e *echo.Echo) {
 func main() {
 	e := newEcho()
 	e.Logger.Fatal(e.Start("127.0.0.1:1323"))
-}
-
-func forceEncode(h echo.HandlerFunc, encoding string) echo.HandlerFunc {
-	return func(c echo.Context) error {
-		c.Request().Header.Add(echo.HeaderAcceptEncoding, encoding)
-		return h(c)
-	}
 }

@@ -852,3 +852,30 @@ func TestResponseHeadersHandler(t *testing.T) {
 		// assert.Equal(t, data["Content-Length"], res.Result().ContentLength)
 	}
 }
+
+func TestBasicAuthHandler(t *testing.T) {
+	e := newEcho()
+
+	// Test Unauthorized
+	req := httptest.NewRequest(http.MethodGet, "/basic-auth/a/b", nil)
+	res := httptest.NewRecorder()
+	e.ServeHTTP(res, req)
+	assert.Equal(t, http.StatusUnauthorized, res.Code)
+	assert.Contains(t, res.Header().Get(echo.HeaderWWWAuthenticate), "basic")
+
+	// Test Authorized
+	req = httptest.NewRequest(http.MethodGet, "/basic-auth/a/b", nil)
+	req.SetBasicAuth("a", "b")
+	res = httptest.NewRecorder()
+	e.ServeHTTP(res, req)
+	assert.Equal(t, http.StatusOK, res.Code)
+	assert.Equal(t, echo.MIMEApplicationJSONCharsetUTF8, res.Header().Get(echo.HeaderContentType))
+
+	// Test Bad Credentials
+	req = httptest.NewRequest(http.MethodGet, "/basic-auth/a/b", nil)
+	req.SetBasicAuth("a", "a")
+	res = httptest.NewRecorder()
+	e.ServeHTTP(res, req)
+	assert.Equal(t, http.StatusUnauthorized, res.Code)
+	assert.Contains(t, res.Header().Get(echo.HeaderWWWAuthenticate), "basic")
+}
