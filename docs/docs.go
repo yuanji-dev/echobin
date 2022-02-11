@@ -311,6 +311,33 @@ var doc = `{
                 }
             }
         },
+        "/bearer": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Prompts the user for authorization using bearer authentication.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization",
+                        "name": "Authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sucessful authentication."
+                    },
+                    "401": {
+                        "description": "Unsuccessful authentication."
+                    }
+                }
+            }
+        },
         "/brotli": {
             "get": {
                 "produces": [

@@ -960,3 +960,24 @@ func basicAuthHandler(c echo.Context) error {
 	}
 	return c.JSONPretty(http.StatusOK, &res, "  ")
 }
+
+// @Summary   Prompts the user for authorization using bearer authentication.
+// @Tags      Auth
+// @Produce   json
+// @Response  200            "Sucessful authentication."
+// @Response  401            "Unsuccessful authentication."
+// @Param     Authorization  header  string  false  "Authorization"
+// @Router    /bearer [get]
+func bearerHandler(c echo.Context) error {
+	authorization := strings.TrimSpace(c.Request().Header.Get(echo.HeaderAuthorization))
+	if authorization == "" || !strings.HasPrefix(authorization, "Bearer ") {
+		c.Response().Header().Set(echo.HeaderWWWAuthenticate, "Bearer")
+		return c.NoContent(http.StatusUnauthorized)
+	}
+	token := strings.TrimPrefix(c.Request().Header.Get(echo.HeaderAuthorization), "Bearer ")
+	res := map[string]interface{}{
+		"authenticated": true,
+		"token":         token,
+	}
+	return c.JSONPretty(http.StatusOK, &res, "  ")
+}

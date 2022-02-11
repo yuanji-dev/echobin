@@ -26,6 +26,7 @@ func newEcho() (e *echo.Echo) {
 	e.DELETE("/delete", otherMethodHandler)
 	// Auth
 	e.GET("/basic-auth/:user/:passwd", basicAuthHandler, middleware.BasicAuth(basicAuthValidator))
+	e.GET("/bearer", bearerHandler)
 	// Status Codes
 	e.Any("/status/:codes", statusCodesHandler)
 	// Request inspection

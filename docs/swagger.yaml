@@ -253,6 +253,23 @@ paths:
       summary: Prompts the user for authorization using HTTP Basic Auth.
       tags:
       - Auth
+  /bearer:
+    get:
+      parameters:
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Sucessful authentication.
+        "401":
+          description: Unsuccessful authentication.
+      summary: Prompts the user for authorization using bearer authentication.
+      tags:
+      - Auth
   /brotli:
     get:
       deprecated: true

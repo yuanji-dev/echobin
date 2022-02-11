@@ -879,3 +879,30 @@ func TestBasicAuthHandler(t *testing.T) {
 	assert.Equal(t, http.StatusUnauthorized, res.Code)
 	assert.Contains(t, res.Header().Get(echo.HeaderWWWAuthenticate), "basic")
 }
+
+func TestBearerHandler(t *testing.T) {
+	e := newEcho()
+
+	// Test Unauthorized
+	req := httptest.NewRequest(http.MethodGet, "/bearer", nil)
+	res := httptest.NewRecorder()
+	e.ServeHTTP(res, req)
+	assert.Equal(t, http.StatusUnauthorized, res.Code)
+	assert.Contains(t, res.Header().Get(echo.HeaderWWWAuthenticate), "Bearer")
+
+	// Test Authorized
+	req = httptest.NewRequest(http.MethodGet, "/bearer", nil)
+	req.Header.Set(echo.HeaderAuthorization, "Bearer abc")
+	res = httptest.NewRecorder()
+	e.ServeHTTP(res, req)
+	assert.Equal(t, http.StatusOK, res.Code)
+	assert.Equal(t, echo.MIMEApplicationJSONCharsetUTF8, res.Header().Get(echo.HeaderContentType))
+
+	// Test Bad Credentials
+	req = httptest.NewRequest(http.MethodGet, "/bearer", nil)
+	req.Header.Set(echo.HeaderAuthorization, "Bearer ")
+	res = httptest.NewRecorder()
+	e.ServeHTTP(res, req)
+	assert.Equal(t, http.StatusUnauthorized, res.Code)
+	assert.Contains(t, res.Header().Get(echo.HeaderWWWAuthenticate), "Bearer")
+}
