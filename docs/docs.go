@@ -371,6 +371,12 @@ var doc = `{
                         "name": "n",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "seed",
+                        "name": "seed",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -1598,15 +1604,25 @@ var doc = `{
                     "Dynamic data"
                 ],
                 "summary": "Streams n random bytes generated with given seed, at given chunk size per packet.",
-                "deprecated": true,
                 "parameters": [
                     {
                         "type": "integer",
-                        "default": 10,
                         "description": "The amount of bytes",
                         "name": "n",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "seed",
+                        "name": "seed",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "chunk_size",
+                        "name": "chunk_size",
+                        "in": "query"
                     }
                 ],
                 "responses": {

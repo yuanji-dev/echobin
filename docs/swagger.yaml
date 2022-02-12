@@ -289,6 +289,10 @@ paths:
         name: "n"
         required: true
         type: integer
+      - description: seed
+        in: query
+        name: seed
+        type: integer
       produces:
       - application/octet-stream
       responses:
@@ -1088,13 +1092,19 @@ paths:
       - Status codes
   /stream-bytes/{n}:
     get:
-      deprecated: true
       parameters:
-      - default: 10
-        description: The amount of bytes
+      - description: The amount of bytes
         in: path
         name: "n"
         required: true
+        type: integer
+      - description: seed
+        in: query
+        name: seed
+        type: integer
+      - description: chunk_size
+        in: query
+        name: chunk_size
         type: integer
       produces:
       - application/octet-stream

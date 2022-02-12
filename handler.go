@@ -302,13 +302,13 @@ func base64Handler(c echo.Context) error {
 // @Summary   Returns n random bytes generated with given seed
 // @Tags      Dynamic data
 // @Produce   octet-stream
-// @Param     n    path  int  true  "number of bytes"
-// @Response  200  "Bytes."
+// @Param     n     path   int  true   "number of bytes"
+// @Param     seed  query  int  false  "seed"
+// @Response  200   "Bytes."
 // @Router    /bytes/{n} [get]
 func generateBytesHandler(c echo.Context) error {
-	// TODO: support seed querystring
-	// https://github.com/postmanlabs/httpbin/blob/f8ec666b4d1b654e4ff6aedd356f510dcac09f83/httpbin/core.py#L1442
 	n := c.Param("n")
+	seed := c.QueryParam("seed")
 	intN, err := strconv.Atoi(n)
 	if err != nil || intN < 0 {
 		return echo.NewHTTPError(http.StatusBadRequest, "invalid number of bytes")
@@ -316,10 +316,12 @@ func generateBytesHandler(c echo.Context) error {
 	if intN > maxByteCount {
 		intN = maxByteCount
 	}
-	bytes := make([]byte, intN)
-	if _, err := rand.Read(bytes); err != nil {
-		return echo.NewHTTPError(http.StatusInternalServerError, "generate random bytes failed")
+	seedInt, err := strconv.Atoi(seed)
+	if err == nil {
+		rand.Seed(int64(seedInt))
 	}
+	bytes := make([]byte, intN)
+	rand.Read(bytes)
 	return c.Blob(http.StatusOK, echo.MIMEOctetStream, bytes)
 }
 
@@ -508,14 +510,54 @@ func rangeHandler(c echo.Context) error {
 	return nil
 }
 
+type streamBytesParams struct {
+	N         int `param:"n"`
+	Seed      int `query:"seed"`
+	ChunkSize int `query:"chunk_size"`
+}
+
 // @Summary   Streams n random bytes generated with given seed, at given chunk size per packet.
 // @Tags      Dynamic data
 // @Produce   octet-stream
-// @Param     n    path  int  true  "The amount of bytes"  default(10)
-// @Response  200  "Bytes"
+// @Param     n           path   int  true   "The amount of bytes"
+// @Param     seed        query  int  false  "seed"
+// @Param     chunk_size  query  int  false  "chunk_size"
+// @Response  200         "Bytes"
 // @Router    /stream-bytes/{n} [get]
-// @Deprecated
 func streamBytesHandler(c echo.Context) error {
+	sbp := &streamBytesParams{
+		ChunkSize: 10 << 10,
+	}
+	if err := c.Bind(sbp); err != nil {
+		return err
+	}
+
+	if sbp.N > maxByteCount {
+		sbp.N = maxByteCount
+	}
+	if sbp.ChunkSize < 1 {
+		sbp.ChunkSize = 1
+	}
+	if c.QueryParams().Has("seed") {
+		rand.Seed(int64(sbp.Seed))
+	}
+
+	c.Response().Header().Set(echo.HeaderContentType, echo.MIMEOctetStream)
+	c.Response().WriteHeader(http.StatusOK)
+	remainBytes := sbp.N
+	for remainBytes > 0 {
+		chunk := sbp.ChunkSize
+		if sbp.ChunkSize > remainBytes {
+			chunk = remainBytes
+		}
+		bytes := make([]byte, chunk)
+		rand.Read(bytes)
+		if _, err := c.Response().Write(bytes); err != nil {
+			return err
+		}
+		c.Response().Flush()
+		remainBytes -= chunk
+	}
 	return nil
 }
 

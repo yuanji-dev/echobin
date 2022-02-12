@@ -906,3 +906,28 @@ func TestBearerHandler(t *testing.T) {
 	assert.Equal(t, http.StatusUnauthorized, res.Code)
 	assert.Contains(t, res.Header().Get(echo.HeaderWWWAuthenticate), "Bearer")
 }
+
+func TestStreamBytesHandler(t *testing.T) {
+	e := newEcho()
+
+	req := httptest.NewRequest(http.MethodGet, "/stream-bytes/100?seed=321", nil)
+	res := httptest.NewRecorder()
+	e.ServeHTTP(res, req)
+	assert.Equal(t, http.StatusOK, res.Code)
+	assert.Equal(t, echo.MIMEOctetStream, res.Header().Get(echo.HeaderContentType))
+
+	req1 := httptest.NewRequest(http.MethodGet, "/stream-bytes/100?seed=123", nil)
+	res1 := httptest.NewRecorder()
+	e.ServeHTTP(res1, req1)
+	assert.Equal(t, http.StatusOK, res1.Code)
+	assert.Equal(t, echo.MIMEOctetStream, res1.Header().Get(echo.HeaderContentType))
+
+	req2 := httptest.NewRequest(http.MethodGet, "/stream-bytes/100?seed=123", nil)
+	res2 := httptest.NewRecorder()
+	e.ServeHTTP(res2, req2)
+	assert.Equal(t, http.StatusOK, res2.Code)
+	assert.Equal(t, echo.MIMEOctetStream, res2.Header().Get(echo.HeaderContentType))
+
+	assert.Equal(t, res1.Body.Bytes(), res2.Body.Bytes())
+	assert.NotEqual(t, res1.Body.Bytes(), res.Body.Bytes())
+}
