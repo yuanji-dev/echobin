@@ -777,7 +777,6 @@ paths:
       - HTTP methods
   /range/{numbytes}:
     get:
-      deprecated: true
       parameters:
       - default: 10
         description: The amount of bytes
@@ -785,6 +784,14 @@ paths:
         name: numbytes
         required: true
         type: integer
+      - description: chunk_size
+        in: query
+        name: chunk_size
+        type: integer
+      - description: duration
+        in: query
+        name: duration
+        type: number
       produces:
       - application/octet-stream
       responses:

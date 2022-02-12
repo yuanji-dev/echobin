@@ -499,15 +499,60 @@ func linksHandler(c echo.Context) error {
 	return c.Blob(http.StatusOK, echo.MIMETextHTMLCharsetUTF8, buf.Bytes())
 }
 
+type rangeParams struct {
+	Numbytes  int     `param:"numbytes"`
+	ChunkSize int     `query:"chunk_size"`
+	Duration  float64 `query:"duration"`
+}
+
 // @Summary   Streams n random bytes generated with given seed, at given chunk size per packet.
 // @Tags      Dynamic data
 // @Produce   octet-stream
-// @Param     numbytes  path  int  true  "The amount of bytes"  default(10)
-// @Response  200       "Bytes"
+// @Param     numbytes    path   int     true   "The amount of bytes"  default(10)
+// @Param     chunk_size  query  int     false  "chunk_size"
+// @Param     duration    query  number  false  "duration"
+// @Response  200         "Bytes"
 // @Router    /range/{numbytes} [get]
-// @Deprecated
 func rangeHandler(c echo.Context) error {
-	return nil
+	rp := &rangeParams{
+		ChunkSize: 10 << 10,
+	}
+	if err := c.Bind(rp); err != nil {
+		return err
+	}
+	if rp.Numbytes <= 0 || rp.Numbytes > maxByteCount {
+		c.Response().Header().Set("ETag", fmt.Sprintf("range%d", rp.Numbytes))
+		c.Response().Header().Set("Accept-Ranges", "bytes")
+		return echo.NewHTTPError(http.StatusNotFound, "number of bytes must be in the range (0, 102400]")
+	}
+	if rp.ChunkSize < 1 {
+		rp.ChunkSize = 1
+	}
+	first, last := getRequestRange(c.Request().Header.Get("Range"), rp.Numbytes)
+	if first < 0 || first > last || last >= rp.Numbytes {
+		c.Response().Header().Set("ETag", fmt.Sprintf("range%d", rp.Numbytes))
+		c.Response().Header().Set("Accept-Ranges", "bytes")
+		c.Response().Header().Set("Content-Range", fmt.Sprintf("bytes */%d", rp.Numbytes))
+		c.Response().Header().Set(echo.HeaderContentLength, "0")
+		return c.NoContent(http.StatusRequestedRangeNotSatisfiable)
+	}
+
+	contentRange := fmt.Sprintf("bytes %d-%d/%d", first, last, rp.Numbytes)
+	contentLength := fmt.Sprintf("%d", last-first+1)
+	c.Response().Header().Set(echo.HeaderContentType, echo.MIMEOctetStream)
+	c.Response().Header().Set("ETag", fmt.Sprintf("range%d", rp.Numbytes))
+	c.Response().Header().Set("Accept-Ranges", "bytes")
+	c.Response().Header().Set(echo.HeaderContentLength, contentLength)
+	c.Response().Header().Set("Content-Range", contentRange)
+	code := http.StatusPartialContent
+	if first == 0 && last == rp.Numbytes-1 {
+		code = http.StatusOK
+	}
+	bytes := make([]byte, last-first+1)
+	for i := first; i <= last; i++ {
+		bytes[i] = byte('a' + i%26)
+	}
+	return c.Blob(code, echo.MIMEOctetStream, bytes)
 }
 
 type streamBytesParams struct {

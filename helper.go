@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/url"
+	"regexp"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
@@ -121,4 +123,33 @@ func basicAuthValidator(user, passwd string, c echo.Context) (bool, error) {
 		return true, nil
 	}
 	return false, nil
+}
+
+func getRequestRange(rawRange string, length int) (start, end int) {
+	re := regexp.MustCompile(`^bytes=(\d*)-(\d*)$`)
+	match := re.FindStringSubmatch(rawRange)
+	if match != nil {
+		left, right := match[1], match[2]
+		if left == "" && right == "" {
+			return 0, length - 1
+		} else if left == "" {
+			// suppose length = 10000, then -500 means last 500 bytes
+			// which range from 9500 - 9999
+			// see also: https://datatracker.ietf.org/doc/html/rfc7233#section-2.1
+			first := 0
+			i, _ := strconv.Atoi(right)
+			if length-i > 0 {
+				first = length - i
+			}
+			return first, length - 1
+		} else if right == "" {
+			first, _ := strconv.Atoi(left)
+			return first, length - 1
+		} else {
+			first, _ := strconv.Atoi(left)
+			last, _ := strconv.Atoi(right)
+			return first, last
+		}
+	}
+	return 0, length - 1
 }

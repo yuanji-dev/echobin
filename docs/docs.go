@@ -1122,7 +1122,6 @@ var doc = `{
                     "Dynamic data"
                 ],
                 "summary": "Streams n random bytes generated with given seed, at given chunk size per packet.",
-                "deprecated": true,
                 "parameters": [
                     {
                         "type": "integer",
@@ -1131,6 +1130,18 @@ var doc = `{
                         "name": "numbytes",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "chunk_size",
+                        "name": "chunk_size",
+                        "in": "query"
+                    },
+                    {
+                        "type": "number",
+                        "description": "duration",
+                        "name": "duration",
+                        "in": "query"
                     }
                 ],
                 "responses": {
