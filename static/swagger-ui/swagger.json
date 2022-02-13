@@ -1,16 +1,12 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "A simple HTTP Request \u0026 Response Service.",
-        "title": "echobin API",
+        "description": "Yet another **Golang** port of [httpbin.org](https://httpbin.org/), powered by [echo framework](https://echo.labstack.com/).",
+        "title": "echobin",
         "contact": {
-            "name": "Yuanji",
-            "url": "https://gimo.me",
+            "name": "the developer",
+            "url": "https://github.com/masakichi/echobin",
             "email": "self@gimo.me"
-        },
-        "license": {
-            "name": "MIT License",
-            "url": "https://github.com/masakichi/echobin/blob/main/LICENSE"
         },
         "version": "0.1"
     },

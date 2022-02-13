@@ -6,9 +6,6 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	echoSwagger "github.com/swaggo/echo-swagger"
-
-	_ "github.com/masakichi/echobin/docs"
 )
 
 func newEcho() (e *echo.Echo) {
@@ -18,7 +15,7 @@ func newEcho() (e *echo.Echo) {
 	e.Use(middleware.Recover())
 
 	// Swagger docs
-	e.GET("/*", echoSwagger.WrapHandler)
+	e.GET("/*", swaggerHandler)
 	// HTTP methods
 	e.GET("/get", getMethodHandler)
 	e.POST("/post", otherMethodHandler)
@@ -87,16 +84,13 @@ func newEcho() (e *echo.Echo) {
 	return
 }
 
-// @title        echobin API
+// @title        echobin
 // @version      0.1
-// @description  A simple HTTP Request & Response Service.
+// @description  Yet another **Golang** port of [httpbin.org](https://httpbin.org/), powered by [echo framework](https://echo.labstack.com/).
 
-// @contact.name   Yuanji
-// @contact.url    https://gimo.me
+// @contact.name   the developer
+// @contact.url    https://github.com/masakichi/echobin
 // @contact.email  self@gimo.me
-
-// @license.name  MIT License
-// @license.url   https://github.com/masakichi/echobin/blob/main/LICENSE
 
 // @tag.name         HTTP methods
 // @tag.description  Testing different HTTP verbs

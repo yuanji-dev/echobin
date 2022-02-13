@@ -2,10 +2,11 @@ package main
 
 import (
 	"bytes"
-	_ "embed"
+	"embed"
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"io/fs"
 	"math/rand"
 	"net/http"
 	"net/url"
@@ -1089,4 +1090,13 @@ func bearerHandler(c echo.Context) error {
 		"token":         token,
 	}
 	return c.JSONPretty(http.StatusOK, &res, "  ")
+}
+
+//go:embed static/swagger-ui
+var swaggerFiles embed.FS
+
+func swaggerHandler(c echo.Context) error {
+	swaggerUIRoot, _ := fs.Sub(swaggerFiles, "static/swagger-ui")
+	assetHandler := http.FileServer(http.FS(swaggerUIRoot))
+	return echo.WrapHandler(assetHandler)(c)
 }
