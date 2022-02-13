@@ -246,7 +246,8 @@ func serveUTF8HTMLHandler(c echo.Context) error {
 // @Summary   Returns GZip-encoded data.
 // @Tags      Response formats
 // @Produce   json
-// @Response  200  "GZip-encoded data."
+// @Response  200              "GZip-encoded data."
+// @Param     accept-encoding  header  string  false  "Accept-Encoding"  default(gzip)
 // @Router    /gzip [get]
 func serveGzipHandler(c echo.Context) error {
 	res := gzippedResponse{}
@@ -260,7 +261,8 @@ func serveGzipHandler(c echo.Context) error {
 // @Summary   Returns Deflate-encoded data.
 // @Tags      Response formats
 // @Produce   json
-// @Response  200  "Defalte-encoded data."
+// @Response  200              "Defalte-encoded data."
+// @Param     accept-encoding  header  string  false  "Accept-Encoding"  default(deflate)
 // @Router    /deflate [get]
 func serveDeflateHandler(c echo.Context) error {
 	res := deflatedResponse{}

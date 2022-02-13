@@ -44,8 +44,8 @@ func newEcho() (e *echo.Echo) {
 	e.GET("/robots.txt", serveRobotsTXTHandler)
 	e.GET("/deny", serveDenyHandler)
 	e.GET("/encoding/utf8", serveUTF8HTMLHandler)
-	e.GET("/gzip", forceEncode(serveGzipHandler, "gzip"), middleware.Gzip())
-	e.GET("/deflate", forceEncode(serveDeflateHandler, "deflate"), middleware.Deflate())
+	e.GET("/gzip", serveGzipHandler, middleware.Gzip())
+	e.GET("/deflate", serveDeflateHandler, middleware.Deflate())
 	// Dynamic data
 	e.GET("/base64/:value", base64Handler)
 	e.GET("/bytes/:n", generateBytesHandler)

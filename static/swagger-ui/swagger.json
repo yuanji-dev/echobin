@@ -529,6 +529,15 @@
                     "Response formats"
                 ],
                 "summary": "Returns Deflate-encoded data.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "deflate",
+                        "description": "Accept-Encoding",
+                        "name": "accept-encoding",
+                        "in": "header"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Defalte-encoded data."
@@ -826,6 +835,15 @@
                     "Response formats"
                 ],
                 "summary": "Returns GZip-encoded data.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "gzip",
+                        "description": "Accept-Encoding",
+                        "name": "accept-encoding",
+                        "in": "header"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "GZip-encoded data."
