@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"os"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -121,5 +122,9 @@ func newEcho() (e *echo.Echo) {
 // @tag.description  Returns anything that is passed to request
 func main() {
 	e := newEcho()
-	e.Logger.Fatal(e.Start("127.0.0.1:1323"))
+	listenAddr := os.Getenv("LISTEN_ADDR")
+	if listenAddr == "" {
+		listenAddr = ":8080"
+	}
+	e.Logger.Fatal(e.Start(listenAddr))
 }
