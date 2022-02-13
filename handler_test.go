@@ -931,3 +931,56 @@ func TestStreamBytesHandler(t *testing.T) {
 	assert.Equal(t, res1.Body.Bytes(), res2.Body.Bytes())
 	assert.NotEqual(t, res1.Body.Bytes(), res.Body.Bytes())
 }
+
+func TestRangeHandler(t *testing.T) {
+	e := newEcho()
+
+	// numBytes is over maxByteCount
+	req := httptest.NewRequest(http.MethodGet, "/range/102401", nil)
+	res := httptest.NewRecorder()
+	e.ServeHTTP(res, req)
+	assert.Equal(t, http.StatusNotFound, res.Code)
+
+	badHeaders := []string{
+		"bytes=100-1",     // start is greater than end
+		"bytes=100-10000", // end is greater than maximum
+	}
+	for _, bh := range badHeaders {
+		req := httptest.NewRequest(http.MethodGet, "/range/10000", nil)
+		req.Header.Set("Range", bh)
+		res := httptest.NewRecorder()
+		e.ServeHTTP(res, req)
+		assert.Equal(t, http.StatusRequestedRangeNotSatisfiable, res.Code)
+	}
+
+	reqFull := httptest.NewRequest(http.MethodGet, "/range/10000", nil)
+	reqFull.Header.Set("Range", "bytes=0-9999")
+	resFull := httptest.NewRecorder()
+	e.ServeHTTP(resFull, reqFull)
+	assert.Equal(t, http.StatusOK, resFull.Code)
+	assert.Equal(t, echo.MIMEOctetStream, resFull.Header().Get(echo.HeaderContentType))
+	assert.EqualValues(t, 10000, resFull.Result().ContentLength)
+	assert.Equal(t, "bytes 0-9999/10000", resFull.Result().Header.Get("Content-Range"))
+	assert.Len(t, resFull.Body.Bytes(), 10000)
+
+	partialCases := []struct {
+		start int
+		end   int
+		chunk int
+	}{
+		{500, 1999, 1},
+		{500, 1999, 1000},
+		{500, 1999, 10000},
+	}
+	for _, v := range partialCases {
+		req := httptest.NewRequest(http.MethodGet, fmt.Sprintf("/range/10000?chunk_size=%d", v.chunk), nil)
+		req.Header.Set("Range", fmt.Sprintf("bytes=%d-%d", v.start, v.end))
+		res := httptest.NewRecorder()
+		e.ServeHTTP(res, req)
+		assert.Equal(t, http.StatusPartialContent, res.Code)
+		assert.Equal(t, echo.MIMEOctetStream, res.Header().Get(echo.HeaderContentType))
+		assert.EqualValues(t, v.end-v.start+1, res.Result().ContentLength)
+		assert.Equal(t, fmt.Sprintf("bytes %d-%d/10000", v.start, v.end), res.Result().Header.Get("Content-Range"))
+		assert.Len(t, res.Body.Bytes(), v.end-v.start+1)
+	}
+}

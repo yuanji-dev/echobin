@@ -528,8 +528,13 @@ func rangeHandler(c echo.Context) error {
 	if rp.ChunkSize < 1 {
 		rp.ChunkSize = 1
 	}
+	if rp.Duration < 0 {
+		rp.Duration = 0
+	} else if rp.Duration > 60 {
+		rp.Duration = 60
+	}
 	first, last := getRequestRange(c.Request().Header.Get("Range"), rp.Numbytes)
-	if first < 0 || first > last || last >= rp.Numbytes {
+	if first > last || last >= rp.Numbytes {
 		c.Response().Header().Set("ETag", fmt.Sprintf("range%d", rp.Numbytes))
 		c.Response().Header().Set("Accept-Ranges", "bytes")
 		c.Response().Header().Set("Content-Range", fmt.Sprintf("bytes */%d", rp.Numbytes))
@@ -539,20 +544,37 @@ func rangeHandler(c echo.Context) error {
 
 	contentRange := fmt.Sprintf("bytes %d-%d/%d", first, last, rp.Numbytes)
 	contentLength := fmt.Sprintf("%d", last-first+1)
+	code := http.StatusPartialContent
+	if first == 0 && last == rp.Numbytes-1 {
+		code = http.StatusOK
+	}
 	c.Response().Header().Set(echo.HeaderContentType, echo.MIMEOctetStream)
 	c.Response().Header().Set("ETag", fmt.Sprintf("range%d", rp.Numbytes))
 	c.Response().Header().Set("Accept-Ranges", "bytes")
 	c.Response().Header().Set(echo.HeaderContentLength, contentLength)
 	c.Response().Header().Set("Content-Range", contentRange)
-	code := http.StatusPartialContent
-	if first == 0 && last == rp.Numbytes-1 {
-		code = http.StatusOK
+	c.Response().WriteHeader(code)
+
+	pausePerByte := rp.Duration * 1000 / float64(last-first+1) // Millisecond
+	cursor := first
+	for cursor <= last {
+		chunk := rp.ChunkSize
+		if chunk >= last-cursor {
+			chunk = last - cursor + 1
+		}
+		pause := pausePerByte * float64(chunk)
+		time.Sleep(time.Duration(pause) * time.Millisecond)
+		bytes := make([]byte, chunk)
+		for i := cursor; i < cursor+chunk; i++ {
+			bytes[i-cursor] = byte('a' + i%26)
+		}
+		if _, err := c.Response().Write(bytes); err != nil {
+			return err
+		}
+		c.Response().Flush()
+		cursor += chunk
 	}
-	bytes := make([]byte, last-first+1)
-	for i := first; i <= last; i++ {
-		bytes[i] = byte('a' + i%26)
-	}
-	return c.Blob(code, echo.MIMEOctetStream, bytes)
+	return nil
 }
 
 type streamBytesParams struct {
