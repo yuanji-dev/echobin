@@ -1,0 +1,60 @@
+project_name: echobin
+
+before:
+  hooks:
+    - go mod download
+
+builds:
+  - env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - windows
+      - darwin
+    ldflags:
+      - -s -w
+
+archives:
+  - replacements:
+      darwin: Darwin
+      linux: Linux
+      windows: Windows
+      386: i386
+      amd64: x86_64
+
+brews:
+  - tap:
+      owner: masakichi
+      name: homebrew-tap
+    folder: Formula
+    license: "MIT"
+    homepage: "https://github.com/masakichi/echobin"
+    description: "Yet another Golang port of httpbin, powered by echo framework."
+    # see: https://semver.org/
+    skip_upload: auto
+
+dockers:
+  - image_templates:
+      - gimo/echobin
+    skip_push: auto
+    dockerfile: "Dockerfile.release"
+
+checksum:
+  name_template: "checksums.txt"
+
+release:
+  github:
+    owner: masakichi
+    name: echobin
+  prerelease: auto
+  mode: replace
+
+snapshot:
+  name_template: "{{ incpatch .Version }}-devel"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"

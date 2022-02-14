@@ -1,0 +1,5 @@
+FROM scratch
+EXPOSE 8080
+ENV LISTEN_ADDR 0.0.0.0:8080
+COPY echobin /
+CMD ["/echobin"]
