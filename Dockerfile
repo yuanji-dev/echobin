@@ -1,7 +1,7 @@
 FROM golang:alpine AS build
 COPY . /go/src/app
 WORKDIR /go/src/app
-RUN CGO_ENABLED=0 go build -o echobin
+RUN CGO_ENABLED=0 go build -ldflags="-s -w" -o echobin
 
 FROM scratch
 EXPOSE 8080
