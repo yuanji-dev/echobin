@@ -8,6 +8,28 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 )
 
+// @tag.name         HTTP methods
+// @tag.description  Testing different HTTP verbs
+// @tag.name         Auth
+// @tag.description  Auth methods
+// @tag.name         Status codes
+// @tag.description  Generates responses with given status code
+// @tag.name         Request inspection
+// @tag.description  Inspect the request data
+// @tag.name         Response inspection
+// @tag.description  Inspect the response data like caching and headers
+// @tag.name         Response formats
+// @tag.description  Returns responses in different data formats
+// @tag.name         Dynamic data
+// @tag.description  Generates random and dynamic data
+// @tag.name         Cookies
+// @tag.description  Creates, reads and deletes Cookies
+// @tag.name         Images
+// @tag.description  Returns different image formats
+// @tag.name         Redirects
+// @tag.description  Returns different redirect responses
+// @tag.name         Anything
+// @tag.description  Returns anything that is passed to request
 func newEcho() (e *echo.Echo) {
 	e = echo.New()
 	e.JSONSerializer = &echobinJSONSerializer{}
@@ -16,6 +38,7 @@ func newEcho() (e *echo.Echo) {
 
 	// Swagger docs
 	e.GET("/*", swaggerHandler)
+	e.GET("/swagger.json", swaggerDocHandler)
 	// HTTP methods
 	e.GET("/get", getMethodHandler)
 	e.POST("/post", otherMethodHandler)
@@ -85,36 +108,12 @@ func newEcho() (e *echo.Echo) {
 	return
 }
 
-// @title        echobin
-// @version      0.1
-// @description  Yet another **Golang** port of [httpbin.org](https://httpbin.org/), powered by [echo framework](https://echo.labstack.com/).
-
+// @title          echobin
+// @description    Yet another Golang port of [httpbin](https://httpbin.org/)(a HTTP request & response testing service), powered by [echo framework](https://echo.labstack.com/).
+// @schemes        http https
 // @contact.name   the developer
 // @contact.url    https://github.com/masakichi/echobin
 // @contact.email  self@gimo.me
-
-// @tag.name         HTTP methods
-// @tag.description  Testing different HTTP verbs
-// @tag.name         Auth
-// @tag.description  Auth methods
-// @tag.name         Status codes
-// @tag.description  Generates responses with given status code
-// @tag.name         Request inspection
-// @tag.description  Inspect the request data
-// @tag.name         Response inspection
-// @tag.description  Inspect the response data like caching and headers
-// @tag.name         Response formats
-// @tag.description  Returns responses in different data formats
-// @tag.name         Dynamic data
-// @tag.description  Generates random and dynamic data
-// @tag.name         Cookies
-// @tag.description  Creates, reads and deletes Cookies
-// @tag.name         Images
-// @tag.description  Returns different image formats
-// @tag.name         Redirects
-// @tag.description  Returns different redirect responses
-// @tag.name         Anything
-// @tag.description  Returns anything that is passed to request
 func main() {
 	e := newEcho()
 	listenAddr := os.Getenv("LISTEN_ADDR")

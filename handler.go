@@ -18,6 +18,8 @@ import (
 	"github.com/andybalholm/brotli"
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
+	"github.com/masakichi/echobin/docs"
+	"github.com/swaggo/swag"
 )
 
 const maxByteCount = 100 << 10
@@ -1122,4 +1124,13 @@ func swaggerHandler(c echo.Context) error {
 	swaggerUIRoot, _ := fs.Sub(swaggerFiles, "static/swagger-ui")
 	assetHandler := http.FileServer(http.FS(swaggerUIRoot))
 	return echo.WrapHandler(assetHandler)(c)
+}
+
+func swaggerDocHandler(c echo.Context) error {
+	docs.SwaggerInfo_swagger.Version = fmt.Sprintf("%s-%s", version, revision)
+	doc, err := swag.ReadDoc(docs.SwaggerInfo_swagger.InstanceName())
+	if err != nil {
+		return err
+	}
+	return c.JSONBlob(http.StatusOK, []byte(doc))
 }

@@ -12,7 +12,7 @@ docs:
 	@hash swag > /dev/null 2>&1; if [ $$? -ne 0 ]; then \
 		go install github.com/swaggo/swag/cmd/swag@latest; \
 	fi
-	swag fmt && swag init -o static/swagger-ui -ot yaml
+	swag fmt && swag init -o docs -ot go
 
 .PHONY: watch
 watch:
