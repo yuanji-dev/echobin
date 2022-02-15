@@ -12,7 +12,7 @@ docs:
 	@hash swag > /dev/null 2>&1; if [ $$? -ne 0 ]; then \
 		go install github.com/swaggo/swag/cmd/swag@latest; \
 	fi
-	swag fmt && swag init -o static/swagger-ui -ot json
+	swag fmt && swag init -o static/swagger-ui -ot yaml
 
 .PHONY: watch
 watch:
@@ -24,6 +24,10 @@ watch:
 .PHONY: clean
 clean:
 	rm -rf $(BIN)
+
+.PHONY: update
+update:
+	go get -u && go mod tidy
 
 .PHONY: docker-build
 docker-build: clean

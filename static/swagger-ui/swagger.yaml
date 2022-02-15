@@ -1,0 +1,1212 @@
+definitions:
+  main.getMethodResponse:
+    properties:
+      args:
+        additionalProperties: true
+        type: object
+      headers:
+        additionalProperties:
+          type: string
+        type: object
+      origin:
+        type: string
+      url:
+        type: string
+    type: object
+  main.otherMethodResponse:
+    properties:
+      args:
+        additionalProperties: true
+        type: object
+      data:
+        type: string
+      files:
+        additionalProperties: true
+        type: object
+      form: {}
+      headers:
+        additionalProperties:
+          type: string
+        type: object
+      json:
+        additionalProperties: true
+        type: object
+      origin:
+        type: string
+      url:
+        type: string
+    type: object
+  main.requestHeadersResponse:
+    properties:
+      headers:
+        additionalProperties:
+          type: string
+        type: object
+    type: object
+  main.requestIPResponse:
+    properties:
+      origin:
+        type: string
+    type: object
+  main.requestUserAgentResponse:
+    properties:
+      user-agent:
+        type: string
+    type: object
+info:
+  contact:
+    email: self@gimo.me
+    name: the developer
+    url: https://github.com/masakichi/echobin
+  description: Yet another **Golang** port of [httpbin.org](https://httpbin.org/),
+    powered by [echo framework](https://echo.labstack.com/).
+  title: echobin
+  version: "0.1"
+paths:
+  /absolute-redirect/{n}:
+    get:
+      parameters:
+      - description: "n"
+        in: path
+        name: "n"
+        required: true
+        type: integer
+      produces:
+      - text/plain
+      responses:
+        "302":
+          description: A redirection.
+      summary: Absolutely 302 Redirects n times.
+      tags:
+      - Redirects
+  /anything:
+    delete:
+      consumes:
+      - application/json
+      - multipart/form-data
+      - application/x-www-form-urlencoded
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Anything passed in request
+      summary: Returns anything passed in request data.
+      tags:
+      - Anything
+    get:
+      consumes:
+      - application/json
+      - multipart/form-data
+      - application/x-www-form-urlencoded
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Anything passed in request
+      summary: Returns anything passed in request data.
+      tags:
+      - Anything
+    patch:
+      consumes:
+      - application/json
+      - multipart/form-data
+      - application/x-www-form-urlencoded
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Anything passed in request
+      summary: Returns anything passed in request data.
+      tags:
+      - Anything
+    post:
+      consumes:
+      - application/json
+      - multipart/form-data
+      - application/x-www-form-urlencoded
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Anything passed in request
+      summary: Returns anything passed in request data.
+      tags:
+      - Anything
+    put:
+      consumes:
+      - application/json
+      - multipart/form-data
+      - application/x-www-form-urlencoded
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Anything passed in request
+      summary: Returns anything passed in request data.
+      tags:
+      - Anything
+  /anything/{anything}:
+    delete:
+      consumes:
+      - application/json
+      - multipart/form-data
+      - application/x-www-form-urlencoded
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Anything passed in request
+      summary: Returns anything passed in request data.
+      tags:
+      - Anything
+    get:
+      consumes:
+      - application/json
+      - multipart/form-data
+      - application/x-www-form-urlencoded
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Anything passed in request
+      summary: Returns anything passed in request data.
+      tags:
+      - Anything
+    patch:
+      consumes:
+      - application/json
+      - multipart/form-data
+      - application/x-www-form-urlencoded
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Anything passed in request
+      summary: Returns anything passed in request data.
+      tags:
+      - Anything
+    post:
+      consumes:
+      - application/json
+      - multipart/form-data
+      - application/x-www-form-urlencoded
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Anything passed in request
+      summary: Returns anything passed in request data.
+      tags:
+      - Anything
+    put:
+      consumes:
+      - application/json
+      - multipart/form-data
+      - application/x-www-form-urlencoded
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Anything passed in request
+      summary: Returns anything passed in request data.
+      tags:
+      - Anything
+  /base64/{value}:
+    get:
+      parameters:
+      - default: RUNIT0JJTiBpcyBhd2Vzb21l
+        description: Encoded base64 content
+        in: path
+        name: value
+        required: true
+        type: string
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: Decoded base64 content.
+      summary: Decodes base64url-encoded string.
+      tags:
+      - Dynamic data
+  /basic-auth/{user}/{passwd}:
+    get:
+      parameters:
+      - description: user
+        in: path
+        name: user
+        required: true
+        type: string
+      - description: passwd
+        in: path
+        name: passwd
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Sucessful authentication.
+        "401":
+          description: Unsuccessful authentication.
+      summary: Prompts the user for authorization using HTTP Basic Auth.
+      tags:
+      - Auth
+  /bearer:
+    get:
+      parameters:
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Sucessful authentication.
+        "401":
+          description: Unsuccessful authentication.
+      summary: Prompts the user for authorization using bearer authentication.
+      tags:
+      - Auth
+  /brotli:
+    get:
+      parameters:
+      - default: br
+        description: Accept-Encoding
+        in: header
+        name: accept-encoding
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Brotli-encoded data.
+      summary: Returns Brotli-encoded data.
+      tags:
+      - Response formats
+  /bytes/{n}:
+    get:
+      parameters:
+      - description: number of bytes
+        in: path
+        name: "n"
+        required: true
+        type: integer
+      - description: seed
+        in: query
+        name: seed
+        type: integer
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: Bytes.
+      summary: Returns n random bytes generated with given seed
+      tags:
+      - Dynamic data
+  /cache:
+    get:
+      parameters:
+      - description: If-Modified-Since
+        in: header
+        name: If-Modified-Since
+        type: string
+      - description: If-None-Match
+        in: header
+        name: If-None-Match
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Normal response
+        "304":
+          description: Not modified
+      summary: Returns a 304 if an If-Modified-Since header or If-None-Match is present.
+        Returns the same as a GET otherwise.
+      tags:
+      - Response inspection
+  /cache/{value}:
+    get:
+      parameters:
+      - description: Seconds
+        in: path
+        name: value
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Cache control set
+      summary: Sets a Cache-Control header for n seconds.
+      tags:
+      - Response inspection
+  /cookies:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Cookies
+      summary: Returns cookie data.
+      tags:
+      - Cookies
+  /cookies/delete:
+    get:
+      parameters:
+      - description: freeform
+        in: query
+        name: freeform
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Redirect to cookie list
+      summary: Deletes cookie(s) as provided by the query string and redirects to
+        cookie list.
+      tags:
+      - Cookies
+  /cookies/set:
+    get:
+      parameters:
+      - description: freeform
+        in: query
+        name: freeform
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Redirect to cookie list
+      summary: Sets cookie(s) as provided by the query string and redirects to cookie
+        list.
+      tags:
+      - Cookies
+  /cookies/set/{name}/{value}:
+    get:
+      parameters:
+      - description: name
+        in: path
+        name: name
+        required: true
+        type: string
+      - description: value
+        in: path
+        name: value
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Set cookies and redirects to cookie list.
+      summary: Sets a cookie and redirects to cookie list.
+      tags:
+      - Cookies
+  /deflate:
+    get:
+      parameters:
+      - default: deflate
+        description: Accept-Encoding
+        in: header
+        name: accept-encoding
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Defalte-encoded data.
+      summary: Returns Deflate-encoded data.
+      tags:
+      - Response formats
+  /delay/{delay}:
+    delete:
+      parameters:
+      - description: delay
+        in: path
+        name: delay
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: A delayed response.
+      summary: Returns a delayed response (max of 10 seconds).
+      tags:
+      - Dynamic data
+    get:
+      parameters:
+      - description: delay
+        in: path
+        name: delay
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: A delayed response.
+      summary: Returns a delayed response (max of 10 seconds).
+      tags:
+      - Dynamic data
+    patch:
+      parameters:
+      - description: delay
+        in: path
+        name: delay
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: A delayed response.
+      summary: Returns a delayed response (max of 10 seconds).
+      tags:
+      - Dynamic data
+    post:
+      parameters:
+      - description: delay
+        in: path
+        name: delay
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: A delayed response.
+      summary: Returns a delayed response (max of 10 seconds).
+      tags:
+      - Dynamic data
+    put:
+      parameters:
+      - description: delay
+        in: path
+        name: delay
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: A delayed response.
+      summary: Returns a delayed response (max of 10 seconds).
+      tags:
+      - Dynamic data
+  /delete:
+    delete:
+      consumes:
+      - application/json
+      - multipart/form-data
+      - application/x-www-form-urlencoded
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.otherMethodResponse'
+      summary: The request's query parameters.
+      tags:
+      - HTTP methods
+  /deny:
+    get:
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: Denied message
+      summary: Returns page denied by robots.txt rules.
+      tags:
+      - Response formats
+  /drip:
+    get:
+      parameters:
+      - default: 200
+        description: The response code that will be returned
+        in: query
+        name: code
+        type: integer
+      - default: 2
+        description: The amount of time (in seconds) to delay before responding
+        in: query
+        name: delay
+        type: number
+      - default: 2
+        description: The amount of time (in seconds) over which to drip each byte
+        in: query
+        name: duration
+        type: number
+      - default: 10
+        description: The number of bytes to respond with
+        in: query
+        name: numbytes
+        type: integer
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: A dripped response.
+      summary: Drips data over a duration after an optional initial delay.
+      tags:
+      - Dynamic data
+  /encoding/utf8:
+    get:
+      produces:
+      - text/html
+      responses:
+        "200":
+          description: Encoded UTF-8 content.
+      summary: Returns a UTF-8 encoded body.
+      tags:
+      - Response formats
+  /etag/{etag}:
+    get:
+      parameters:
+      - description: etag
+        in: path
+        name: etag
+        required: true
+        type: string
+      - description: If-Match
+        in: header
+        name: If-Match
+        type: string
+      - description: If-None-Match
+        in: header
+        name: If-None-Match
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Normal response
+        "304":
+          description: Not modified
+        "412":
+          description: Precondition failed
+      summary: Assumes the resource has the given etag and responds to If-None-Match
+        and If-Match headers appropriately.
+      tags:
+      - Response inspection
+  /get:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.getMethodResponse'
+      summary: The request's query parameters.
+      tags:
+      - HTTP methods
+  /gzip:
+    get:
+      parameters:
+      - default: gzip
+        description: Accept-Encoding
+        in: header
+        name: accept-encoding
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: GZip-encoded data.
+      summary: Returns GZip-encoded data.
+      tags:
+      - Response formats
+  /headers:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: The request’s headers.
+          schema:
+            $ref: '#/definitions/main.requestHeadersResponse'
+      summary: Return the incoming request's HTTP headers.
+      tags:
+      - Request inspection
+  /html:
+    get:
+      produces:
+      - text/html
+      responses:
+        "200":
+          description: An HTML page.
+      summary: Returns a simple HTML document.
+      tags:
+      - Response formats
+  /image:
+    get:
+      produces:
+      - image/webp
+      - image/svg+xml
+      - image/jpeg
+      - image/png
+      - image/*
+      responses:
+        "200":
+          description: An image.
+      summary: Returns a simple image of the type suggest by the Accept header.
+      tags:
+      - Images
+  /image/jpeg:
+    get:
+      produces:
+      - image/jpeg
+      responses:
+        "200":
+          description: A JPEG image.
+      summary: Returns a simple JPEG image.
+      tags:
+      - Images
+  /image/png:
+    get:
+      produces:
+      - image/png
+      responses:
+        "200":
+          description: A PNG image.
+      summary: Returns a simple PNG image.
+      tags:
+      - Images
+  /image/svg:
+    get:
+      produces:
+      - image/svg+xml
+      responses:
+        "200":
+          description: An SVG image.
+      summary: Returns a simple SVG image.
+      tags:
+      - Images
+  /image/webp:
+    get:
+      produces:
+      - image/webp
+      responses:
+        "200":
+          description: A WEBP image.
+      summary: Returns a simple WEBP image.
+      tags:
+      - Images
+  /ip:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: The Requester’s IP Address.
+          schema:
+            $ref: '#/definitions/main.requestIPResponse'
+      summary: Returns the requester's IP Address.
+      tags:
+      - Request inspection
+  /json:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: An JSON document.
+      summary: Returns a simple JSON document.
+      tags:
+      - Response formats
+  /links/{n}/{offset}:
+    get:
+      parameters:
+      - default: 1
+        description: The amount of links
+        in: path
+        name: "n"
+        required: true
+        type: integer
+      - default: 0
+        description: Offset starts from 0
+        in: path
+        name: offset
+        required: true
+        type: integer
+      produces:
+      - text/html
+      responses:
+        "200":
+          description: HTML links.
+      summary: Generate a page containing n links to other pages which do the same.
+      tags:
+      - Dynamic data
+  /patch:
+    patch:
+      consumes:
+      - application/json
+      - multipart/form-data
+      - application/x-www-form-urlencoded
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.otherMethodResponse'
+      summary: The request's query parameters.
+      tags:
+      - HTTP methods
+  /post:
+    post:
+      consumes:
+      - application/json
+      - multipart/form-data
+      - application/x-www-form-urlencoded
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.otherMethodResponse'
+      summary: The request's query parameters.
+      tags:
+      - HTTP methods
+  /put:
+    put:
+      consumes:
+      - application/json
+      - multipart/form-data
+      - application/x-www-form-urlencoded
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.otherMethodResponse'
+      summary: The request's query parameters.
+      tags:
+      - HTTP methods
+  /range/{numbytes}:
+    get:
+      parameters:
+      - default: 10
+        description: The amount of bytes
+        in: path
+        name: numbytes
+        required: true
+        type: integer
+      - description: chunk_size
+        in: query
+        name: chunk_size
+        type: integer
+      - description: duration
+        in: query
+        name: duration
+        type: number
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: Bytes
+      summary: Streams n random bytes generated with given seed, at given chunk size
+        per packet.
+      tags:
+      - Dynamic data
+  /redirect-to:
+    delete:
+      consumes:
+      - application/x-www-form-urlencoded
+      parameters:
+      - description: url
+        in: formData
+        name: url
+        required: true
+        type: string
+      - description: status_code
+        in: formData
+        name: status_code
+        type: integer
+      produces:
+      - text/plain
+      responses:
+        "302":
+          description: A redirection.
+      summary: 302/3XX Redirects to the given URL.
+      tags:
+      - Redirects
+    get:
+      parameters:
+      - description: url
+        in: query
+        name: url
+        required: true
+        type: string
+      - description: status_code
+        in: query
+        name: status_code
+        type: integer
+      produces:
+      - text/plain
+      responses:
+        "302":
+          description: A redirection.
+      summary: 302/3XX Redirects to the given URL.
+      tags:
+      - Redirects
+    patch:
+      consumes:
+      - application/x-www-form-urlencoded
+      parameters:
+      - description: url
+        in: formData
+        name: url
+        required: true
+        type: string
+      - description: status_code
+        in: formData
+        name: status_code
+        type: integer
+      produces:
+      - text/plain
+      responses:
+        "302":
+          description: A redirection.
+      summary: 302/3XX Redirects to the given URL.
+      tags:
+      - Redirects
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      parameters:
+      - description: url
+        in: formData
+        name: url
+        required: true
+        type: string
+      - description: status_code
+        in: formData
+        name: status_code
+        type: integer
+      produces:
+      - text/plain
+      responses:
+        "302":
+          description: A redirection.
+      summary: 302/3XX Redirects to the given URL.
+      tags:
+      - Redirects
+    put:
+      consumes:
+      - application/x-www-form-urlencoded
+      parameters:
+      - description: url
+        in: formData
+        name: url
+        required: true
+        type: string
+      - description: status_code
+        in: formData
+        name: status_code
+        type: integer
+      produces:
+      - text/plain
+      responses:
+        "302":
+          description: A redirection.
+      summary: 302/3XX Redirects to the given URL.
+      tags:
+      - Redirects
+  /redirect/{n}:
+    get:
+      parameters:
+      - description: "n"
+        in: path
+        name: "n"
+        required: true
+        type: integer
+      - default: "false"
+        description: absolute
+        in: query
+        name: absolute
+        type: string
+      produces:
+      - text/plain
+      responses:
+        "302":
+          description: A redirection.
+      summary: 302 Redirects n times.
+      tags:
+      - Redirects
+  /relative-redirect/{n}:
+    get:
+      parameters:
+      - description: "n"
+        in: path
+        name: "n"
+        required: true
+        type: integer
+      produces:
+      - text/plain
+      responses:
+        "302":
+          description: A redirection.
+      summary: Relatively 302 Redirects n times.
+      tags:
+      - Redirects
+  /response-headers:
+    get:
+      parameters:
+      - description: freeform
+        in: query
+        name: freeform
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Normal response
+      summary: Returns a set of response headers from the query string.
+      tags:
+      - Response inspection
+    post:
+      parameters:
+      - description: freeform
+        in: query
+        name: freeform
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Normal response
+      summary: Returns a set of response headers from the query string.
+      tags:
+      - Response inspection
+  /robots.txt:
+    get:
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: Robots file
+      summary: Returns some robots.txt rules.
+      tags:
+      - Response formats
+  /status/{codes}:
+    delete:
+      parameters:
+      - description: codes
+        in: path
+        name: codes
+        required: true
+        type: string
+      produces:
+      - text/plain
+      responses:
+        "100":
+          description: Informational responses
+        "200":
+          description: Success
+        "300":
+          description: Redirection
+        "400":
+          description: Client Errors
+        "500":
+          description: Server Errors
+      summary: Return status code or random status code if more than one are given
+      tags:
+      - Status codes
+    get:
+      parameters:
+      - description: codes
+        in: path
+        name: codes
+        required: true
+        type: string
+      produces:
+      - text/plain
+      responses:
+        "100":
+          description: Informational responses
+        "200":
+          description: Success
+        "300":
+          description: Redirection
+        "400":
+          description: Client Errors
+        "500":
+          description: Server Errors
+      summary: Return status code or random status code if more than one are given
+      tags:
+      - Status codes
+    patch:
+      parameters:
+      - description: codes
+        in: path
+        name: codes
+        required: true
+        type: string
+      produces:
+      - text/plain
+      responses:
+        "100":
+          description: Informational responses
+        "200":
+          description: Success
+        "300":
+          description: Redirection
+        "400":
+          description: Client Errors
+        "500":
+          description: Server Errors
+      summary: Return status code or random status code if more than one are given
+      tags:
+      - Status codes
+    post:
+      parameters:
+      - description: codes
+        in: path
+        name: codes
+        required: true
+        type: string
+      produces:
+      - text/plain
+      responses:
+        "100":
+          description: Informational responses
+        "200":
+          description: Success
+        "300":
+          description: Redirection
+        "400":
+          description: Client Errors
+        "500":
+          description: Server Errors
+      summary: Return status code or random status code if more than one are given
+      tags:
+      - Status codes
+    put:
+      parameters:
+      - description: codes
+        in: path
+        name: codes
+        required: true
+        type: string
+      produces:
+      - text/plain
+      responses:
+        "100":
+          description: Informational responses
+        "200":
+          description: Success
+        "300":
+          description: Redirection
+        "400":
+          description: Client Errors
+        "500":
+          description: Server Errors
+      summary: Return status code or random status code if more than one are given
+      tags:
+      - Status codes
+  /stream-bytes/{n}:
+    get:
+      parameters:
+      - description: The amount of bytes
+        in: path
+        name: "n"
+        required: true
+        type: integer
+      - description: seed
+        in: query
+        name: seed
+        type: integer
+      - description: chunk_size
+        in: query
+        name: chunk_size
+        type: integer
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: Bytes
+      summary: Streams n random bytes generated with given seed, at given chunk size
+        per packet.
+      tags:
+      - Dynamic data
+  /stream/{n}:
+    get:
+      parameters:
+      - default: 10
+        description: The amount of JSON objects
+        in: path
+        name: "n"
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Streamed JSON responses.
+      summary: Stream n JSON responses
+      tags:
+      - Dynamic data
+  /user-agent:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: The request’s User-Agent header.
+          schema:
+            $ref: '#/definitions/main.requestUserAgentResponse'
+      summary: Return the incoming requests's User-Agent header.
+      tags:
+      - Request inspection
+  /uuid:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: A UUID4.
+      summary: Return a UUID4.
+      tags:
+      - Dynamic data
+  /xml:
+    get:
+      produces:
+      - text/xml
+      responses:
+        "200":
+          description: An XML document.
+      summary: Returns a simple XML document.
+      tags:
+      - Response formats
+swagger: "2.0"
+tags:
+- description: Testing different HTTP verbs
+  name: HTTP methods
+- description: Auth methods
+  name: Auth
+- description: Generates responses with given status code
+  name: Status codes
+- description: Inspect the request data
+  name: Request inspection
+- description: Inspect the response data like caching and headers
+  name: Response inspection
+- description: Returns responses in different data formats
+  name: Response formats
+- description: Generates random and dynamic data
+  name: Dynamic data
+- description: Creates, reads and deletes Cookies
+  name: Cookies
+- description: Returns different image formats
+  name: Images
+- description: Returns different redirect responses
+  name: Redirects
+- description: Returns anything that is passed to request
+  name: Anything
