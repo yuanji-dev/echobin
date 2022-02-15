@@ -15,6 +15,7 @@ import (
 	"text/template"
 	"time"
 
+	"github.com/andybalholm/brotli"
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 )
@@ -254,7 +255,9 @@ func serveGzipHandler(c echo.Context) error {
 	res.Origin = getOrigin(c)
 	res.Headers = getHeaders(c)
 	res.Method = c.Request().Method
-	res.Gzipped = true
+	if strings.Contains(c.Request().Header.Get(echo.HeaderAcceptEncoding), "gzip") {
+		res.Gzipped = true
+	}
 	return c.JSONPretty(http.StatusOK, &res, "  ")
 }
 
@@ -269,18 +272,36 @@ func serveDeflateHandler(c echo.Context) error {
 	res.Origin = getOrigin(c)
 	res.Headers = getHeaders(c)
 	res.Method = c.Request().Method
-	res.Deflated = true
+	if strings.Contains(c.Request().Header.Get(echo.HeaderAcceptEncoding), "deflate") {
+		res.Deflated = true
+	}
 	return c.JSONPretty(http.StatusOK, &res, "  ")
 }
 
 // @Summary   Returns Brotli-encoded data.
 // @Tags      Response formats
 // @Produce   json
-// @Response  200  "Brotli-encoded data."
+// @Response  200              "Brotli-encoded data."
+// @Param     accept-encoding  header  string  false  "Accept-Encoding"  default(br)
 // @Router    /brotli [get]
-// @Deprecated
 func serveBrotliHandler(c echo.Context) error {
-	return nil
+	c.Response().Header().Set(echo.HeaderContentType, echo.MIMEApplicationJSONCharsetUTF8)
+	w := brotli.HTTPCompressor(c.Response().Writer, c.Request())
+	defer w.Close()
+
+	res := brotliResponse{}
+	res.Origin = getOrigin(c)
+	res.Headers = getHeaders(c)
+	res.Method = c.Request().Method
+	if strings.Contains(c.Request().Header.Get(echo.HeaderAcceptEncoding), "br") {
+		res.Brotli = true
+	}
+
+	// TODO: better to make a middleware for brotli
+	enc := json.NewEncoder(w)
+	enc.SetEscapeHTML(false)
+	enc.SetIndent("", "  ")
+	return enc.Encode(&res)
 }
 
 // @Summary   Decodes base64url-encoded string.

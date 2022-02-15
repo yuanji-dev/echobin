@@ -60,6 +60,11 @@ type deflatedResponse struct {
 	Deflated bool `json:"deflated"`
 }
 
+type brotliResponse struct {
+	encodedResponse
+	Brotli bool `json:"brotli"`
+}
+
 type delayResponse struct {
 	Args    map[string]interface{} `json:"args"`
 	Data    string                 `json:"data"`

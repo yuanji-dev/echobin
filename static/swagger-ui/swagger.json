@@ -327,7 +327,15 @@
                     "Response formats"
                 ],
                 "summary": "Returns Brotli-encoded data.",
-                "deprecated": true,
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "br",
+                        "description": "Accept-Encoding",
+                        "name": "accept-encoding",
+                        "in": "header"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Brotli-encoded data."

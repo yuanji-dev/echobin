@@ -339,6 +339,16 @@ func TestServeGzipHandler(t *testing.T) {
 		assert.Equal(t, http.StatusOK, res.Code)
 		assert.Equal(t, "gzip", res.Header().Get(echo.HeaderContentEncoding))
 	}
+
+	req = httptest.NewRequest(http.MethodGet, "/", nil)
+	res = httptest.NewRecorder()
+	c = e.NewContext(req, res)
+	h = middleware.Gzip()(serveGzipHandler)
+	if assert.NoError(t, h(c)) {
+		assert.Equal(t, http.StatusOK, res.Code)
+		assert.Empty(t, res.Header().Get(echo.HeaderContentEncoding))
+		assert.Contains(t, res.Body.String(), `"gzipped": false`)
+	}
 }
 
 func TestServeDeflateHandler(t *testing.T) {
@@ -348,10 +358,41 @@ func TestServeDeflateHandler(t *testing.T) {
 	req.Header.Set(echo.HeaderAcceptEncoding, "deflate")
 	res := httptest.NewRecorder()
 	c := e.NewContext(req, res)
-	h := middleware.Deflate()(serveGzipHandler)
+	h := middleware.Deflate()(serveDeflateHandler)
 	if assert.NoError(t, h(c)) {
 		assert.Equal(t, http.StatusOK, res.Code)
 		assert.Equal(t, "deflate", res.Header().Get(echo.HeaderContentEncoding))
+	}
+
+	req = httptest.NewRequest(http.MethodGet, "/", nil)
+	res = httptest.NewRecorder()
+	c = e.NewContext(req, res)
+	h = middleware.Deflate()(serveDeflateHandler)
+	if assert.NoError(t, h(c)) {
+		assert.Equal(t, http.StatusOK, res.Code)
+		assert.Empty(t, res.Header().Get(echo.HeaderContentEncoding))
+		assert.Contains(t, res.Body.String(), `"deflated": false`)
+	}
+}
+
+func TestServeBrotliHandler(t *testing.T) {
+	e := newEcho()
+
+	req := httptest.NewRequest(http.MethodGet, "/", nil)
+	req.Header.Set(echo.HeaderAcceptEncoding, "br")
+	res := httptest.NewRecorder()
+	c := e.NewContext(req, res)
+	if assert.NoError(t, serveBrotliHandler(c)) {
+		assert.Equal(t, http.StatusOK, res.Code)
+		assert.Equal(t, "br", res.Header().Get(echo.HeaderContentEncoding))
+	}
+
+	req = httptest.NewRequest(http.MethodGet, "/", nil)
+	res = httptest.NewRecorder()
+	c = e.NewContext(req, res)
+	if assert.NoError(t, serveBrotliHandler(c)) {
+		assert.Equal(t, http.StatusOK, res.Code)
+		assert.Contains(t, res.Body.String(), `"brotli": false`)
 	}
 }
 

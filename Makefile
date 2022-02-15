@@ -19,7 +19,7 @@ watch:
 	@hash CompileDaemon > /dev/null 2>&1; if [ $$? -ne 0 ]; then \
 		go install github.com/githubnemo/CompileDaemon@latest; \
 	fi
-	CompileDaemon -command $(BIN)
+	CompileDaemon -exclude-dir=.git -command $(BIN)
 
 .PHONY: clean
 clean:

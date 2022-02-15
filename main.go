@@ -46,6 +46,7 @@ func newEcho() (e *echo.Echo) {
 	e.GET("/encoding/utf8", serveUTF8HTMLHandler)
 	e.GET("/gzip", serveGzipHandler, middleware.Gzip())
 	e.GET("/deflate", serveDeflateHandler, middleware.Deflate())
+	e.GET("/brotli", serveBrotliHandler)
 	// Dynamic data
 	e.GET("/base64/:value", base64Handler)
 	e.GET("/bytes/:n", generateBytesHandler)
