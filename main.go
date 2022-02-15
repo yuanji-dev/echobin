@@ -35,6 +35,7 @@ func newEcho() (e *echo.Echo) {
 	e.JSONSerializer = &echobinJSONSerializer{}
 
 	e.Use(middleware.Recover())
+	e.Use(middleware.CORS())
 
 	// Swagger docs
 	e.GET("/*", swaggerHandler)
@@ -110,7 +111,7 @@ func newEcho() (e *echo.Echo) {
 
 // @title          echobin
 // @description    Yet another Golang port of [httpbin](https://httpbin.org/)(a HTTP request & response testing service), powered by [echo framework](https://echo.labstack.com/).
-// @schemes        http https
+// @schemes        https http
 // @contact.name   the developer
 // @contact.url    https://github.com/masakichi/echobin
 // @contact.email  self@gimo.me

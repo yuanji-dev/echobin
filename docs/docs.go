@@ -1872,7 +1872,7 @@ var SwaggerInfo_swagger = &swag.Spec{
 	Version:          "",
 	Host:             "",
 	BasePath:         "",
-	Schemes:          []string{"http", "https"},
+	Schemes:          []string{"https", "http"},
 	Title:            "echobin",
 	Description:      "Yet another Golang port of [httpbin](https://httpbin.org/)(a HTTP request & response testing service), powered by [echo framework](https://echo.labstack.com/).",
 	InfoInstanceName: "swagger",
