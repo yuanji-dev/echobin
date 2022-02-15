@@ -35,7 +35,8 @@ brews:
 
 dockers:
   - image_templates:
-      - gimo/echobin
+      - "gimo/{{.ProjectName}}:latest"
+      - "gimo/{{.ProjectName}}:{{.Tag}}"
     skip_push: auto
     dockerfile: "Dockerfile.release"
 
