@@ -4,6 +4,11 @@ Yet another Golang port of [httpbin](https://httpbin.org/)(a HTTP request & resp
 
 [![Docker Image Size (latest)](https://img.shields.io/docker/image-size/gimo/echobin/latest?color=green&label=docker%20image&style=flat-square)](https://hub.docker.com/r/gimo/echobin)
 [![License](http://img.shields.io/badge/license-mit-blue.svg?style=flat-square)](https://github.com/masakichi/echobin/blob/main/LICENSE)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/masakichi/echobin/Run%20Tests?style=flat-square)](https://github.com/masakichi/echobin/actions)
+
+## Online Instance
+
+- [https://echobin.gimo.me](https://echobin.gimo.me)
 
 ## Run Locally
 
