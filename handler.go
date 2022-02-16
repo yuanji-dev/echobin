@@ -1131,7 +1131,7 @@ func swaggerDocHandler(c echo.Context) error {
 	doc := make(map[string]interface{})
 	json.Unmarshal(swaggerDoc, &doc)
 	docInfo, _ := doc["info"].(map[string]interface{})
-	if c.IsTLS() {
+	if c.Scheme() == "https" {
 		doc["schemes"] = []string{"https"}
 	} else {
 		doc["schemes"] = []string{"http", "https"}
