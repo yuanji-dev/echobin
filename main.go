@@ -38,7 +38,7 @@ func newEcho() (e *echo.Echo) {
 	e.Use(middleware.CORS())
 
 	// Swagger docs
-	e.GET("/*", swaggerHandler)
+	e.GET("/*", swaggerUIHandler)
 	e.GET("/swagger.json", swaggerDocHandler)
 	// HTTP methods
 	e.GET("/get", getMethodHandler)
@@ -109,9 +109,12 @@ func newEcho() (e *echo.Echo) {
 	return
 }
 
-// @title          echobin
-// @description    Yet another Golang port of [httpbin](https://httpbin.org/)(a HTTP request & response testing service), powered by [echo framework](https://echo.labstack.com/).
-// @schemes        https http
+// @title        echobin
+// @description  Yet another **Golang** port of [httpbin](https://httpbin.org/)(a HTTP request & response testing service), powered by [echo framework](https://echo.labstack.com/).
+// @description
+// @description  **Run locally**: `docker run -p 8080:8080 gimo/echobin`
+// @description
+// @description    [![Docker Image Size (latest)](https://img.shields.io/docker/image-size/gimo/echobin?color=light-green&logo=docker&style=flat-square)](https://hub.docker.com/r/gimo/echobin) [![License](http://img.shields.io/badge/license-mit-blue.svg?style=flat-square)](https://github.com/masakichi/echobin/blob/main/LICENSE)
 // @contact.name   the developer
 // @contact.url    https://github.com/masakichi/echobin
 // @contact.email  self@gimo.me
