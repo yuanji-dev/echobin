@@ -105,6 +105,8 @@ func newEcho() (e *echo.Echo) {
 	e.GET("/relative-redirect/:n", relativeRedirectHandler)
 	// Anything
 	e.Any("/anything*", anythingHandler)
+	// Other Utilities
+	e.GET("/forms/post", formHandler)
 
 	return
 }

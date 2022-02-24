@@ -1025,3 +1025,16 @@ func TestRangeHandler(t *testing.T) {
 		assert.Len(t, res.Body.Bytes(), v.end-v.start+1)
 	}
 }
+
+func TestFormHandler(t *testing.T) {
+	e := newEcho()
+
+	req := httptest.NewRequest(http.MethodGet, "/", nil)
+	res := httptest.NewRecorder()
+	c := e.NewContext(req, res)
+	if assert.NoError(t, formHandler(c)) {
+		assert.Equal(t, http.StatusOK, res.Code)
+		assert.Contains(t, res.Body.String(), "Pizza")
+		assert.Equal(t, echo.MIMETextHTMLCharsetUTF8, res.Header().Get(echo.HeaderContentType))
+	}
+}

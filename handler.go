@@ -1139,3 +1139,10 @@ func swaggerDocHandler(c echo.Context) error {
 	docInfo["version"] = fmt.Sprintf("%s-%s", version, revision)
 	return c.JSON(http.StatusOK, doc)
 }
+
+//go:embed static/form.html
+var formHTML []byte
+
+func formHandler(c echo.Context) error {
+	return c.HTMLBlob(http.StatusOK, formHTML)
+}
